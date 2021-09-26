@@ -11,7 +11,7 @@ reserved = {
     'int' : 'INT',
     'float' : 'FLOAT',
     'char' : 'CHAR',
-    'string' : 'STRING',
+    'str' : 'STR',
     'bool' : 'BOOL',
     'return' : 'RETURN',
     'read' : 'READ',
@@ -138,6 +138,7 @@ def p_varss(t):
 
 def p_vars(t):
     '''vars : tipo DOSPNTS ID varsp vars
+            | empty
     '''
 
 def p_varsp(t):
@@ -154,6 +155,183 @@ def p_funcs(t):
 def p_funcsp(t):
     '''funcsp : VOID
               | tipo
+    '''
+
+def p_estatutos(t):
+    '''estatutos : asig estatutop
+                 | llamada estatutop
+                 | return estatutop
+                 | lectura estatutop
+                 | escritura estatutop
+                 | cond estatutop
+                 | while estatutop
+                 | for estatutop
+                 | exp estatutop
+    '''
+    # ^ Aquí falta agregar lo que vayan a ser los estatutos especiales: media, moda, stddev, etc ...
+
+def p_estatutop(t):
+    '''estatutop : estatutos
+                 | empty
+    '''
+
+def p_tipo(t):
+    '''tipo : INT
+            | FLOAT
+            | CHAR
+            | STR
+            | BOOL
+    '''
+def p_params(t):
+    '''params : tipo ID paramsp
+              | empty
+    '''
+
+def p_paramsp(t):
+    '''paramsp : COMA params
+               | ACOR CCOR params
+               | empty
+    '''
+
+def p_asig(t):
+    '''asig : ID ididx IGUAL asigpp PTCOMA
+    '''
+
+def p_ididx(t):
+    '''ididx : ACOR exp CCOR
+             | empty
+    '''
+
+def p_asigpp(t):
+    '''asigpp : exp
+              | expbool
+    '''
+
+def p_llamada(t):
+    '''llamada : ID APAR args CPAR PTCOMA
+    '''
+
+def p_args(t):
+    '''args : ctes argsp
+            | ID ididx argsp
+            | exp argsp
+            | expbool argsp
+            | STRING argsp
+            | CTEC argsp
+    '''
+
+def p_argsp(t):
+    '''argsp : COMA
+             | empty
+    '''
+
+def p_return(t):
+    '''return : RETURNAPAR returnp CPAR PTCOMA
+    '''
+
+def p_returnp(t):
+    '''returnp : exp
+               | expbool
+    '''
+
+def p_lectura(t):
+    '''lectura : READ APAR ID ididx lecturapp CPAR PTCOMA
+    '''
+
+def p_lecturapp(t):
+    '''lecturapp : COMA
+                 | empty
+    '''
+
+def p_escritura(t):
+    '''escritura : WRITE APAR escriturap escriturapp CPAR PTCOMA
+    '''
+
+def p_escriturap(t):
+    '''escriturap : STRING
+                  | exp
+                  | expbool
+                  | CTEC
+    '''
+
+def p_escriturapp(t):
+    '''escriturapp : COMA
+                   | empty
+    '''
+
+def p_cond(t):
+    '''cond : IF APAR condp CPAR THEN ALLA estatutos CLLA condpp
+    '''
+def p_condp(t):
+    '''condp : expbool
+             | TRUE
+             | FALSE
+    '''
+
+def p_condpp(t):
+    '''condpp : ELSE ALLA estatutos CLLA
+              | empty
+    '''
+
+def p_while(t):
+    '''while : WHILE APAR whilep CPAR DO ALLA estatutos CLLA
+    '''
+
+def p_whilep(t):
+    '''whilep : expbool
+             | TRUE
+             | FALSE
+    '''
+
+def p_for(t):
+    '''for : FOR ID ididx IGUAL exp TO exp DO ALLA estatutos CLLA
+    '''
+
+def p_exp(t):
+    '''exp : termino expp
+    '''
+
+def p_expp(t):
+    '''expp : MAS exp
+            | MENOS exp
+    '''
+
+def p_termino(t):
+    '''termino : factor terminop
+    '''
+
+def p_terminop(t):
+    '''terminop : POR termino
+                | DIV termino
+    '''
+
+def p_factor(t): 
+    '''factor : APAR exp CPAR
+              | factorp ctes
+    '''
+
+def p_factorp(t):
+    '''factorp : MAS
+               | MENOS
+               | empty
+    '''
+
+def p_expbool(t):
+    '''expbool : exp expboolp exp
+    '''
+def p_expboolp(t):
+    '''expboolp : MAYQ
+                | MENQ
+                | MAYI
+                | MENI
+                | IGUALIGUAL
+                | DIF
+    '''
+
+def p_ctes(t):
+    '''ctes : ID
+            | CTEI
+            | CTEF
     '''
 
 import ply.yacc as yacc
