@@ -71,7 +71,7 @@ t_APAR = r'\('
 t_CPAR = r'\)'
 t_ALLA = r'\{'
 t_CLLA = r'\}'
-t_COMMA = r'\,'
+t_COMA = r'\,'
 t_ACOR = r'\['
 t_CCOR = r'\]'
 t_IGUAL = r'\='
@@ -117,6 +117,7 @@ def t_error(t):
 
 #Build lexer
 import ply.lex as lex
+lexer = lex.lex()
 
 #Gramatic rules
 
@@ -130,14 +131,21 @@ def p_varss(t):
     '''
 
 def p_vars(t):
-    '''vars : tipo DOSPNTS ID varsp vars
+    '''vars : tipo DOSPNTS varsp varspp vars
             | empty
     '''
 
 def p_varsp(t):
-    '''varsp : PTCOMA
-             | COMA varsp
-             | ACOR CTEI CCOR varsp
+    'varsp : ID varsppp'
+
+def p_varsppp(t):
+    '''varsppp : ACOR CTEI CCOR
+               | empty
+    '''
+
+def p_varspp(t):
+    '''varspp : PTCOMA
+              | COMA varsp varspp
     '''
 
 def p_funcs(t):
@@ -278,6 +286,7 @@ def p_exp(t):
 def p_expp(t):
     '''expp : MAS exp
             | MENOS exp
+            | empty
     '''
 
 def p_termino(t):
@@ -286,6 +295,7 @@ def p_termino(t):
 def p_terminop(t):
     '''terminop : POR termino
                 | DIV termino
+                | empty
     '''
 
 def p_factor(t): 
@@ -324,6 +334,7 @@ def p_empty(t):
 
 def p_error(t):
     print("Error sintáctico en '%s'" % t.value)
+    print(t)
 
 
 import ply.yacc as yacc
@@ -332,4 +343,4 @@ parser = yacc.yacc()
 f = open("./pass.txt", "r")
 input = f.read()
 print(input)
-parser.parse(input)
+parser.parse(input, debug=0)
