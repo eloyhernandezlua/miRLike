@@ -1,0 +1,193 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> PROGRAM ID PTCOMA varss funcs MAIN APAR CPAR ALLA estatutos CLLA
+Rule 2     varss -> VARS vars
+Rule 3     varss -> empty
+Rule 4     vars -> tipo DOSPNTS ID varsp vars
+Rule 5     vars -> empty
+Rule 6     varsp -> PTCOMA
+Rule 7     varsp -> COMA varsp
+Rule 8     varsp -> ACOR CTEI CCOR varsp
+Rule 9     funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs
+Rule 10    funcs -> empty
+Rule 11    funcsp -> VOID
+Rule 12    funcsp -> tipo
+Rule 13    estatutos -> asig estatutop
+Rule 14    estatutos -> llamada estatutop
+Rule 15    estatutos -> return estatutop
+Rule 16    estatutos -> lectura estatutop
+Rule 17    estatutos -> escritura estatutop
+Rule 18    estatutos -> cond estatutop
+Rule 19    estatutos -> while estatutop
+Rule 20    estatutos -> for estatutop
+Rule 21    estatutos -> exp estatutop
+Rule 22    estatutop -> estatutos
+Rule 23    estatutop -> empty
+Rule 24    tipo -> INT
+Rule 25    tipo -> FLOAT
+Rule 26    tipo -> CHAR
+Rule 27    tipo -> STR
+Rule 28    tipo -> BOOL
+Rule 29    params -> tipo ID paramsp
+Rule 30    params -> empty
+Rule 31    paramsp -> COMA params
+Rule 32    paramsp -> ACOR CCOR params
+Rule 33    paramsp -> empty
+Rule 34    asig -> ID ididx IGUAL asigpp PTCOMA
+Rule 35    ididx -> ACOR exp CCOR
+Rule 36    ididx -> empty
+Rule 37    asigpp -> exp
+Rule 38    asigpp -> expbool
+Rule 39    llamada -> ID APAR args CPAR PTCOMA
+Rule 40    args -> ctes argsp
+Rule 41    args -> ID ididx argsp
+Rule 42    args -> exp argsp
+Rule 43    args -> expbool argsp
+Rule 44    args -> STRING argsp
+Rule 45    args -> CTEC argsp
+Rule 46    argsp -> COMA
+Rule 47    argsp -> empty
+Rule 48    return -> RETURN APAR returnp CPAR PTCOMA
+Rule 49    returnp -> exp
+Rule 50    returnp -> expbool
+Rule 51    lectura -> READ APAR ID ididx lecturapp CPAR PTCOMA
+Rule 52    lecturapp -> COMA
+Rule 53    lecturapp -> empty
+Rule 54    escritura -> WRITE APAR escriturap escriturapp CPAR PTCOMA
+Rule 55    escriturap -> STRING
+Rule 56    escriturap -> exp
+Rule 57    escriturap -> expbool
+Rule 58    escriturap -> CTEC
+Rule 59    escriturapp -> COMA
+Rule 60    escriturapp -> empty
+Rule 61    cond -> IF APAR condp CPAR THEN ALLA estatutos CLLA condpp
+Rule 62    condp -> expbool
+Rule 63    condp -> TRUE
+Rule 64    condp -> FALSE
+Rule 65    condpp -> ELSE ALLA estatutos CLLA
+Rule 66    condpp -> empty
+Rule 67    while -> WHILE APAR whilep CPAR DO ALLA estatutos CLLA
+Rule 68    whilep -> expbool
+Rule 69    whilep -> TRUE
+Rule 70    whilep -> FALSE
+Rule 71    for -> FOR ID ididx IGUAL exp TO exp DO ALLA estatutos CLLA
+Rule 72    exp -> termino expp
+Rule 73    expp -> MAS exp
+Rule 74    expp -> MENOS exp
+Rule 75    termino -> factor terminop
+Rule 76    terminop -> POR termino
+Rule 77    terminop -> DIV termino
+Rule 78    factor -> APAR exp CPAR
+Rule 79    factor -> factorp ctes
+Rule 80    factorp -> MAS
+Rule 81    factorp -> MENOS
+Rule 82    factorp -> empty
+Rule 83    expbool -> exp expboolp exp
+Rule 84    expboolp -> MAYQ
+Rule 85    expboolp -> MENQ
+Rule 86    expboolp -> MAYI
+Rule 87    expboolp -> MENI
+Rule 88    expboolp -> IGUALIGUAL
+Rule 89    expboolp -> DIF
+Rule 90    ctes -> ID
+Rule 91    ctes -> CTEI
+Rule 92    ctes -> CTEF
+Rule 93    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ACOR                 : 8 32 35
+ALLA                 : 1 9 61 65 67 71
+APAR                 : 1 9 39 48 51 54 61 67 78
+BOOL                 : 28
+CCOR                 : 8 32 35
+CHAR                 : 26
+CLLA                 : 1 9 61 65 67 71
+COMA                 : 7 31 46 52 59
+CPAR                 : 1 9 39 48 51 54 61 67 78
+CTEC                 : 45 58
+CTEF                 : 92
+CTEI                 : 8 91
+DIF                  : 89
+DIV                  : 77
+DO                   : 67 71
+DOSPNTS              : 4
+ELSE                 : 65
+FALSE                : 64 70
+FLOAT                : 25
+FOR                  : 71
+FUNCTION             : 9
+ID                   : 1 4 9 29 34 39 41 51 71 90
+IF                   : 61
+IGUAL                : 34 71
+IGUALIGUAL           : 88
+INT                  : 24
+MAIN                 : 1
+MAS                  : 73 80
+MAYI                 : 86
+MAYQ                 : 84
+MENI                 : 87
+MENOS                : 74 81
+MENQ                 : 85
+POR                  : 76
+PROGRAM              : 1
+PTCOMA               : 1 6 9 34 39 48 51 54
+READ                 : 51
+RETURN               : 48
+STR                  : 27
+STRING               : 44 55
+THEN                 : 61
+TO                   : 71
+TRUE                 : 63 69
+VARS                 : 2
+VOID                 : 11
+WHILE                : 67
+WRITE                : 54
+error                : 
+
+Nonterminals, with rules where they appear
+
+args                 : 39
+argsp                : 40 41 42 43 44 45
+asig                 : 13
+asigpp               : 34
+cond                 : 18
+condp                : 61
+condpp               : 61
+ctes                 : 40 79
+empty                : 3 5 10 23 30 33 36 47 53 60 66 82
+escritura            : 17
+escriturap           : 54
+escriturapp          : 54
+estatutop            : 13 14 15 16 17 18 19 20 21
+estatutos            : 1 9 22 61 65 67 71
+exp                  : 21 35 37 42 49 56 71 71 73 74 78 83 83
+expbool              : 38 43 50 57 62 68
+expboolp             : 83
+expp                 : 72
+factor               : 75
+factorp              : 79
+for                  : 20
+funcs                : 1 9
+funcsp               : 9
+ididx                : 34 41 51 71
+lectura              : 16
+lecturapp            : 51
+llamada              : 14
+params               : 9 31 32
+paramsp              : 29
+program              : 0
+return               : 15
+returnp              : 48
+termino              : 72 76 77
+terminop             : 75
+tipo                 : 4 12 29
+vars                 : 2 4
+varsp                : 4 7 8
+varss                : 1 9
+while                : 19
+whilep               : 67
+

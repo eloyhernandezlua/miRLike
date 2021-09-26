@@ -120,13 +120,6 @@ import ply.lex as lex
 
 #Gramatic rules
 
-def p_empty(t):
-    'empty :'
-    pass
-
-def p_error(t):
-    print("Error sintáctico en '%s'" % t.value)
-
 def p_program(t):
     'program : PROGRAM ID PTCOMA varss funcs MAIN APAR CPAR ALLA estatutos CLLA'
     print('Código aceptado')
@@ -148,7 +141,7 @@ def p_varsp(t):
     '''
 
 def p_funcs(t):
-    '''funcs : FUNCION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs
+    '''funcs : FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs
              | empty
     '''
 
@@ -194,8 +187,7 @@ def p_paramsp(t):
     '''
 
 def p_asig(t):
-    '''asig : ID ididx IGUAL asigpp PTCOMA
-    '''
+    'asig : ID ididx IGUAL asigpp PTCOMA'
 
 def p_ididx(t):
     '''ididx : ACOR exp CCOR
@@ -208,8 +200,7 @@ def p_asigpp(t):
     '''
 
 def p_llamada(t):
-    '''llamada : ID APAR args CPAR PTCOMA
-    '''
+    'llamada : ID APAR args CPAR PTCOMA'
 
 def p_args(t):
     '''args : ctes argsp
@@ -226,8 +217,7 @@ def p_argsp(t):
     '''
 
 def p_return(t):
-    '''return : RETURNAPAR returnp CPAR PTCOMA
-    '''
+    'return : RETURN APAR returnp CPAR PTCOMA'
 
 def p_returnp(t):
     '''returnp : exp
@@ -235,8 +225,7 @@ def p_returnp(t):
     '''
 
 def p_lectura(t):
-    '''lectura : READ APAR ID ididx lecturapp CPAR PTCOMA
-    '''
+    'lectura : READ APAR ID ididx lecturapp CPAR PTCOMA'
 
 def p_lecturapp(t):
     '''lecturapp : COMA
@@ -244,8 +233,7 @@ def p_lecturapp(t):
     '''
 
 def p_escritura(t):
-    '''escritura : WRITE APAR escriturap escriturapp CPAR PTCOMA
-    '''
+    'escritura : WRITE APAR escriturap escriturapp CPAR PTCOMA'
 
 def p_escriturap(t):
     '''escriturap : STRING
@@ -260,8 +248,7 @@ def p_escriturapp(t):
     '''
 
 def p_cond(t):
-    '''cond : IF APAR condp CPAR THEN ALLA estatutos CLLA condpp
-    '''
+    'cond : IF APAR condp CPAR THEN ALLA estatutos CLLA condpp'
 def p_condp(t):
     '''condp : expbool
              | TRUE
@@ -274,8 +261,7 @@ def p_condpp(t):
     '''
 
 def p_while(t):
-    '''while : WHILE APAR whilep CPAR DO ALLA estatutos CLLA
-    '''
+    'while : WHILE APAR whilep CPAR DO ALLA estatutos CLLA'
 
 def p_whilep(t):
     '''whilep : expbool
@@ -284,12 +270,10 @@ def p_whilep(t):
     '''
 
 def p_for(t):
-    '''for : FOR ID ididx IGUAL exp TO exp DO ALLA estatutos CLLA
-    '''
+    'for : FOR ID ididx IGUAL exp TO exp DO ALLA estatutos CLLA'
 
 def p_exp(t):
-    '''exp : termino expp
-    '''
+    'exp : termino expp'
 
 def p_expp(t):
     '''expp : MAS exp
@@ -297,8 +281,7 @@ def p_expp(t):
     '''
 
 def p_termino(t):
-    '''termino : factor terminop
-    '''
+    'termino : factor terminop'
 
 def p_terminop(t):
     '''terminop : POR termino
@@ -317,8 +300,8 @@ def p_factorp(t):
     '''
 
 def p_expbool(t):
-    '''expbool : exp expboolp exp
-    '''
+    'expbool : exp expboolp exp'
+
 def p_expboolp(t):
     '''expboolp : MAYQ
                 | MENQ
@@ -333,6 +316,15 @@ def p_ctes(t):
             | CTEI
             | CTEF
     '''
+
+
+def p_empty(t):
+    'empty :'
+    pass
+
+def p_error(t):
+    print("Error sintáctico en '%s'" % t.value)
+
 
 import ply.yacc as yacc
 parser = yacc.yacc()
