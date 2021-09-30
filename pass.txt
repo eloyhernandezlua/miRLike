@@ -3,19 +3,19 @@ VARS
     int: i, j, p, arreglo[10];
     float: valor;
 
-function int fact (int: j)
-VARS int i;
+function int fact (int: j);
+VARS int: i;
 { 
     i = j + (p - j*2+j); 
     if (j == 1) then {
         return(j);
     } else {
-        return(j * fact(j-1));
+        return( j * fact(j-1)  );
     }
 }
 
-function void calcula (int: y)
-VARS int x;
+function void calcula (int: y);
+VARS int: x;
 {
     x = 1;
     while(x < 11) do {

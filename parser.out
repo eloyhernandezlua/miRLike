@@ -33,7 +33,7 @@ Rule 27    tipo -> FLOAT
 Rule 28    tipo -> CHAR
 Rule 29    tipo -> STR
 Rule 30    tipo -> BOOL
-Rule 31    params -> tipo ID paramsp
+Rule 31    params -> tipo DOSPNTS ID paramsp
 Rule 32    params -> empty
 Rule 33    paramsp -> COMA params
 Rule 34    paramsp -> ACOR CCOR params
@@ -99,7 +99,8 @@ Rule 93    expboolp -> DIF
 Rule 94    ctes -> ID
 Rule 95    ctes -> CTEI
 Rule 96    ctes -> CTEF
-Rule 97    empty -> <empty>
+Rule 97    ctes -> llamada
+Rule 98    empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -118,7 +119,7 @@ CTEI                 : 7 95
 DIF                  : 93
 DIV                  : 80
 DO                   : 69 73
-DOSPNTS              : 4
+DOSPNTS              : 4 31
 ELSE                 : 67
 FALSE                : 66 72
 FLOAT                : 27
@@ -180,7 +181,7 @@ funcsp               : 11
 ididx                : 36 43 53 73
 lectura              : 18
 lecturapp            : 53
-llamada              : 16
+llamada              : 16 97
 params               : 11 33 34
 paramsp              : 31
 program              : 0
@@ -233,11 +234,11 @@ state 4
     (1) program -> PROGRAM ID PTCOMA . varss funcs MAIN APAR CPAR ALLA estatutos CLLA
     (2) varss -> . VARS vars
     (3) varss -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     VARS            shift and go to state 6
-    FUNCTION        reduce using rule 97 (empty -> .)
-    MAIN            reduce using rule 97 (empty -> .)
+    FUNCTION        reduce using rule 98 (empty -> .)
+    MAIN            reduce using rule 98 (empty -> .)
 
     varss                          shift and go to state 5
     empty                          shift and go to state 7
@@ -247,10 +248,10 @@ state 5
     (1) program -> PROGRAM ID PTCOMA varss . funcs MAIN APAR CPAR ALLA estatutos CLLA
     (11) funcs -> . FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs
     (12) funcs -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     FUNCTION        shift and go to state 9
-    MAIN            reduce using rule 97 (empty -> .)
+    MAIN            reduce using rule 98 (empty -> .)
 
     funcs                          shift and go to state 8
     empty                          shift and go to state 10
@@ -265,16 +266,16 @@ state 6
     (28) tipo -> . CHAR
     (29) tipo -> . STR
     (30) tipo -> . BOOL
-    (97) empty -> .
+    (98) empty -> .
 
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
     STR             shift and go to state 17
     BOOL            shift and go to state 18
-    FUNCTION        reduce using rule 97 (empty -> .)
-    MAIN            reduce using rule 97 (empty -> .)
-    ALLA            reduce using rule 97 (empty -> .)
+    FUNCTION        reduce using rule 98 (empty -> .)
+    MAIN            reduce using rule 98 (empty -> .)
+    ALLA            reduce using rule 98 (empty -> .)
 
     vars                           shift and go to state 11
     tipo                           shift and go to state 12
@@ -456,11 +457,11 @@ state 27
     (6) varsp -> ID . varsppp
     (7) varsppp -> . ACOR CTEI CCOR
     (8) varsppp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     ACOR            shift and go to state 34
-    PTCOMA          reduce using rule 97 (empty -> .)
-    COMA            reduce using rule 97 (empty -> .)
+    PTCOMA          reduce using rule 98 (empty -> .)
+    COMA            reduce using rule 98 (empty -> .)
 
     varsppp                        shift and go to state 33
     empty                          shift and go to state 35
@@ -475,21 +476,21 @@ state 28
 state 29
 
     (11) funcs -> FUNCTION funcsp ID APAR . params CPAR PTCOMA varss ALLA estatutos CLLA funcs
-    (31) params -> . tipo ID paramsp
+    (31) params -> . tipo DOSPNTS ID paramsp
     (32) params -> . empty
     (26) tipo -> . INT
     (27) tipo -> . FLOAT
     (28) tipo -> . CHAR
     (29) tipo -> . STR
     (30) tipo -> . BOOL
-    (97) empty -> .
+    (98) empty -> .
 
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
     STR             shift and go to state 17
     BOOL            shift and go to state 18
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     params                         shift and go to state 37
     tipo                           shift and go to state 38
@@ -505,16 +506,16 @@ state 30
     (28) tipo -> . CHAR
     (29) tipo -> . STR
     (30) tipo -> . BOOL
-    (97) empty -> .
+    (98) empty -> .
 
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
     STR             shift and go to state 17
     BOOL            shift and go to state 18
-    FUNCTION        reduce using rule 97 (empty -> .)
-    MAIN            reduce using rule 97 (empty -> .)
-    ALLA            reduce using rule 97 (empty -> .)
+    FUNCTION        reduce using rule 98 (empty -> .)
+    MAIN            reduce using rule 98 (empty -> .)
+    ALLA            reduce using rule 98 (empty -> .)
 
     tipo                           shift and go to state 12
     vars                           shift and go to state 40
@@ -593,7 +594,7 @@ state 36
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 43
@@ -606,10 +607,10 @@ state 36
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     estatutos                      shift and go to state 45
     asig                           shift and go to state 46
@@ -635,9 +636,9 @@ state 37
 
 state 38
 
-    (31) params -> tipo . ID paramsp
+    (31) params -> tipo . DOSPNTS ID paramsp
 
-    ID              shift and go to state 68
+    DOSPNTS         shift and go to state 68
 
 
 state 39
@@ -680,11 +681,11 @@ state 43
     (41) llamada -> ID . APAR args CPAR PTCOMA
     (37) ididx -> . ACOR exp CCOR
     (38) ididx -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 72
     ACOR            shift and go to state 73
-    IGUAL           reduce using rule 97 (empty -> .)
+    IGUAL           reduce using rule 98 (empty -> .)
 
     ididx                          shift and go to state 71
     empty                          shift and go to state 74
@@ -699,14 +700,14 @@ state 44
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
     exp                            shift and go to state 75
     termino                        shift and go to state 61
@@ -735,7 +736,7 @@ state 46
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -753,9 +754,9 @@ state 46
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -767,7 +768,7 @@ state 46
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     asig                           shift and go to state 46
     estatutop                      shift and go to state 77
@@ -799,7 +800,7 @@ state 47
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -817,9 +818,9 @@ state 47
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -831,7 +832,7 @@ state 47
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     llamada                        shift and go to state 47
     estatutop                      shift and go to state 80
@@ -863,7 +864,7 @@ state 48
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -881,9 +882,9 @@ state 48
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -895,7 +896,7 @@ state 48
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     return                         shift and go to state 48
     estatutop                      shift and go to state 81
@@ -927,7 +928,7 @@ state 49
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -945,9 +946,9 @@ state 49
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -959,7 +960,7 @@ state 49
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     lectura                        shift and go to state 49
     estatutop                      shift and go to state 82
@@ -991,7 +992,7 @@ state 50
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -1009,9 +1010,9 @@ state 50
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -1023,7 +1024,7 @@ state 50
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     escritura                      shift and go to state 50
     estatutop                      shift and go to state 83
@@ -1055,7 +1056,7 @@ state 51
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -1073,9 +1074,9 @@ state 51
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -1087,7 +1088,7 @@ state 51
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     cond                           shift and go to state 51
     estatutop                      shift and go to state 84
@@ -1119,7 +1120,7 @@ state 52
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -1137,9 +1138,9 @@ state 52
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -1151,7 +1152,7 @@ state 52
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     while                          shift and go to state 52
     estatutop                      shift and go to state 85
@@ -1183,7 +1184,7 @@ state 53
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -1201,9 +1202,9 @@ state 53
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -1215,7 +1216,7 @@ state 53
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     for                            shift and go to state 53
     estatutop                      shift and go to state 86
@@ -1247,7 +1248,7 @@ state 54
     (21) estatutos -> . while estatutop
     (22) estatutos -> . for estatutop
     (23) estatutos -> . exp estatutop
-    (97) empty -> .
+    (98) empty -> .
     (36) asig -> . ID ididx IGUAL asigpp PTCOMA
     (41) llamada -> . ID APAR args CPAR PTCOMA
     (50) return -> . RETURN APAR returnp CPAR PTCOMA
@@ -1265,9 +1266,9 @@ state 54
     (86) factorp -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    CLLA            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
     ID              shift and go to state 43
     RETURN          shift and go to state 55
     READ            shift and go to state 56
@@ -1279,7 +1280,7 @@ state 54
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     exp                            shift and go to state 54
     estatutop                      shift and go to state 87
@@ -1345,38 +1346,38 @@ state 61
     (75) expp -> . MAS exp
     (76) expp -> . MENOS exp
     (77) expp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! shift/reduce conflict for MAS resolved as shift
   ! shift/reduce conflict for MENOS resolved as shift
     MAS             shift and go to state 95
     MENOS           shift and go to state 96
-    ID              reduce using rule 97 (empty -> .)
-    RETURN          reduce using rule 97 (empty -> .)
-    READ            reduce using rule 97 (empty -> .)
-    WRITE           reduce using rule 97 (empty -> .)
-    IF              reduce using rule 97 (empty -> .)
-    WHILE           reduce using rule 97 (empty -> .)
-    FOR             reduce using rule 97 (empty -> .)
-    APAR            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
-    CLLA            reduce using rule 97 (empty -> .)
-    CPAR            reduce using rule 97 (empty -> .)
-    COMA            reduce using rule 97 (empty -> .)
-    MAYQ            reduce using rule 97 (empty -> .)
-    MENQ            reduce using rule 97 (empty -> .)
-    MAYI            reduce using rule 97 (empty -> .)
-    MENI            reduce using rule 97 (empty -> .)
-    IGUALIGUAL      reduce using rule 97 (empty -> .)
-    DIF             reduce using rule 97 (empty -> .)
-    CCOR            reduce using rule 97 (empty -> .)
-    PTCOMA          reduce using rule 97 (empty -> .)
-    TO              reduce using rule 97 (empty -> .)
-    DO              reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    RETURN          reduce using rule 98 (empty -> .)
+    READ            reduce using rule 98 (empty -> .)
+    WRITE           reduce using rule 98 (empty -> .)
+    IF              reduce using rule 98 (empty -> .)
+    WHILE           reduce using rule 98 (empty -> .)
+    FOR             reduce using rule 98 (empty -> .)
+    APAR            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
+    COMA            reduce using rule 98 (empty -> .)
+    MAYQ            reduce using rule 98 (empty -> .)
+    MENQ            reduce using rule 98 (empty -> .)
+    MAYI            reduce using rule 98 (empty -> .)
+    MENI            reduce using rule 98 (empty -> .)
+    IGUALIGUAL      reduce using rule 98 (empty -> .)
+    DIF             reduce using rule 98 (empty -> .)
+    CCOR            reduce using rule 98 (empty -> .)
+    PTCOMA          reduce using rule 98 (empty -> .)
+    TO              reduce using rule 98 (empty -> .)
+    DO              reduce using rule 98 (empty -> .)
 
-  ! MAS             [ reduce using rule 97 (empty -> .) ]
-  ! MENOS           [ reduce using rule 97 (empty -> .) ]
+  ! MAS             [ reduce using rule 98 (empty -> .) ]
+  ! MENOS           [ reduce using rule 98 (empty -> .) ]
 
     expp                           shift and go to state 94
     empty                          shift and go to state 97
@@ -1387,35 +1388,35 @@ state 62
     (79) terminop -> . POR termino
     (80) terminop -> . DIV termino
     (81) terminop -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     POR             shift and go to state 99
     DIV             shift and go to state 100
-    MAS             reduce using rule 97 (empty -> .)
-    MENOS           reduce using rule 97 (empty -> .)
-    ID              reduce using rule 97 (empty -> .)
-    RETURN          reduce using rule 97 (empty -> .)
-    READ            reduce using rule 97 (empty -> .)
-    WRITE           reduce using rule 97 (empty -> .)
-    IF              reduce using rule 97 (empty -> .)
-    WHILE           reduce using rule 97 (empty -> .)
-    FOR             reduce using rule 97 (empty -> .)
-    APAR            reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
-    CLLA            reduce using rule 97 (empty -> .)
-    CPAR            reduce using rule 97 (empty -> .)
-    COMA            reduce using rule 97 (empty -> .)
-    MAYQ            reduce using rule 97 (empty -> .)
-    MENQ            reduce using rule 97 (empty -> .)
-    MAYI            reduce using rule 97 (empty -> .)
-    MENI            reduce using rule 97 (empty -> .)
-    IGUALIGUAL      reduce using rule 97 (empty -> .)
-    DIF             reduce using rule 97 (empty -> .)
-    CCOR            reduce using rule 97 (empty -> .)
-    PTCOMA          reduce using rule 97 (empty -> .)
-    TO              reduce using rule 97 (empty -> .)
-    DO              reduce using rule 97 (empty -> .)
+    MAS             reduce using rule 98 (empty -> .)
+    MENOS           reduce using rule 98 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    RETURN          reduce using rule 98 (empty -> .)
+    READ            reduce using rule 98 (empty -> .)
+    WRITE           reduce using rule 98 (empty -> .)
+    IF              reduce using rule 98 (empty -> .)
+    WHILE           reduce using rule 98 (empty -> .)
+    FOR             reduce using rule 98 (empty -> .)
+    APAR            reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
+    COMA            reduce using rule 98 (empty -> .)
+    MAYQ            reduce using rule 98 (empty -> .)
+    MENQ            reduce using rule 98 (empty -> .)
+    MAYI            reduce using rule 98 (empty -> .)
+    MENI            reduce using rule 98 (empty -> .)
+    IGUALIGUAL      reduce using rule 98 (empty -> .)
+    DIF             reduce using rule 98 (empty -> .)
+    CCOR            reduce using rule 98 (empty -> .)
+    PTCOMA          reduce using rule 98 (empty -> .)
+    TO              reduce using rule 98 (empty -> .)
+    DO              reduce using rule 98 (empty -> .)
 
     terminop                       shift and go to state 98
     empty                          shift and go to state 101
@@ -1426,12 +1427,15 @@ state 63
     (94) ctes -> . ID
     (95) ctes -> . CTEI
     (96) ctes -> . CTEF
+    (97) ctes -> . llamada
+    (41) llamada -> . ID APAR args CPAR PTCOMA
 
     ID              shift and go to state 103
     CTEI            shift and go to state 104
     CTEF            shift and go to state 105
 
     ctes                           shift and go to state 102
+    llamada                        shift and go to state 106
 
 state 64
 
@@ -1464,23 +1468,15 @@ state 67
 
     (11) funcs -> FUNCTION funcsp ID APAR params CPAR . PTCOMA varss ALLA estatutos CLLA funcs
 
-    PTCOMA          shift and go to state 106
+    PTCOMA          shift and go to state 107
 
 
 state 68
 
-    (31) params -> tipo ID . paramsp
-    (33) paramsp -> . COMA params
-    (34) paramsp -> . ACOR CCOR params
-    (35) paramsp -> . empty
-    (97) empty -> .
+    (31) params -> tipo DOSPNTS . ID paramsp
 
-    COMA            shift and go to state 108
-    ACOR            shift and go to state 109
-    CPAR            reduce using rule 97 (empty -> .)
+    ID              shift and go to state 108
 
-    paramsp                        shift and go to state 107
-    empty                          shift and go to state 110
 
 state 69
 
@@ -1508,7 +1504,7 @@ state 71
 
     (36) asig -> ID ididx . IGUAL asigpp PTCOMA
 
-    IGUAL           shift and go to state 111
+    IGUAL           shift and go to state 109
 
 
 state 72
@@ -1523,36 +1519,39 @@ state 72
     (94) ctes -> . ID
     (95) ctes -> . CTEI
     (96) ctes -> . CTEF
+    (97) ctes -> . llamada
     (74) exp -> . termino expp
     (87) expbool -> . exp expboolp exp
+    (41) llamada -> . ID APAR args CPAR PTCOMA
     (78) termino -> . factor terminop
     (82) factor -> . APAR exp CPAR
     (83) factor -> . factorp ctes
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
   ! shift/reduce conflict for CTEI resolved as shift
   ! shift/reduce conflict for CTEF resolved as shift
-    ID              shift and go to state 112
-    STRING          shift and go to state 117
-    CTEC            shift and go to state 118
+    ID              shift and go to state 110
+    STRING          shift and go to state 115
+    CTEC            shift and go to state 116
     CTEI            shift and go to state 104
     CTEF            shift and go to state 105
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
-  ! CTEI            [ reduce using rule 97 (empty -> .) ]
-  ! CTEF            [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
+  ! CTEI            [ reduce using rule 98 (empty -> .) ]
+  ! CTEF            [ reduce using rule 98 (empty -> .) ]
 
-    args                           shift and go to state 113
-    ctes                           shift and go to state 114
-    exp                            shift and go to state 115
-    expbool                        shift and go to state 116
+    args                           shift and go to state 111
+    ctes                           shift and go to state 112
+    exp                            shift and go to state 113
+    expbool                        shift and go to state 114
+    llamada                        shift and go to state 106
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -1568,16 +1567,16 @@ state 73
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    exp                            shift and go to state 119
+    exp                            shift and go to state 117
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -1596,7 +1595,7 @@ state 75
 
     (82) factor -> APAR exp . CPAR
 
-    CPAR            shift and go to state 120
+    CPAR            shift and go to state 118
 
 
 state 76
@@ -1700,18 +1699,18 @@ state 88
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    returnp                        shift and go to state 121
-    exp                            shift and go to state 122
-    expbool                        shift and go to state 123
+    returnp                        shift and go to state 119
+    exp                            shift and go to state 120
+    expbool                        shift and go to state 121
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -1721,7 +1720,7 @@ state 89
 
     (53) lectura -> READ APAR . ID ididx lecturapp CPAR PTCOMA
 
-    ID              shift and go to state 124
+    ID              shift and go to state 122
 
 
 state 90
@@ -1739,20 +1738,20 @@ state 90
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
-    STRING          shift and go to state 126
-    CTEC            shift and go to state 129
+    STRING          shift and go to state 124
+    CTEC            shift and go to state 127
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    escriturap                     shift and go to state 125
-    exp                            shift and go to state 127
-    expbool                        shift and go to state 128
+    escriturap                     shift and go to state 123
+    exp                            shift and go to state 125
+    expbool                        shift and go to state 126
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -1772,20 +1771,20 @@ state 91
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
-    TRUE            shift and go to state 132
-    FALSE           shift and go to state 133
+    TRUE            shift and go to state 130
+    FALSE           shift and go to state 131
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    condp                          shift and go to state 130
-    expbool                        shift and go to state 131
-    exp                            shift and go to state 134
+    condp                          shift and go to state 128
+    expbool                        shift and go to state 129
+    exp                            shift and go to state 132
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -1805,20 +1804,20 @@ state 92
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
-    TRUE            shift and go to state 137
-    FALSE           shift and go to state 138
+    TRUE            shift and go to state 135
+    FALSE           shift and go to state 136
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    whilep                         shift and go to state 135
-    expbool                        shift and go to state 136
-    exp                            shift and go to state 134
+    whilep                         shift and go to state 133
+    expbool                        shift and go to state 134
+    exp                            shift and go to state 132
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -1829,12 +1828,12 @@ state 93
     (73) for -> FOR ID . ididx IGUAL exp TO exp DO ALLA estatutos CLLA
     (37) ididx -> . ACOR exp CCOR
     (38) ididx -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     ACOR            shift and go to state 73
-    IGUAL           reduce using rule 97 (empty -> .)
+    IGUAL           reduce using rule 98 (empty -> .)
 
-    ididx                          shift and go to state 139
+    ididx                          shift and go to state 137
     empty                          shift and go to state 74
 
 state 94
@@ -1878,16 +1877,16 @@ state 95
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    exp                            shift and go to state 140
+    exp                            shift and go to state 138
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -1903,16 +1902,16 @@ state 96
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    exp                            shift and go to state 141
+    exp                            shift and go to state 139
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -1989,16 +1988,16 @@ state 99
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    termino                        shift and go to state 142
+    termino                        shift and go to state 140
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
     empty                          shift and go to state 66
@@ -2012,16 +2011,16 @@ state 100
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    termino                        shift and go to state 143
+    termino                        shift and go to state 141
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
     empty                          shift and go to state 66
@@ -2093,7 +2092,9 @@ state 102
 state 103
 
     (94) ctes -> ID .
+    (41) llamada -> ID . APAR args CPAR PTCOMA
 
+  ! shift/reduce conflict for APAR resolved as shift
     POR             reduce using rule 94 (ctes -> ID .)
     DIV             reduce using rule 94 (ctes -> ID .)
     MAS             reduce using rule 94 (ctes -> ID .)
@@ -2105,7 +2106,6 @@ state 103
     IF              reduce using rule 94 (ctes -> ID .)
     WHILE           reduce using rule 94 (ctes -> ID .)
     FOR             reduce using rule 94 (ctes -> ID .)
-    APAR            reduce using rule 94 (ctes -> ID .)
     CTEI            reduce using rule 94 (ctes -> ID .)
     CTEF            reduce using rule 94 (ctes -> ID .)
     CLLA            reduce using rule 94 (ctes -> ID .)
@@ -2121,6 +2121,9 @@ state 103
     PTCOMA          reduce using rule 94 (ctes -> ID .)
     TO              reduce using rule 94 (ctes -> ID .)
     DO              reduce using rule 94 (ctes -> ID .)
+    APAR            shift and go to state 72
+
+  ! APAR            [ reduce using rule 94 (ctes -> ID .) ]
 
 
 state 104
@@ -2191,62 +2194,66 @@ state 105
 
 state 106
 
-    (11) funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA . varss ALLA estatutos CLLA funcs
-    (2) varss -> . VARS vars
-    (3) varss -> . empty
-    (97) empty -> .
+    (97) ctes -> llamada .
 
-    VARS            shift and go to state 6
-    ALLA            reduce using rule 97 (empty -> .)
+    POR             reduce using rule 97 (ctes -> llamada .)
+    DIV             reduce using rule 97 (ctes -> llamada .)
+    MAS             reduce using rule 97 (ctes -> llamada .)
+    MENOS           reduce using rule 97 (ctes -> llamada .)
+    ID              reduce using rule 97 (ctes -> llamada .)
+    RETURN          reduce using rule 97 (ctes -> llamada .)
+    READ            reduce using rule 97 (ctes -> llamada .)
+    WRITE           reduce using rule 97 (ctes -> llamada .)
+    IF              reduce using rule 97 (ctes -> llamada .)
+    WHILE           reduce using rule 97 (ctes -> llamada .)
+    FOR             reduce using rule 97 (ctes -> llamada .)
+    APAR            reduce using rule 97 (ctes -> llamada .)
+    CTEI            reduce using rule 97 (ctes -> llamada .)
+    CTEF            reduce using rule 97 (ctes -> llamada .)
+    CLLA            reduce using rule 97 (ctes -> llamada .)
+    CPAR            reduce using rule 97 (ctes -> llamada .)
+    COMA            reduce using rule 97 (ctes -> llamada .)
+    MAYQ            reduce using rule 97 (ctes -> llamada .)
+    MENQ            reduce using rule 97 (ctes -> llamada .)
+    MAYI            reduce using rule 97 (ctes -> llamada .)
+    MENI            reduce using rule 97 (ctes -> llamada .)
+    IGUALIGUAL      reduce using rule 97 (ctes -> llamada .)
+    DIF             reduce using rule 97 (ctes -> llamada .)
+    CCOR            reduce using rule 97 (ctes -> llamada .)
+    PTCOMA          reduce using rule 97 (ctes -> llamada .)
+    TO              reduce using rule 97 (ctes -> llamada .)
+    DO              reduce using rule 97 (ctes -> llamada .)
 
-    varss                          shift and go to state 144
-    empty                          shift and go to state 7
 
 state 107
 
-    (31) params -> tipo ID paramsp .
+    (11) funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA . varss ALLA estatutos CLLA funcs
+    (2) varss -> . VARS vars
+    (3) varss -> . empty
+    (98) empty -> .
 
-    CPAR            reduce using rule 31 (params -> tipo ID paramsp .)
+    VARS            shift and go to state 6
+    ALLA            reduce using rule 98 (empty -> .)
 
+    varss                          shift and go to state 142
+    empty                          shift and go to state 7
 
 state 108
 
-    (33) paramsp -> COMA . params
-    (31) params -> . tipo ID paramsp
-    (32) params -> . empty
-    (26) tipo -> . INT
-    (27) tipo -> . FLOAT
-    (28) tipo -> . CHAR
-    (29) tipo -> . STR
-    (30) tipo -> . BOOL
-    (97) empty -> .
+    (31) params -> tipo DOSPNTS ID . paramsp
+    (33) paramsp -> . COMA params
+    (34) paramsp -> . ACOR CCOR params
+    (35) paramsp -> . empty
+    (98) empty -> .
 
-    INT             shift and go to state 14
-    FLOAT           shift and go to state 15
-    CHAR            shift and go to state 16
-    STR             shift and go to state 17
-    BOOL            shift and go to state 18
-    CPAR            reduce using rule 97 (empty -> .)
+    COMA            shift and go to state 144
+    ACOR            shift and go to state 145
+    CPAR            reduce using rule 98 (empty -> .)
 
-    params                         shift and go to state 145
-    tipo                           shift and go to state 38
-    empty                          shift and go to state 39
+    paramsp                        shift and go to state 143
+    empty                          shift and go to state 146
 
 state 109
-
-    (34) paramsp -> ACOR . CCOR params
-
-    CCOR            shift and go to state 146
-
-
-state 110
-
-    (35) paramsp -> empty .
-
-    CPAR            reduce using rule 35 (paramsp -> empty .)
-
-
-state 111
 
     (36) asig -> ID ididx IGUAL . asigpp PTCOMA
     (39) asigpp -> . exp
@@ -2259,14 +2266,14 @@ state 111
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
     asigpp                         shift and go to state 147
     exp                            shift and go to state 148
@@ -2276,47 +2283,49 @@ state 111
     factorp                        shift and go to state 63
     empty                          shift and go to state 66
 
-state 112
+state 110
 
     (43) args -> ID . ididx argsp
     (94) ctes -> ID .
+    (41) llamada -> ID . APAR args CPAR PTCOMA
     (37) ididx -> . ACOR exp CCOR
     (38) ididx -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! reduce/reduce conflict for COMA resolved using rule 94 (ctes -> ID .)
   ! reduce/reduce conflict for CPAR resolved using rule 94 (ctes -> ID .)
     COMA            reduce using rule 94 (ctes -> ID .)
     CPAR            reduce using rule 94 (ctes -> ID .)
+    APAR            shift and go to state 72
     ACOR            shift and go to state 73
 
-  ! COMA            [ reduce using rule 97 (empty -> .) ]
-  ! CPAR            [ reduce using rule 97 (empty -> .) ]
+  ! COMA            [ reduce using rule 98 (empty -> .) ]
+  ! CPAR            [ reduce using rule 98 (empty -> .) ]
 
     ididx                          shift and go to state 150
     empty                          shift and go to state 74
 
-state 113
+state 111
 
     (41) llamada -> ID APAR args . CPAR PTCOMA
 
     CPAR            shift and go to state 151
 
 
-state 114
+state 112
 
     (42) args -> ctes . argsp
     (48) argsp -> . COMA
     (49) argsp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     COMA            shift and go to state 153
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     argsp                          shift and go to state 152
     empty                          shift and go to state 154
 
-state 115
+state 113
 
     (44) args -> exp . argsp
     (87) expbool -> exp . expboolp exp
@@ -2328,7 +2337,7 @@ state 115
     (91) expboolp -> . MENI
     (92) expboolp -> . IGUALIGUAL
     (93) expboolp -> . DIF
-    (97) empty -> .
+    (98) empty -> .
 
     COMA            shift and go to state 153
     MAYQ            shift and go to state 157
@@ -2337,59 +2346,59 @@ state 115
     MENI            shift and go to state 160
     IGUALIGUAL      shift and go to state 161
     DIF             shift and go to state 162
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     argsp                          shift and go to state 155
     expboolp                       shift and go to state 156
     empty                          shift and go to state 154
 
-state 116
+state 114
 
     (45) args -> expbool . argsp
     (48) argsp -> . COMA
     (49) argsp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     COMA            shift and go to state 153
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     argsp                          shift and go to state 163
     empty                          shift and go to state 154
 
-state 117
+state 115
 
     (46) args -> STRING . argsp
     (48) argsp -> . COMA
     (49) argsp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     COMA            shift and go to state 153
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     argsp                          shift and go to state 164
     empty                          shift and go to state 154
 
-state 118
+state 116
 
     (47) args -> CTEC . argsp
     (48) argsp -> . COMA
     (49) argsp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     COMA            shift and go to state 153
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     argsp                          shift and go to state 165
     empty                          shift and go to state 154
 
-state 119
+state 117
 
     (37) ididx -> ACOR exp . CCOR
 
     CCOR            shift and go to state 166
 
 
-state 120
+state 118
 
     (82) factor -> APAR exp CPAR .
 
@@ -2422,14 +2431,14 @@ state 120
     DO              reduce using rule 82 (factor -> APAR exp CPAR .)
 
 
-state 121
+state 119
 
     (50) return -> RETURN APAR returnp . CPAR PTCOMA
 
     CPAR            shift and go to state 167
 
 
-state 122
+state 120
 
     (51) returnp -> exp .
     (87) expbool -> exp . expboolp exp
@@ -2450,41 +2459,41 @@ state 122
 
     expboolp                       shift and go to state 156
 
-state 123
+state 121
 
     (52) returnp -> expbool .
 
     CPAR            reduce using rule 52 (returnp -> expbool .)
 
 
-state 124
+state 122
 
     (53) lectura -> READ APAR ID . ididx lecturapp CPAR PTCOMA
     (37) ididx -> . ACOR exp CCOR
     (38) ididx -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     ACOR            shift and go to state 73
-    COMA            reduce using rule 97 (empty -> .)
-    CPAR            reduce using rule 97 (empty -> .)
+    COMA            reduce using rule 98 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     ididx                          shift and go to state 168
     empty                          shift and go to state 74
 
-state 125
+state 123
 
     (56) escritura -> WRITE APAR escriturap . escriturapp CPAR PTCOMA
     (61) escriturapp -> . COMA
     (62) escriturapp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     COMA            shift and go to state 170
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     escriturapp                    shift and go to state 169
     empty                          shift and go to state 171
 
-state 126
+state 124
 
     (57) escriturap -> STRING .
 
@@ -2492,7 +2501,7 @@ state 126
     CPAR            reduce using rule 57 (escriturap -> STRING .)
 
 
-state 127
+state 125
 
     (58) escriturap -> exp .
     (87) expbool -> exp . expboolp exp
@@ -2514,7 +2523,7 @@ state 127
 
     expboolp                       shift and go to state 156
 
-state 128
+state 126
 
     (59) escriturap -> expbool .
 
@@ -2522,7 +2531,7 @@ state 128
     CPAR            reduce using rule 59 (escriturap -> expbool .)
 
 
-state 129
+state 127
 
     (60) escriturap -> CTEC .
 
@@ -2530,35 +2539,35 @@ state 129
     CPAR            reduce using rule 60 (escriturap -> CTEC .)
 
 
-state 130
+state 128
 
     (63) cond -> IF APAR condp . CPAR THEN ALLA estatutos CLLA condpp
 
     CPAR            shift and go to state 172
 
 
-state 131
+state 129
 
     (64) condp -> expbool .
 
     CPAR            reduce using rule 64 (condp -> expbool .)
 
 
-state 132
+state 130
 
     (65) condp -> TRUE .
 
     CPAR            reduce using rule 65 (condp -> TRUE .)
 
 
-state 133
+state 131
 
     (66) condp -> FALSE .
 
     CPAR            reduce using rule 66 (condp -> FALSE .)
 
 
-state 134
+state 132
 
     (87) expbool -> exp . expboolp exp
     (88) expboolp -> . MAYQ
@@ -2577,42 +2586,42 @@ state 134
 
     expboolp                       shift and go to state 156
 
-state 135
+state 133
 
     (69) while -> WHILE APAR whilep . CPAR DO ALLA estatutos CLLA
 
     CPAR            shift and go to state 173
 
 
-state 136
+state 134
 
     (70) whilep -> expbool .
 
     CPAR            reduce using rule 70 (whilep -> expbool .)
 
 
-state 137
+state 135
 
     (71) whilep -> TRUE .
 
     CPAR            reduce using rule 71 (whilep -> TRUE .)
 
 
-state 138
+state 136
 
     (72) whilep -> FALSE .
 
     CPAR            reduce using rule 72 (whilep -> FALSE .)
 
 
-state 139
+state 137
 
     (73) for -> FOR ID ididx . IGUAL exp TO exp DO ALLA estatutos CLLA
 
     IGUAL           shift and go to state 174
 
 
-state 140
+state 138
 
     (75) expp -> MAS exp .
 
@@ -2643,7 +2652,7 @@ state 140
     DO              reduce using rule 75 (expp -> MAS exp .)
 
 
-state 141
+state 139
 
     (76) expp -> MENOS exp .
 
@@ -2674,7 +2683,7 @@ state 141
     DO              reduce using rule 76 (expp -> MENOS exp .)
 
 
-state 142
+state 140
 
     (79) terminop -> POR termino .
 
@@ -2705,7 +2714,7 @@ state 142
     DO              reduce using rule 79 (terminop -> POR termino .)
 
 
-state 143
+state 141
 
     (80) terminop -> DIV termino .
 
@@ -2736,48 +2745,62 @@ state 143
     DO              reduce using rule 80 (terminop -> DIV termino .)
 
 
-state 144
+state 142
 
     (11) funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA varss . ALLA estatutos CLLA funcs
 
     ALLA            shift and go to state 175
 
 
-state 145
+state 143
 
-    (33) paramsp -> COMA params .
+    (31) params -> tipo DOSPNTS ID paramsp .
 
-    CPAR            reduce using rule 33 (paramsp -> COMA params .)
+    CPAR            reduce using rule 31 (params -> tipo DOSPNTS ID paramsp .)
 
 
-state 146
+state 144
 
-    (34) paramsp -> ACOR CCOR . params
-    (31) params -> . tipo ID paramsp
+    (33) paramsp -> COMA . params
+    (31) params -> . tipo DOSPNTS ID paramsp
     (32) params -> . empty
     (26) tipo -> . INT
     (27) tipo -> . FLOAT
     (28) tipo -> . CHAR
     (29) tipo -> . STR
     (30) tipo -> . BOOL
-    (97) empty -> .
+    (98) empty -> .
 
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
     STR             shift and go to state 17
     BOOL            shift and go to state 18
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
     params                         shift and go to state 176
     tipo                           shift and go to state 38
     empty                          shift and go to state 39
 
+state 145
+
+    (34) paramsp -> ACOR . CCOR params
+
+    CCOR            shift and go to state 177
+
+
+state 146
+
+    (35) paramsp -> empty .
+
+    CPAR            reduce using rule 35 (paramsp -> empty .)
+
+
 state 147
 
     (36) asig -> ID ididx IGUAL asigpp . PTCOMA
 
-    PTCOMA          shift and go to state 177
+    PTCOMA          shift and go to state 178
 
 
 state 148
@@ -2813,19 +2836,19 @@ state 150
     (43) args -> ID ididx . argsp
     (48) argsp -> . COMA
     (49) argsp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     COMA            shift and go to state 153
-    CPAR            reduce using rule 97 (empty -> .)
+    CPAR            reduce using rule 98 (empty -> .)
 
-    argsp                          shift and go to state 178
+    argsp                          shift and go to state 179
     empty                          shift and go to state 154
 
 state 151
 
     (41) llamada -> ID APAR args CPAR . PTCOMA
 
-    PTCOMA          shift and go to state 179
+    PTCOMA          shift and go to state 180
 
 
 state 152
@@ -2866,16 +2889,16 @@ state 156
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    exp                            shift and go to state 180
+    exp                            shift and go to state 181
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -2987,7 +3010,7 @@ state 167
 
     (50) return -> RETURN APAR returnp CPAR . PTCOMA
 
-    PTCOMA          shift and go to state 181
+    PTCOMA          shift and go to state 182
 
 
 state 168
@@ -2995,19 +3018,19 @@ state 168
     (53) lectura -> READ APAR ID ididx . lecturapp CPAR PTCOMA
     (54) lecturapp -> . COMA
     (55) lecturapp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
-    COMA            shift and go to state 183
-    CPAR            reduce using rule 97 (empty -> .)
+    COMA            shift and go to state 184
+    CPAR            reduce using rule 98 (empty -> .)
 
-    lecturapp                      shift and go to state 182
-    empty                          shift and go to state 184
+    lecturapp                      shift and go to state 183
+    empty                          shift and go to state 185
 
 state 169
 
     (56) escritura -> WRITE APAR escriturap escriturapp . CPAR PTCOMA
 
-    CPAR            shift and go to state 185
+    CPAR            shift and go to state 186
 
 
 state 170
@@ -3028,14 +3051,14 @@ state 172
 
     (63) cond -> IF APAR condp CPAR . THEN ALLA estatutos CLLA condpp
 
-    THEN            shift and go to state 186
+    THEN            shift and go to state 187
 
 
 state 173
 
     (69) while -> WHILE APAR whilep CPAR . DO ALLA estatutos CLLA
 
-    DO              shift and go to state 187
+    DO              shift and go to state 188
 
 
 state 174
@@ -3048,16 +3071,16 @@ state 174
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    exp                            shift and go to state 188
+    exp                            shift and go to state 189
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
@@ -3090,7 +3113,7 @@ state 175
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 43
@@ -3103,12 +3126,12 @@ state 175
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
-    estatutos                      shift and go to state 189
+    estatutos                      shift and go to state 190
     asig                           shift and go to state 46
     llamada                        shift and go to state 47
     return                         shift and go to state 48
@@ -3125,12 +3148,35 @@ state 175
 
 state 176
 
-    (34) paramsp -> ACOR CCOR params .
+    (33) paramsp -> COMA params .
 
-    CPAR            reduce using rule 34 (paramsp -> ACOR CCOR params .)
+    CPAR            reduce using rule 33 (paramsp -> COMA params .)
 
 
 state 177
+
+    (34) paramsp -> ACOR CCOR . params
+    (31) params -> . tipo DOSPNTS ID paramsp
+    (32) params -> . empty
+    (26) tipo -> . INT
+    (27) tipo -> . FLOAT
+    (28) tipo -> . CHAR
+    (29) tipo -> . STR
+    (30) tipo -> . BOOL
+    (98) empty -> .
+
+    INT             shift and go to state 14
+    FLOAT           shift and go to state 15
+    CHAR            shift and go to state 16
+    STR             shift and go to state 17
+    BOOL            shift and go to state 18
+    CPAR            reduce using rule 98 (empty -> .)
+
+    params                         shift and go to state 191
+    tipo                           shift and go to state 38
+    empty                          shift and go to state 39
+
+state 178
 
     (36) asig -> ID ididx IGUAL asigpp PTCOMA .
 
@@ -3149,14 +3195,14 @@ state 177
     CLLA            reduce using rule 36 (asig -> ID ididx IGUAL asigpp PTCOMA .)
 
 
-state 178
+state 179
 
     (43) args -> ID ididx argsp .
 
     CPAR            reduce using rule 43 (args -> ID ididx argsp .)
 
 
-state 179
+state 180
 
     (41) llamada -> ID APAR args CPAR PTCOMA .
 
@@ -3173,9 +3219,23 @@ state 179
     CTEI            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
     CTEF            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
     CLLA            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    POR             reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    DIV             reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    CPAR            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    COMA            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    MAYQ            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    MENQ            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    MAYI            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    MENI            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    IGUALIGUAL      reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    DIF             reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    CCOR            reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    PTCOMA          reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    TO              reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
+    DO              reduce using rule 41 (llamada -> ID APAR args CPAR PTCOMA .)
 
 
-state 180
+state 181
 
     (87) expbool -> exp expboolp exp .
 
@@ -3184,7 +3244,7 @@ state 180
     PTCOMA          reduce using rule 87 (expbool -> exp expboolp exp .)
 
 
-state 181
+state 182
 
     (50) return -> RETURN APAR returnp CPAR PTCOMA .
 
@@ -3203,70 +3263,77 @@ state 181
     CLLA            reduce using rule 50 (return -> RETURN APAR returnp CPAR PTCOMA .)
 
 
-state 182
+state 183
 
     (53) lectura -> READ APAR ID ididx lecturapp . CPAR PTCOMA
 
-    CPAR            shift and go to state 190
+    CPAR            shift and go to state 192
 
 
-state 183
+state 184
 
     (54) lecturapp -> COMA .
 
     CPAR            reduce using rule 54 (lecturapp -> COMA .)
 
 
-state 184
+state 185
 
     (55) lecturapp -> empty .
 
     CPAR            reduce using rule 55 (lecturapp -> empty .)
 
 
-state 185
+state 186
 
     (56) escritura -> WRITE APAR escriturap escriturapp CPAR . PTCOMA
 
-    PTCOMA          shift and go to state 191
-
-
-state 186
-
-    (63) cond -> IF APAR condp CPAR THEN . ALLA estatutos CLLA condpp
-
-    ALLA            shift and go to state 192
+    PTCOMA          shift and go to state 193
 
 
 state 187
 
-    (69) while -> WHILE APAR whilep CPAR DO . ALLA estatutos CLLA
+    (63) cond -> IF APAR condp CPAR THEN . ALLA estatutos CLLA condpp
 
-    ALLA            shift and go to state 193
+    ALLA            shift and go to state 194
 
 
 state 188
 
-    (73) for -> FOR ID ididx IGUAL exp . TO exp DO ALLA estatutos CLLA
+    (69) while -> WHILE APAR whilep CPAR DO . ALLA estatutos CLLA
 
-    TO              shift and go to state 194
+    ALLA            shift and go to state 195
 
 
 state 189
 
-    (11) funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos . CLLA funcs
+    (73) for -> FOR ID ididx IGUAL exp . TO exp DO ALLA estatutos CLLA
 
-    CLLA            shift and go to state 195
+    TO              shift and go to state 196
 
 
 state 190
 
-    (53) lectura -> READ APAR ID ididx lecturapp CPAR . PTCOMA
+    (11) funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos . CLLA funcs
 
-    PTCOMA          shift and go to state 196
+    CLLA            shift and go to state 197
 
 
 state 191
+
+    (34) paramsp -> ACOR CCOR params .
+
+    CPAR            reduce using rule 34 (paramsp -> ACOR CCOR params .)
+
+
+state 192
+
+    (53) lectura -> READ APAR ID ididx lecturapp CPAR . PTCOMA
+
+    PTCOMA          shift and go to state 198
+
+
+state 193
 
     (56) escritura -> WRITE APAR escriturap escriturapp CPAR PTCOMA .
 
@@ -3285,7 +3352,7 @@ state 191
     CLLA            reduce using rule 56 (escritura -> WRITE APAR escriturap escriturapp CPAR PTCOMA .)
 
 
-state 192
+state 194
 
     (63) cond -> IF APAR condp CPAR THEN ALLA . estatutos CLLA condpp
     (15) estatutos -> . asig estatutop
@@ -3312,7 +3379,7 @@ state 192
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 43
@@ -3325,12 +3392,12 @@ state 192
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
-    estatutos                      shift and go to state 197
+    estatutos                      shift and go to state 199
     asig                           shift and go to state 46
     llamada                        shift and go to state 47
     return                         shift and go to state 48
@@ -3345,7 +3412,7 @@ state 192
     factorp                        shift and go to state 63
     empty                          shift and go to state 66
 
-state 193
+state 195
 
     (69) while -> WHILE APAR whilep CPAR DO ALLA . estatutos CLLA
     (15) estatutos -> . asig estatutop
@@ -3372,7 +3439,7 @@ state 193
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 43
@@ -3385,12 +3452,12 @@ state 193
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
-    estatutos                      shift and go to state 198
+    estatutos                      shift and go to state 200
     asig                           shift and go to state 46
     llamada                        shift and go to state 47
     return                         shift and go to state 48
@@ -3405,7 +3472,7 @@ state 193
     factorp                        shift and go to state 63
     empty                          shift and go to state 66
 
-state 194
+state 196
 
     (73) for -> FOR ID ididx IGUAL exp TO . exp DO ALLA estatutos CLLA
     (74) exp -> . termino expp
@@ -3415,35 +3482,35 @@ state 194
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    ID              reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-    exp                            shift and go to state 199
+    exp                            shift and go to state 201
     termino                        shift and go to state 61
     factor                         shift and go to state 62
     factorp                        shift and go to state 63
     empty                          shift and go to state 66
 
-state 195
+state 197
 
     (11) funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA . funcs
     (11) funcs -> . FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs
     (12) funcs -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
     FUNCTION        shift and go to state 9
-    MAIN            reduce using rule 97 (empty -> .)
+    MAIN            reduce using rule 98 (empty -> .)
 
-    funcs                          shift and go to state 200
+    funcs                          shift and go to state 202
     empty                          shift and go to state 10
 
-state 196
+state 198
 
     (53) lectura -> READ APAR ID ididx lecturapp CPAR PTCOMA .
 
@@ -3462,60 +3529,60 @@ state 196
     CLLA            reduce using rule 53 (lectura -> READ APAR ID ididx lecturapp CPAR PTCOMA .)
 
 
-state 197
+state 199
 
     (63) cond -> IF APAR condp CPAR THEN ALLA estatutos . CLLA condpp
 
-    CLLA            shift and go to state 201
-
-
-state 198
-
-    (69) while -> WHILE APAR whilep CPAR DO ALLA estatutos . CLLA
-
-    CLLA            shift and go to state 202
-
-
-state 199
-
-    (73) for -> FOR ID ididx IGUAL exp TO exp . DO ALLA estatutos CLLA
-
-    DO              shift and go to state 203
+    CLLA            shift and go to state 203
 
 
 state 200
+
+    (69) while -> WHILE APAR whilep CPAR DO ALLA estatutos . CLLA
+
+    CLLA            shift and go to state 204
+
+
+state 201
+
+    (73) for -> FOR ID ididx IGUAL exp TO exp . DO ALLA estatutos CLLA
+
+    DO              shift and go to state 205
+
+
+state 202
 
     (11) funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs .
 
     MAIN            reduce using rule 11 (funcs -> FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs .)
 
 
-state 201
+state 203
 
     (63) cond -> IF APAR condp CPAR THEN ALLA estatutos CLLA . condpp
     (67) condpp -> . ELSE ALLA estatutos CLLA
     (68) condpp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
-    ELSE            shift and go to state 205
-    ID              reduce using rule 97 (empty -> .)
-    RETURN          reduce using rule 97 (empty -> .)
-    READ            reduce using rule 97 (empty -> .)
-    WRITE           reduce using rule 97 (empty -> .)
-    IF              reduce using rule 97 (empty -> .)
-    WHILE           reduce using rule 97 (empty -> .)
-    FOR             reduce using rule 97 (empty -> .)
-    APAR            reduce using rule 97 (empty -> .)
-    MAS             reduce using rule 97 (empty -> .)
-    MENOS           reduce using rule 97 (empty -> .)
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
-    CLLA            reduce using rule 97 (empty -> .)
+    ELSE            shift and go to state 207
+    ID              reduce using rule 98 (empty -> .)
+    RETURN          reduce using rule 98 (empty -> .)
+    READ            reduce using rule 98 (empty -> .)
+    WRITE           reduce using rule 98 (empty -> .)
+    IF              reduce using rule 98 (empty -> .)
+    WHILE           reduce using rule 98 (empty -> .)
+    FOR             reduce using rule 98 (empty -> .)
+    APAR            reduce using rule 98 (empty -> .)
+    MAS             reduce using rule 98 (empty -> .)
+    MENOS           reduce using rule 98 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
+    CLLA            reduce using rule 98 (empty -> .)
 
-    condpp                         shift and go to state 204
-    empty                          shift and go to state 206
+    condpp                         shift and go to state 206
+    empty                          shift and go to state 208
 
-state 202
+state 204
 
     (69) while -> WHILE APAR whilep CPAR DO ALLA estatutos CLLA .
 
@@ -3534,14 +3601,14 @@ state 202
     CLLA            reduce using rule 69 (while -> WHILE APAR whilep CPAR DO ALLA estatutos CLLA .)
 
 
-state 203
+state 205
 
     (73) for -> FOR ID ididx IGUAL exp TO exp DO . ALLA estatutos CLLA
 
-    ALLA            shift and go to state 207
+    ALLA            shift and go to state 209
 
 
-state 204
+state 206
 
     (63) cond -> IF APAR condp CPAR THEN ALLA estatutos CLLA condpp .
 
@@ -3560,14 +3627,14 @@ state 204
     CLLA            reduce using rule 63 (cond -> IF APAR condp CPAR THEN ALLA estatutos CLLA condpp .)
 
 
-state 205
+state 207
 
     (67) condpp -> ELSE . ALLA estatutos CLLA
 
-    ALLA            shift and go to state 208
+    ALLA            shift and go to state 210
 
 
-state 206
+state 208
 
     (68) condpp -> empty .
 
@@ -3586,7 +3653,7 @@ state 206
     CLLA            reduce using rule 68 (condpp -> empty .)
 
 
-state 207
+state 209
 
     (73) for -> FOR ID ididx IGUAL exp TO exp DO ALLA . estatutos CLLA
     (15) estatutos -> . asig estatutop
@@ -3613,7 +3680,7 @@ state 207
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 43
@@ -3626,13 +3693,13 @@ state 207
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
     exp                            shift and go to state 54
-    estatutos                      shift and go to state 209
+    estatutos                      shift and go to state 211
     asig                           shift and go to state 46
     llamada                        shift and go to state 47
     return                         shift and go to state 48
@@ -3646,7 +3713,7 @@ state 207
     factorp                        shift and go to state 63
     empty                          shift and go to state 66
 
-state 208
+state 210
 
     (67) condpp -> ELSE ALLA . estatutos CLLA
     (15) estatutos -> . asig estatutop
@@ -3673,7 +3740,7 @@ state 208
     (84) factorp -> . MAS
     (85) factorp -> . MENOS
     (86) factorp -> . empty
-    (97) empty -> .
+    (98) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 43
@@ -3686,12 +3753,12 @@ state 208
     APAR            shift and go to state 44
     MAS             shift and go to state 64
     MENOS           shift and go to state 65
-    CTEI            reduce using rule 97 (empty -> .)
-    CTEF            reduce using rule 97 (empty -> .)
+    CTEI            reduce using rule 98 (empty -> .)
+    CTEF            reduce using rule 98 (empty -> .)
 
-  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 98 (empty -> .) ]
 
-    estatutos                      shift and go to state 210
+    estatutos                      shift and go to state 212
     asig                           shift and go to state 46
     llamada                        shift and go to state 47
     return                         shift and go to state 48
@@ -3706,21 +3773,21 @@ state 208
     factorp                        shift and go to state 63
     empty                          shift and go to state 66
 
-state 209
+state 211
 
     (73) for -> FOR ID ididx IGUAL exp TO exp DO ALLA estatutos . CLLA
 
-    CLLA            shift and go to state 211
+    CLLA            shift and go to state 213
 
 
-state 210
+state 212
 
     (67) condpp -> ELSE ALLA estatutos . CLLA
 
-    CLLA            shift and go to state 212
+    CLLA            shift and go to state 214
 
 
-state 211
+state 213
 
     (73) for -> FOR ID ididx IGUAL exp TO exp DO ALLA estatutos CLLA .
 
@@ -3739,7 +3806,7 @@ state 211
     CLLA            reduce using rule 73 (for -> FOR ID ididx IGUAL exp TO exp DO ALLA estatutos CLLA .)
 
 
-state 212
+state 214
 
     (67) condpp -> ELSE ALLA estatutos CLLA .
 
@@ -3775,10 +3842,11 @@ WARNING: shift/reduce conflict for MENOS in state 61 resolved as shift
 WARNING: shift/reduce conflict for ID in state 72 resolved as shift
 WARNING: shift/reduce conflict for CTEI in state 72 resolved as shift
 WARNING: shift/reduce conflict for CTEF in state 72 resolved as shift
+WARNING: shift/reduce conflict for APAR in state 103 resolved as shift
 WARNING: shift/reduce conflict for ID in state 175 resolved as shift
-WARNING: shift/reduce conflict for ID in state 192 resolved as shift
-WARNING: shift/reduce conflict for ID in state 193 resolved as shift
-WARNING: shift/reduce conflict for ID in state 207 resolved as shift
-WARNING: shift/reduce conflict for ID in state 208 resolved as shift
-WARNING: reduce/reduce conflict in state 112 resolved using rule (ctes -> ID)
-WARNING: rejected rule (empty -> <empty>) in state 112
+WARNING: shift/reduce conflict for ID in state 194 resolved as shift
+WARNING: shift/reduce conflict for ID in state 195 resolved as shift
+WARNING: shift/reduce conflict for ID in state 209 resolved as shift
+WARNING: shift/reduce conflict for ID in state 210 resolved as shift
+WARNING: reduce/reduce conflict in state 110 resolved using rule (ctes -> ID)
+WARNING: rejected rule (empty -> <empty>) in state 110

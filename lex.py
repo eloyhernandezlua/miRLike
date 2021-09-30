@@ -59,7 +59,7 @@ tokens = [
 
 
 #types
-t_ignore = "[\t '' \n]"
+t_ignore = "\t | '' | \n"
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -184,7 +184,7 @@ def p_tipo(t):
             | BOOL
     '''
 def p_params(t):
-    '''params : tipo ID paramsp
+    '''params : tipo DOSPNTS ID paramsp
               | empty
     '''
 
@@ -325,6 +325,7 @@ def p_ctes(t):
     '''ctes : ID
             | CTEI
             | CTEF
+            | llamada
     '''
 
 
@@ -339,8 +340,7 @@ def p_error(t):
 
 import ply.yacc as yacc
 parser = yacc.yacc()
-
 f = open("./pass.txt", "r")
 input = f.read()
 print(input)
-parser.parse(input, debug=0)
+parser.parse(input, debug=1)
