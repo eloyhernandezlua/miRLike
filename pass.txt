@@ -34,7 +34,7 @@ main(){
     }
     p = media(arreglo);
     while(i > 0) do {
-        calcula(p - i)
+        calcula(p - i);
         j = fact(arreglo[i]);
         write(j, i);
         i = i + 1;
