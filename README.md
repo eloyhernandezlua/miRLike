@@ -2,7 +2,7 @@
 Proyecto materia compiladores
 
 
-###Avance 1
+### Avance 1
 
 En este avance se presenta el léxico y las reglas gramaticales que va a seguir el lenguaje, cuenta con un archivo de prueba que valida su funcionamiento, para correrlo únicamente es necesario correr: 
 
