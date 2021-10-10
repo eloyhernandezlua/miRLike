@@ -13,8 +13,9 @@ currentType = ''
 usedNamesGlobal = []
 usedNamesLocal = []
 
-pilaO = []
+PilaO = []
 POoper = []
+PTypes = []
 
 ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
@@ -40,6 +41,12 @@ def ERROR(tipo, at = ""):
         extra = "TIPO DE DATO NO ACEPTADO"
     elif tipo == "tipos distintos":
         extra = "TYPE MISMATCH"
+    elif tipo == "no existe":
+        extra = "NO EXISTE"
+    elif tipo == "no value":
+        extra = "VARIABLE SIN VALOR"
+    elif tipo == "no tipo":
+        extra = "VARIABLE SIN TIPO"
 
     print("ERROR: " + extra + "\n @ --> " + at)
     sys.exit()
@@ -182,7 +189,39 @@ def asignar(val1, val2):
         validateTypes(globalVariables[val1]['tipo'], tipoVal2)
         globalVariables[val1]['value'] = val2
 
+def isVar(val):
+    if val in globalVariables or val in localVariables:
+        return True
+    else:
+        return False
 
+def getVal(var):
+    if var in localVariables:
+        try: 
+            return localVariables[var]['value']
+        except:
+            ERROR("no value", var)
+    elif var in globalVariables:
+        try: 
+            return globalVariables[var]['value']
+        except:
+            ERROR("no value", var)
+    else:
+        ERROR("no existe", var)
+
+def getType(var):
+    if var in localVariables:
+        try: 
+            return localVariables[var]['tipo']
+        except:
+            ERROR("no tipo", var)
+    elif var in globalVariables:
+        try: 
+            return globalVariables[var]['tipo']
+        except:
+            ERROR("no tipo", var)
+    else:
+        ERROR("no existe", var)
 
 #*********************************
 #reserved words
@@ -667,6 +706,11 @@ def p_ctes(t):
             | CTEI
             | CTEF
     '''
+    currentType = getValType(t[1])
+    #TODO resolver dudas sobre los PN
+    # if isVar:
+    #     PilaO.append()
+
 # id, indice vector o llamada de función
     # se usa factorp porque tiene exactamente la misma función, no altera en nada
 # constante int
