@@ -183,6 +183,7 @@ def asignar(val1, val2):
         globalVariables[val1]['value'] = val2
 
 
+
 #*********************************
 #reserved words
 
