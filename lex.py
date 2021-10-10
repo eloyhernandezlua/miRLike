@@ -1,4 +1,186 @@
 import re
+import sys 
+
+#********************************
+#Global variables
+mainFuncTable = {}
+globalVariables = {}
+localVariables = {}
+
+currentScope = 'g'
+currentType = ''
+
+usedNamesGlobal = []
+usedNamesLocal = []
+
+pilaO = []
+POoper = []
+
+ariops = ['+', '-', '*', '/']
+relops = ['>', '<', '>=', '<=', '==', '!=']
+logicops = ['&&', '||']
+
+
+#***************************
+#Fucniones de  manejo semántico
+
+def ERROR(tipo, at = ""):
+    
+    extra = ""
+
+    if tipo == "funcion repetida":
+        extra = "FUNCION EXISTENTE REPETIDA"
+    elif tipo == "nombre repetido":
+        extra = "ID DE PROGRAMA O VARIABLE REPETIDO"
+    elif tipo == "invalid op":
+        extra = "INVALID OPERATION, TYPE MISMATCH"
+    elif tipo == "variable repetida":
+        extra = "VARIABLE PREVIAMENTE DECLARADA"
+    elif tipo == "mal tipo":
+        extra = "TIPO DE DATO NO ACEPTADO"
+    elif tipo == "tipos distintos":
+        extra = "TYPE MISMATCH"
+
+    print("ERROR: " + extra + "\n @ --> " + at)
+    sys.exit()
+
+
+def insertToFuncTable(id, tipo, scope, vars):
+    if id in mainFuncTable:
+        ERROR("funcion repetida")
+    elif id in usedNamesGlobal:
+        ERROR("nombre repetido")
+    else:   
+        mainFuncTable[id] = {'tipo' : tipo, 'scope': scope, 'vars': vars}
+        usedNamesGlobal.append(id)
+
+
+## Baila mi hija con el señor ## 
+
+def isValidOp(tipo1, tipo2, op):
+    #tener los tipos y operación que se quiere hacer para ver si el válida
+    validate = str(str(tipo1)+str(tipo2)+str(op))
+
+    #combinaciones válidas
+    valids = [
+        'intint+',
+        'intint-',
+        'intint*',
+        'intint/',
+        'intint>',
+        'intint<',
+        'intint>=',
+        'intint<=',
+        'intint==',
+        'intint!=',
+        'intfloat+',
+        'intfloat-',
+        'intfloat*',
+        'intfloat/',
+        'intfloat>',
+        'intfloat<',
+        'intfloat>=',
+        'intfloat<=',
+        'intfloat==',
+        'intfloat!=',
+        'floatfloat+',
+        'floatfloat-',
+        'floatfloat*',
+        'floatfloat/',
+        'floatfloat>',
+        'floatfloat<',
+        'floatfloat>=',
+        'floatfloat<=',
+        'floatfloat==',
+        'floatfloat!=',
+        'charchar==',
+        'charchar!=',
+        'stringstring==',
+        'stringstring!=',
+        'boolbool==',
+        'boolbool!=',
+        'boolbool&&',
+        'boolbool||',
+    ]
+    if validate not in valids:
+        ERROR("invalid op", validate)
+    
+    #regresar el tipo de la operacion
+    if op in ariops:
+        if tipo1 == 'int' and tipo2 == 'int':
+            return 'int'
+        elif tipo1 == 'float' and tipo2 == 'float':
+            return 'float'
+        elif (tipo1 == 'float' and tipo2 == 'int') or (tipo1 == 'int' and tipo2 == 'float'):
+            return 'float'
+    elif op in relops or op in logicops:
+        return 'bool'
+
+
+
+def insertToVarTable(id, tipo):
+
+    if currentScope == 'g':
+        if id in usedNamesGlobal:
+            ERROR("nombre repetido", str(id + " " + currentScope))
+        if id in globalVariables:
+            ERROR("variable repetida", id)
+        globalVariables['id'] = {'tipo': tipo}
+        usedNamesGlobal.append(id)
+
+    elif currentScope == 'l':
+        if id in usedNamesLocal:
+            ERROR("nombre repetido", str(id + " " + currentScope))
+        if id in localVariables:
+            ERROR("variable repetida", id)
+        localVariables['id'] = {'tipo': tipo}
+        usedNamesLocal.append(id)
+
+def validateTypes(tipo1, tipo2):
+    if tipo1 != tipo2:
+        ERROR("tipos distintos", str(tipo1 + " --- " + tipo2))
+
+def getValType(val):
+
+    if val in localVariables:
+        return localVariables[val]['tipo']
+
+    if val in globalVariables:
+        return globalVariables[val]['tipo']
+
+    if val in mainFuncTable:
+        return mainFuncTable[val]['tipo']
+
+    if type(val) == int:
+        return 'int'
+    elif type(val) == float:
+        return 'float'
+    elif type(val) == chr:
+        return 'char'
+    elif type(val) == bool:
+        return 'bool'
+    elif type(val) == str:
+        return 'string'
+    
+    ERROR("mal tipo", val)
+
+def asignar(val1, val2):
+    if val1 not in localVariables and val1 not in globalVariables:
+        ERROR("no existe", val1)
+    tipoVal2 = getValType(val2)
+    if currentScope == 'l':
+        
+        if val1 in localVariables:
+            validateTypes(localVariables[val1]['tipo'], tipoVal2)
+            localVariables[val1]['value'] = val2
+        else: 
+            validateTypes(globalVariables[val1]['tipo'], tipoVal2)
+            globalVariables[val1]['value'] = val2
+
+    elif currentScope == 'g':
+        validateTypes(globalVariables[val1]['tipo'], tipoVal2)
+        globalVariables[val1]['value'] = val2
+
 
 #*********************************
 #reserved words
@@ -130,8 +312,13 @@ lexer = lex.lex()
 #Gramatic rules
 
 def p_program(t):
-    'program : PROGRAM ID PTCOMA varss funcs MAIN APAR CPAR ALLA estatutos CLLA'
+    'program : PROGRAM agregarTablaFunciones varss funcs MAIN APAR CPAR ALLA estatutos CLLA'
     print('Código aceptado')
+
+def p_agregarTablaFunciones(t):
+    'agregarTablaFunciones : ID PTCOMA'
+    insertToFuncTable(t[1], 'void', currentScope, globalVariables)
+
 # estructura mínima de cualquier programa, imprime mensaje si es válida la sintaxis
 
 #------------------------------------
@@ -142,14 +329,13 @@ def p_varss(t):
 # palabra reservada de vars para iniciar declaraciones
 
 def p_vars(t):
-    '''vars : tipo DOSPNTS varsp varspp vars
+    '''vars : tipo DOSPNTS ID varsppp varspp vars
             | empty
     '''
+    if len(t) > 2:
+        currentType = t[1]
+        insertToVarTable(t[3], t[1])
 # formato tipo : id, id[n] ;
-
-def p_varsp(t):
-    'varsp : ID varsppp'
-# recibir id y mandar a ver si es sencillo o con dimensión
 
 def p_varsppp(t):
     '''varsppp : ACOR CTEI CCOR
@@ -160,16 +346,31 @@ def p_varsppp(t):
 
 def p_varspp(t):
     '''varspp : PTCOMA
-              | COMA varsp varspp
+              | COMA ID varsppp varspp
     '''
+    if len(t) > 2:
+        insertToVarTable(t[2], currentType)
+
 # fin de las declaraciones
 # múltiples variables del mismo tipo
 
 #------------------------------------
 def p_funcs(t):
-    '''funcs : FUNCTION funcsp ID APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs
+    '''funcs : FUNCTION funcsp ID funcspp
              | empty
     '''
+    if len(t) > 2: 
+        currentScope = 'l'
+        insertToFuncTable(t[3], currentType, currentScope, localVariables) #Supongo que aquí no debe ser localVariables, sino un pointer a la variable
+    else:
+        currentScope= 'g'
+        localVariables = {}
+        usedNamesLocal = []
+
+def p_funcspp(t):
+    'funcspp : APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs'
+    currentScope = 'l'
+
 # formato --> function void/tipo nombre función(int: id, float: id[]) 
 # / espacio de declaracion de variables /
 #{ Estatutos }
@@ -179,6 +380,9 @@ def p_funcsp(t):
     '''funcsp : VOID
               | tipo
     '''
+    currentScope = 'l'
+    currentType = t[1]
+
 # para funciones void
 # funciones no void
 
@@ -212,6 +416,8 @@ def p_tipo(t):
             | STR
             | BOOL
     '''
+    t[0] = t[1]
+
 # tipos soportados por el lenguaje
 
 #------------------------------------
@@ -219,6 +425,9 @@ def p_params(t):
     '''params : tipo DOSPNTS ID ididx paramsp
               | empty
     '''
+    currentScope = 'l'
+    insertToVarTable(t[3], t[1])
+
 # parametros para las funciones  --> int: var1, float: var2[]
 
 def p_paramsp(t):
@@ -231,6 +440,8 @@ def p_paramsp(t):
 #------------------------------------
 def p_asig(t):
     'asig : ID ididx IGUAL asigpp PTCOMA'
+    asignar(t[1], t[4])
+
 # asignación id = expresion, expresion booleana, char, string y arreglos
 # id = 123 ;
 # id = 123.21 ;
@@ -245,11 +456,12 @@ def p_asig(t):
 
 def p_asigp(t):
     '''asigp : exp asigppp
-             | expbool asigppp
              | CTEC asigppp
              | STRING asigppp
              | empty
     '''
+    
+
 # formar vectores de cualquier tipo de dato
 # ultimo caso para declarar un vector vacio
 
@@ -264,11 +476,12 @@ def p_asigppp(t):
 
 def p_asigpp(t):
     '''asigpp : exp
-              | expbool
               | CTEC
               | STRING
               | ACOR asigp CCOR
     '''
+    if len(t) < 3:
+        t[0] = t[1]
 # asignaciones para todo tipo de dato y arreglos
 
 #------------------------------------
@@ -288,7 +501,6 @@ def p_llamada(t):
 def p_args(t):
     '''args : ctes argsp
             | exp argsp
-            | expbool argsp
             | STRING argsp
             | CTEC argsp
     '''
@@ -326,7 +538,6 @@ def p_escritura(t):
 def p_escriturap(t):
     '''escriturap : STRING
                   | exp
-                  | expbool
                   | CTEC
     '''
 # todos los tipos de datos
@@ -343,7 +554,7 @@ def p_cond(t):
 # estructura sencilla de if con opcional de un else
 
 def p_condp(t):
-    '''condp : expbool
+    '''condp : exp
              | TRUE
              | FALSE
     '''
@@ -367,13 +578,44 @@ def p_for(t):
 # estructura básica de un for --> for i ([0]) = 0 to 10 do { estatutos }
 
 #------------------------------------
+
 def p_exp(t):
-    'exp : termino expp'
-# terminos de menor jerarquía
+    'exp : texp expp'
 
 def p_expp(t):
-    '''expp : MAS exp
-            | MENOS exp
+    '''expp : OR exp
+            | empty
+    '''
+
+def p_texp(t):
+    'texp : gexp texpp'
+
+def p_texpp(t):
+    '''texpp : AND texp
+             | empty
+    '''
+
+def p_gexp(t):
+    'gexp : mexp gexpp'
+
+def p_gexpp(t):
+    '''gexpp : MAYQ mexp
+             | MENQ mexp
+             | MAYI mexp
+             | MENI mexp
+             | IGUALIGUAL mexp
+             | DIF mexp
+             | empty
+    '''
+
+
+def p_mexp(t):
+    'mexp : termino mexpp'
+# terminos de menor jerarquía
+
+def p_mexpp(t):
+    '''mexpp : MAS mexp
+            | MENOS mexp
             | empty
     '''
 # solo sumas o restas de terminos
@@ -416,29 +658,6 @@ def p_factorpp(t):
     '''
 # múltiples parámetros
 # salir de bucle
-
-#--------------------
-def p_expbool(t):
-    'expbool : exp expboolp exp expboolpp'
-# expresion operador de booleanos expresion y ver si hay multiples condiciones
-
-def p_expboolp(t):
-    '''expboolp : MAYQ
-                | MENQ
-                | MAYI
-                | MENI
-                | IGUALIGUAL
-                | DIF
-    '''
-# operadores booleanos
-
-def p_expboolpp(t):
-    '''expboolpp : AND expbool
-                 | OR expbool
-                 | NOT expbool
-                 | empty
-    '''
-# soportar múltiples operaciones booleanas
 
 #----------------------------------
 def p_ctes(t):

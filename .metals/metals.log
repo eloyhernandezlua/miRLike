@@ -2,3 +2,5 @@
 [0m2021.09.27 17:27:08 INFO  time: initialize in 6.25s[0m
 [0m2021.09.27 17:27:08 WARN  Build server is not auto-connectable.[0m
 [0m2021.09.27 17:27:08 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+oct. 08, 2021 7:21:34 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
