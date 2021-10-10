@@ -118,19 +118,20 @@ def isValidOp(tipo1, tipo2, op):
 
 
 
-def insertToVarTable(id, tipo):
+def insertToVarTable(id, tipo, scope):
 
-    if currentScope == 'g':
+    if scope == 'g':
         if id in usedNamesGlobal:
-            ERROR("nombre repetido", str(id + " " + currentScope))
+            print(usedNamesGlobal)
+            ERROR("nombre repetido", str(id + " " + scope))
         if id in globalVariables:
             ERROR("variable repetida", id)
         globalVariables['id'] = {'tipo': tipo}
         usedNamesGlobal.append(id)
 
-    elif currentScope == 'l':
+    elif scope == 'l':
         if id in usedNamesLocal:
-            ERROR("nombre repetido", str(id + " " + currentScope))
+            ERROR("nombre repetido", str(id + " " + scope))
         if id in localVariables:
             ERROR("variable repetida", id)
         localVariables['id'] = {'tipo': tipo}
@@ -334,7 +335,7 @@ def p_vars(t):
     '''
     if len(t) > 2:
         currentType = t[1]
-        insertToVarTable(t[3], t[1])
+        insertToVarTable(t[3], t[1], currentScope)
 # formato tipo : id, id[n] ;
 
 def p_varsppp(t):
@@ -349,7 +350,7 @@ def p_varspp(t):
               | COMA ID varsppp varspp
     '''
     if len(t) > 2:
-        insertToVarTable(t[2], currentType)
+        insertToVarTable(t[2], currentType, currentScope)
 
 # fin de las declaraciones
 # múltiples variables del mismo tipo
@@ -426,7 +427,7 @@ def p_params(t):
               | empty
     '''
     currentScope = 'l'
-    insertToVarTable(t[3], t[1])
+    insertToVarTable(t[3], t[1], 'l')
 
 # parametros para las funciones  --> int: var1, float: var2[]
 
