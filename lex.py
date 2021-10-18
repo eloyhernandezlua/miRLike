@@ -129,11 +129,10 @@ def insertToVarTable(id, tipo, scope):
 
     if scope == 'g':
         if id in usedNamesGlobal:
-            print(usedNamesGlobal)
-            ERROR("nombre repetido", str(id + " " + scope))
+            ERROR("nombre repetido", str(id + " " + scope + " " + tipo))
         if id in globalVariables:
             ERROR("variable repetida", id)
-        globalVariables['id'] = {'tipo': tipo}
+        globalVariables[id] = {'tipo': tipo}
         usedNamesGlobal.append(id)
 
     elif scope == 'l':
@@ -141,7 +140,7 @@ def insertToVarTable(id, tipo, scope):
             ERROR("nombre repetido", str(id + " " + scope))
         if id in localVariables:
             ERROR("variable repetida", id)
-        localVariables['id'] = {'tipo': tipo}
+        localVariables[id] = {'tipo': tipo}
         usedNamesLocal.append(id)
 
 def validateTypes(tipo1, tipo2):
@@ -159,18 +158,28 @@ def getValType(val):
     if val in mainFuncTable:
         return mainFuncTable[val]['tipo']
 
-    if type(val) == int:
+    try: 
+        int(val)
         return 'int'
-    elif type(val) == float:
-        return 'float'
-    elif type(val) == chr:
-        return 'char'
-    elif type(val) == bool:
-        return 'bool'
-    elif type(val) == str:
-        return 'string'
+    except:
+        try:
+            float(val)
+            return 'float'
+        except:
+            try:
+                chr(val)
+                return 'char'
+            except:
+                try:
+                    bool(val)
+                    return 'bool'
+                except:
+                    try:
+                        str(val)
+                        return 'string'
+                    except:
+                        ERROR("mal tipo", val)
     
-    ERROR("mal tipo", val)
 
 def asignar(val1, val2):
     if val1 not in localVariables and val1 not in globalVariables:
