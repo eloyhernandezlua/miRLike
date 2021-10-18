@@ -22,3 +22,7 @@ Hubo cambios ligeros en las reglas de gramatica por potenciales problemas en el 
 Primeros avances para la generación de cuadruplos
 
 Lista de dudas para resolver en asesoría o clase para la proxima semana
+
+### Avance 3
+
+Ya se puede hacer la parte de manejo de expreciones con los datos reales desde el parsers, creación de la primer draft de la tabla de direcciones virtuales, asignación exitosa, probando con pass3.txt. Manejo de posibles nuevos errores. Mi compu murió esta seamana y perdí avances de la generación de cuadruplos, pero ya es cosa de reescibirlo, también se agregó la sección de project en GITHUB para tener un mejor control de lo que me falta y que hacer en cada avance
