@@ -1,6 +1,6 @@
 Program MyRlike;
 VARS
-    int: i, j, p, arreglo[10];
+    int: i;
     float: valor;
 main(){
     i = 12;

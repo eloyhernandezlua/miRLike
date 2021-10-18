@@ -3,26 +3,42 @@ import sys
 
 #********************************
 #Global variables
+print("creando variables globales \n")
 mainFuncTable = {}
 globalVariables = {}
 localVariables = {}
 
+print("creando scope y tipo default\n")
 currentScope = 'g'
 currentType = ''
 
+print("vaciando lista de nombres usados\n")
 usedNamesGlobal = []
 usedNamesLocal = []
 
+print("limpiando pilas, filas y listas\n")
 PilaO = []
 POoper = []
 Ptipos = []
 Cuadruplos = [] 
+Consts = []
 tablaConstantes = {}
 
-
+print("definiendo operadores\n")
 ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
 logicops = ['&&', '||']
+
+print("iniciando contadores de direcciones virtuales\n")
+contGlobI = 2000 - 1
+contGlobF = 5000 - 1
+contLocI = 9000 - 1
+contLocF = 12000 - 1
+contTempI = 20000 - 1 
+contTempF = 23000 - 1
+contTempB = 28000 - 1
+contConstI = 30000 - 1
+contConstF = 32000 - 1
 
 #Operaciones para cuádrupolos
 Ops = {
@@ -44,6 +60,33 @@ Ops = {
     16 : 'gotoT'
 }
 
+#**********
+#Plan para manejar las vdirs ---> al 17/10
+# --------------------------
+# | globales int   | 2000  |
+# | globlaes float | 5000  |
+# | locales int    | 9000  |
+# | locales float  | 12000 |
+# | temp int       | 20000 |
+# | temp float     | 23000 | 
+# | temp bool      | 28000 | 
+# | const int      | 30000 |
+# | const flot     | 32000 |
+# -------------------------- 
+
+
+
+def getVdirCTE(v, ci, cf):
+    if type(v) == int:
+        contConstI = ci + 1
+        return contConstI
+    elif type(v) == float:
+        contConstF = cf + 1
+        return contConstF
+    else: 
+        ERROR("type error", str(v))
+
+ 
 
 #***************************
 #Fucniones de  manejo semántico
@@ -70,6 +113,8 @@ def ERROR(tipo, at = ""):
         extra = "VARIABLE SIN VALOR"
     elif tipo == "no tipo":
         extra = "VARIABLE SIN TIPO"
+    elif tipo == "type error":
+        extra = "ERROR EN TIPO DE DATO"
 
     print("ERROR: " + extra + "\n @ --> " + at)
     sys.exit()
@@ -453,8 +498,9 @@ def p_funcsp(t):
     '''funcsp : VOID
               | tipo
     '''
-    currentScope = 'l'
     currentType = t[1]
+    currentScope = 'l'
+    
 
 # para funciones void
 # funciones no void
@@ -547,9 +593,7 @@ def p_asigpp(t):
               | ACOR asigp CCOR
     '''
     if len(t) < 3:
-        print(t)
-        #print("\n\n\n--------> " + t[1] + "\n\n\n<----------------")
-        #t[0] = t[1]
+        t[0] = t[1]
 # asignaciones para todo tipo de dato y arreglos
 
 #------------------------------------
@@ -648,6 +692,7 @@ def p_for(t):
 
 def p_exp(t):
     'exp : texp expp'
+    t[0] = t[1]
 
 def p_expp(t):
     '''expp : OR exp
@@ -658,6 +703,7 @@ def p_expp(t):
 
 def p_texp(t):
     'texp : gexp texpp'
+    t[0] = t[1]
 
 def p_texpp(t):
     '''texpp : AND texp
@@ -668,6 +714,7 @@ def p_texpp(t):
 
 def p_gexp(t):
     'gexp : mexp gexpp'
+    t[0] = t[1]
 
 def p_gexpp(t):
     '''gexpp : MAYQ mexp
@@ -694,6 +741,7 @@ def p_gexpp(t):
 
 def p_mexp(t):
     'mexp : termino mexpp'
+    t[0] = t[1]
 # terminos de menor jerarquía
 
 def p_mexpp(t):
@@ -710,6 +758,7 @@ def p_mexpp(t):
 #------------------------------------
 def p_termino(t):
     'termino : factor terminop'
+    t[0] = t[1]
 # segundo nivel de jerarquía
 
 def p_terminop(t):
@@ -758,11 +807,9 @@ def p_ctes(t):
             | CTEI
             | CTEF
     '''
-    #currentType = getValType(t[1])
-    #TODO resolver dudas sobre los PN
-    # if isVar:
-    #     PilaO.append()
-    t[0] = t[1]
+    if len(t) == 2:
+        tablaConstantes[t[1]] = getVdirCTE(t[1], contConstI, contConstF)
+        t[0] = t[1]
 
 # id, indice vector o llamada de función
     # se usa factorp porque tiene exactamente la misma función, no altera en nada

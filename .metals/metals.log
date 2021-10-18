@@ -4,3 +4,22 @@
 [0m2021.09.27 17:27:08 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
 oct. 08, 2021 7:21:34 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFORMACIÓN: Unsupported notification method: $/setTrace
+[0m2021.10.13 09:07:47 INFO  shutting down Metals[0m
+[0m2021.10.15 10:51:41 INFO  Started: Metals version 0.10.7 in workspace '/Users/innovationexso/Proyecto_Compiladores' for client Visual Studio Code 1.61.1.[0m
+[0m2021.10.15 10:51:48 INFO  time: initialize in 7.53s[0m
+[0m2021.10.15 10:51:49 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.15 10:51:49 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.10.15 11:53:44 INFO  Started: Metals version 0.10.7 in workspace '/Users/innovationexso/Proyecto_Compiladores' for client Visual Studio Code 1.61.1.[0m
+[0m2021.10.15 11:53:52 INFO  time: initialize in 8.25s[0m
+[0m2021.10.15 11:53:57 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.15 11:53:57 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.10.15 14:55:42 INFO  Started: Metals version 0.10.7 in workspace '/Users/innovationexso/Proyecto_Compiladores' for client Visual Studio Code 1.61.1.[0m
+[0m2021.10.15 14:55:45 INFO  time: initialize in 3s[0m
+[0m2021.10.15 14:55:49 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.15 14:55:49 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.10.17 20:45:20 INFO  Started: Metals version 0.10.7 in workspace '/Users/innovationexso/Proyecto_Compiladores' for client Visual Studio Code 1.61.1.[0m
+[0m2021.10.17 20:45:26 INFO  time: initialize in 5.95s[0m
+[0m2021.10.17 20:45:30 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.17 20:45:30 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+oct. 17, 2021 8:52:12 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
