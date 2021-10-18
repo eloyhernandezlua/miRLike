@@ -15,11 +15,34 @@ usedNamesLocal = []
 
 PilaO = []
 POoper = []
-PTypes = []
+Ptipos = []
+Cuadruplos = [] 
+tablaConstantes = {}
+
 
 ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
 logicops = ['&&', '||']
+
+#Operaciones para cuádrupolos
+Ops = {
+    1 : '+',
+    2 : '-',
+    3 : '*',
+    4 : '/',
+    5 : "==",
+    6 : '<',
+    7 : '>',
+    8 : '<=',
+    9 : ' >=',
+    10 : '!=',
+    11 : '=',
+    12 : 'print',
+    13 : 'read',
+    14 : 'goto',
+    15 : 'gotoF',
+    16 : 'gotoT'
+}
 
 
 #***************************
@@ -463,8 +486,6 @@ def p_tipo(t):
     '''tipo : INT
             | FLOAT
             | CHAR
-            | STR
-            | BOOL
     '''
     t[0] = t[1]
 
@@ -498,16 +519,12 @@ def p_asig(t):
 # id = var1 ;
 # id = var1[2] ;
 # id = func(1, 2) ;
-# id = 12 > 32 ;
-# id = false ;
 # id = 'c' ;
-# id = "changos" ;
 # id = [1,2,3] ;
 
 def p_asigp(t):
     '''asigp : exp asigppp
              | CTEC asigppp
-             | STRING asigppp
              | empty
     '''
     
@@ -527,11 +544,12 @@ def p_asigppp(t):
 def p_asigpp(t):
     '''asigpp : exp
               | CTEC
-              | STRING
               | ACOR asigp CCOR
     '''
     if len(t) < 3:
-        t[0] = t[1]
+        print(t)
+        #print("\n\n\n--------> " + t[1] + "\n\n\n<----------------")
+        #t[0] = t[1]
 # asignaciones para todo tipo de dato y arreglos
 
 #------------------------------------
@@ -551,7 +569,6 @@ def p_llamada(t):
 def p_args(t):
     '''args : ctes argsp
             | exp argsp
-            | STRING argsp
             | CTEC argsp
     '''
 # aceptar todo tipo de dato para llamar a funciones en argumentos
@@ -636,6 +653,8 @@ def p_expp(t):
     '''expp : OR exp
             | empty
     '''
+    if t[1] == 'or':
+        t[0] = t[0] or t[2]
 
 def p_texp(t):
     'texp : gexp texpp'
@@ -644,6 +663,8 @@ def p_texpp(t):
     '''texpp : AND texp
              | empty
     '''
+    if t[1] == 'and':
+        t[0] = t[0] and t[2]
 
 def p_gexp(t):
     'gexp : mexp gexpp'
@@ -657,6 +678,18 @@ def p_gexpp(t):
              | DIF mexp
              | empty
     '''
+    if t[1] == '>':
+        t[0] = t[0] > t[2]
+    elif t[1] == '<':
+        t[0] = t[0] < t[2]
+    elif t[1] == '>=':
+        t[0] = t[0] >= t[2]
+    elif t[1] == '<=':
+        t[0] = t[0] <= t[2]
+    elif t[1] == '==':
+        t[0] = t[0] == t[2]
+    elif t[1] == '!=':
+        t[0] = t[0] != t[2]
 
 
 def p_mexp(t):
@@ -668,6 +701,10 @@ def p_mexpp(t):
             | MENOS mexp
             | empty
     '''
+    if t[1] == '+':
+        t[0] = t[0] + t[2]
+    elif t[1] == '-':
+        t[0] = t[0] - t[2]
 # solo sumas o restas de terminos
 
 #------------------------------------
@@ -680,6 +717,10 @@ def p_terminop(t):
                 | DIV termino
                 | empty
     '''
+    if t[1] == '*':
+        t[0] = t[0] * t[2]
+    elif t[1] == "/":
+        t[0] = t[0] / t[2]
 # solo multiplicaciones y divisiones de factores
 
 #--------------------------
@@ -688,6 +729,8 @@ def p_factor(t):
               | ID factorp
               | ctes
     '''
+    if len(t) == 2:
+        t[0] = t[1]
 # para expresiones anidadas entre paréntesis
 # para id's , elemento de vector y llamadas de función
 # constantes directas
@@ -715,10 +758,11 @@ def p_ctes(t):
             | CTEI
             | CTEF
     '''
-    currentType = getValType(t[1])
+    #currentType = getValType(t[1])
     #TODO resolver dudas sobre los PN
     # if isVar:
     #     PilaO.append()
+    t[0] = t[1]
 
 # id, indice vector o llamada de función
     # se usa factorp porque tiene exactamente la misma función, no altera en nada
@@ -742,7 +786,7 @@ def p_error(t):
 # procesar archivo de input
 import ply.yacc as yacc
 parser = yacc.yacc()
-f = open("./pass.txt", "r")
+f = open("./pass3.txt", "r")
 input = f.read()
 print(input)
 parser.parse(input, debug=0)
