@@ -23,3 +23,33 @@ INFORMACIÓN: Unsupported notification method: $/setTrace
 [0m2021.10.17 20:45:30 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
 oct. 17, 2021 8:52:12 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFORMACIÓN: Unsupported notification method: $/setTrace
+[0m2021.10.18 09:58:22 INFO  shutting down Metals[0m
+[0m2021.10.19 14:13:00 INFO  Started: Metals version 0.10.7 in workspace '/Users/innovationexso/Proyecto_Compiladores' for client Visual Studio Code 1.61.2.[0m
+[0m2021.10.19 14:13:09 INFO  time: initialize in 9.03s[0m
+[0m2021.10.19 14:13:11 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.19 14:13:11 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.10.19 14:36:40 INFO  shutting down Metals[0m
+[0m2021.10.19 14:39:30 INFO  Started: Metals version 0.10.7 in workspace '/Users/innovationexso/Proyecto_Compiladores' for client Visual Studio Code 1.61.2.[0m
+[0m2021.10.19 14:39:43 INFO  time: initialize in 13s[0m
+[0m2021.10.19 14:39:45 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.19 14:39:45 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+oct. 23, 2021 12:02:49 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
+[0m2021.10.25 12:18:27 INFO  Started: Metals version 0.10.7 in workspace '/Users/innovationexso/Proyecto_Compiladores' for client Visual Studio Code 1.61.2.[0m
+[0m2021.10.25 12:18:38 INFO  time: initialize in 11s[0m
+[0m2021.10.25 12:18:43 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.25 12:18:43 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+oct. 25, 2021 6:20:30 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
+oct. 25, 2021 6:20:31 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
+oct. 25, 2021 6:20:31 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
+oct. 25, 2021 6:20:32 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
+oct. 25, 2021 8:01:24 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
+oct. 25, 2021 8:01:25 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
+oct. 25, 2021 8:01:28 P.M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace

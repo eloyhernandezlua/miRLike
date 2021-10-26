@@ -1,22 +1,17 @@
+from os import popen
 import re
 import sys 
 
 #********************************
 #Global variables
-print("creando variables globales \n")
 mainFuncTable = {}
 globalVariables = {}
 localVariables = {}
 
-print("creando scope y tipo default\n")
 currentScope = 'g'
 currentType = ''
-
-print("vaciando lista de nombres usados\n")
 usedNamesGlobal = []
 usedNamesLocal = []
-
-print("limpiando pilas, filas y listas\n")
 PilaO = []
 POoper = []
 Ptipos = []
@@ -24,64 +19,83 @@ Cuadruplos = []
 Consts = []
 tablaConstantes = {}
 
-print("definiendo operadores\n")
+
 ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
 logicops = ['&&', '||']
 
-print("iniciando contadores de direcciones virtuales\n")
+
 contGlobI = 2000 - 1
 contGlobF = 5000 - 1
-contLocI = 9000 - 1
-contLocF = 12000 - 1
-contTempI = 20000 - 1 
-contTempF = 23000 - 1
-contTempB = 28000 - 1
-contConstI = 30000 - 1
-contConstF = 32000 - 1
+contGlobC = 9000 -1
+contLocI = 12000 - 1
+contLocF = 20000 - 1
+contLocC = 28000 -1
+contTempI = 30000 - 1 
+contTempF = 32000 - 1
+contTempC = 34000 -1
+contTempB = 36000 - 1
+contConstI = 38000 - 1
+contConstF = 40000 - 1
 
-#Operaciones para cuádrupolos
+#Definir objeto cuadruplo 
+class Cuad:
+    def __init__(self, op, dir1, dir2, recep) -> None:
+        global Cuadruplos
+        self.count = len(Cuadruplos)
+        self.op = op 
+        self.dir1 = dir1 
+        self.dir2 = dir2
+        self.recep = recep
+
+#Operaciones para cuádrupolos <<-- aquí es al revés TODO
 Ops = {
-    1 : '+',
-    2 : '-',
-    3 : '*',
-    4 : '/',
-    5 : "==",
-    6 : '<',
-    7 : '>',
-    8 : '<=',
-    9 : ' >=',
-    10 : '!=',
-    11 : '=',
-    12 : 'print',
-    13 : 'read',
-    14 : 'goto',
-    15 : 'gotoF',
-    16 : 'gotoT'
+    '' : -1,
+    '+' : 1,
+    '-' : 2,
+    '*' : 3,
+    '/' : 4,
+    "==" : 5,
+    '<' : 6,
+    '>' : 7,
+    '<=' : 8,
+    ' >=' : 9,
+     '!=' : 10,
+     '=' : 11,
+     'print' : 12,
+     'read' : 13,
+     'goto' : 14,
+     'gotoF' : 15,
+     'gotoT' : 16
 }
 
 #**********
-#Plan para manejar las vdirs ---> al 17/10
+#Plan para manejar las vdirs ---> al 23/10
 # --------------------------
 # | globales int   | 2000  |
 # | globlaes float | 5000  |
-# | locales int    | 9000  |
-# | locales float  | 12000 |
-# | temp int       | 20000 |
-# | temp float     | 23000 | 
-# | temp bool      | 28000 | 
-# | const int      | 30000 |
-# | const flot     | 32000 |
+# | globales char  | 9000  |
+# | locales int    | 12000 |
+# | locales float  | 20000 |
+# | locales char   | 28000 |
+# | temp int       | 30000 |
+# | temp float     | 32000 |
+# | temp char      | 34000 | 
+# | temp bool      | 36000 | 
+# | const int      | 38000 |
+# | const float    | 40000 |
 # -------------------------- 
 
 
 
-def getVdirCTE(v, ci, cf):
+def getVdirCTE(v):
+    global contConstF
+    global contConstI
     if type(v) == int:
-        contConstI = ci + 1
+        contConstI += 1
         return contConstI
     elif type(v) == float:
-        contConstF = cf + 1
+        contConstF += + 1
         return contConstF
     else: 
         ERROR("type error", str(v))
@@ -115,6 +129,8 @@ def ERROR(tipo, at = ""):
         extra = "VARIABLE SIN TIPO"
     elif tipo == "type error":
         extra = "ERROR EN TIPO DE DATO"
+    elif tipo == "invalid op":
+        extra = "INVALID OPERATION"
 
     print("ERROR: " + extra + "\n @ --> " + at)
     sys.exit()
@@ -129,6 +145,25 @@ def insertToFuncTable(id, tipo, scope, vars):
         mainFuncTable[id] = {'tipo' : tipo, 'scope': scope, 'vars': vars}
         usedNamesGlobal.append(id)
 
+def getVDirTemp(type):
+    global contTempB
+    global contTempC
+    global contTempF
+    global contTempI
+
+    if type == 'int':
+        contTempI += 1
+        return contTempI
+    elif type == 'float':
+        contTempF += 1
+        return contTempF
+    elif type == 'char' : 
+        contTempC += 1
+        return contTempC 
+    elif type == 'bool':
+        contTempB += 1
+        return contTempB
+
 
 ## Baila mi hija con el señor ## 
 
@@ -138,6 +173,10 @@ def isValidOp(tipo1, tipo2, op):
 
     #combinaciones válidas
     valids = [
+        'intint=',
+        'floatfloat=',
+        'charchar=',
+        'boolbool=',
         'intint+',
         'intint-',
         'intint*',
@@ -190,26 +229,51 @@ def isValidOp(tipo1, tipo2, op):
             return 'float'
     elif op in relops or op in logicops:
         return 'bool'
+    else :
+        ERROR("invalid op")
 
 
-
-def insertToVarTable(id, tipo, scope):
-
+def getvDirVars(tipo, scope):
     if scope == 'g':
+        if tipo == 'int': 
+            global contGlobI
+            contGlobI += 1
+            return contGlobI + 1
+        elif tipo == 'float':
+            global contGlobF
+            contGlobF += 1
+            return contGlobF + 1
+        elif tipo == 'char':
+            global contGlobC
+            contGlobC += 1
+            return contGlobC + 1
+    else:
+        if tipo == 'int': 
+            return contLocI + 1
+        elif tipo == 'float':
+            return contLocF + 1
+        elif tipo == 'char':
+            return contLocC + 1
+
+
+def insertToVarTable(id, vDir, tipo):
+
+    if vDir < 12000:
         if id in usedNamesGlobal:
-            ERROR("nombre repetido", str(id + " " + scope + " " + tipo))
+            ERROR("nombre repetido", str(id + " " + tipo))
         if id in globalVariables:
             ERROR("variable repetida", id)
-        globalVariables[id] = {'tipo': tipo}
+        globalVariables[id] = {'vDir': vDir, 'tipo': tipo}
         usedNamesGlobal.append(id)
 
-    elif scope == 'l':
+    else:
         if id in usedNamesLocal:
-            ERROR("nombre repetido", str(id + " " + scope))
+            ERROR("nombre repetido", str(id + " " + tipo))
         if id in localVariables:
             ERROR("variable repetida", id)
-        localVariables[id] = {'tipo': tipo}
+        localVariables[id] = {'vDir':vDir, 'tipo': tipo}
         usedNamesLocal.append(id)
+    
 
 def validateTypes(tipo1, tipo2):
     if tipo1 != tipo2:
@@ -239,15 +303,25 @@ def getValType(val):
                 return 'char'
             except:
                 try:
-                    bool(val)
-                    return 'bool'
+                    str(val)
+                    return 'string'
                 except:
                     try:
-                        str(val)
-                        return 'string'
+                        bool(val)
+                        return 'bool'
                     except:
                         ERROR("mal tipo", val)
     
+
+def fetchVDir(val):
+    if val in localVariables:
+        return localVariables[val]['vDir']
+    elif val in globalVariables:
+        return globalVariables[val]['vDir']
+    elif val in tablaConstantes:
+        return tablaConstantes[val]
+    else :
+        ERROR("no existe", val)
 
 def asignar(val1, val2):
     if val1 not in localVariables and val1 not in globalVariables:
@@ -265,6 +339,18 @@ def asignar(val1, val2):
     elif currentScope == 'g':
         validateTypes(globalVariables[val1]['tipo'], tipoVal2)
         globalVariables[val1]['value'] = val2
+    
+    recep = fetchVDir(val1)
+    dir1 = fetchVDir(val2)
+    
+    Cuadruplos.append(
+        Cuad(
+            Ops['='],
+            dir1,
+            -1,
+            recep
+        )
+    )
 
 def isVar(val):
     if val in globalVariables or val in localVariables:
@@ -451,8 +537,9 @@ def p_vars(t):
             | empty
     '''
     if len(t) > 2:
-        currentType = t[1]
-        insertToVarTable(t[3], t[1], currentScope)
+        vDir = getvDirVars(t[1], currentScope)
+        insertToVarTable(t[3], vDir, t[1])
+
 # formato tipo : id, id[n] ;
 
 def p_varsppp(t):
@@ -467,7 +554,8 @@ def p_varspp(t):
               | COMA ID varsppp varspp
     '''
     if len(t) > 2:
-        insertToVarTable(t[2], currentType, currentScope)
+        vDir = getvDirVars(currentType, currentScope)
+        insertToVarTable(t[2], vDir, currentType)
 
 # fin de las declaraciones
 # múltiples variables del mismo tipo
@@ -477,16 +565,22 @@ def p_funcs(t):
     '''funcs : FUNCTION funcsp ID funcspp
              | empty
     '''
+    global currentScope
+    global localVariables
+    global currentType
+    global usedNamesLocal
     if len(t) > 2: 
         currentScope = 'l'
         insertToFuncTable(t[3], currentType, currentScope, localVariables) #Supongo que aquí no debe ser localVariables, sino un pointer a la variable
     else:
         currentScope= 'g'
+        #
         localVariables = {}
         usedNamesLocal = []
 
 def p_funcspp(t):
     'funcspp : APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs'
+    global currentScope
     currentScope = 'l'
 
 # formato --> function void/tipo nombre función(int: id, float: id[]) 
@@ -498,6 +592,8 @@ def p_funcsp(t):
     '''funcsp : VOID
               | tipo
     '''
+    global currentType
+    global currentScope
     currentType = t[1]
     currentScope = 'l'
     
@@ -533,7 +629,10 @@ def p_tipo(t):
             | FLOAT
             | CHAR
     '''
+    global currentType
+    currentType = t[1]
     t[0] = t[1]
+
 
 # tipos soportados por el lenguaje
 
@@ -542,8 +641,9 @@ def p_params(t):
     '''params : tipo DOSPNTS ID ididx paramsp
               | empty
     '''
+    global currentScope
     currentScope = 'l'
-    insertToVarTable(t[3], t[1], 'l')
+    insertToVarTable(t[3], t[1], currentScope)
 
 # parametros para las funciones  --> int: var1, float: var2[]
 
@@ -592,6 +692,7 @@ def p_asigpp(t):
               | CTEC
               | ACOR asigp CCOR
     '''
+    print("Aqqui el id -->" + t[1])
     if len(t) < 3:
         t[0] = t[1]
 # asignaciones para todo tipo de dato y arreglos
@@ -751,13 +852,26 @@ def p_mexpp(t):
     '''
     if t[1] == '+':
         t[0] = t[0] + t[2]
+        POoper.append(t[1])
     elif t[1] == '-':
         t[0] = t[0] - t[2]
+        POoper.append(t[1])
 # solo sumas o restas de terminos
 
 #------------------------------------
 def p_termino(t):
     'termino : factor terminop'
+    if len(POoper) > 0:
+        if POoper[-1] == '+' or POoper[-1] == '-':
+            rOp = PilaO.pop()
+            rType = Ptipos.pop()
+            lOp = PilaO.pop()
+            lType = Ptipos.pop()
+            op = POoper.pop()
+            resType = isValidOp(rType, lType, op)
+            resVdir = getVDirTemp(resType)
+            Cuadruplos.append(Cuad(Ops[op], lOp, rOp, resVdir))
+            PilaO.append(resVdir)
     t[0] = t[1]
 # segundo nivel de jerarquía
 
@@ -768,8 +882,10 @@ def p_terminop(t):
     '''
     if t[1] == '*':
         t[0] = t[0] * t[2]
+        POoper.append(t[1])
     elif t[1] == "/":
         t[0] = t[0] / t[2]
+        POoper.append(t[1])
 # solo multiplicaciones y divisiones de factores
 
 #--------------------------
@@ -780,16 +896,34 @@ def p_factor(t):
     '''
     if len(t) == 2:
         t[0] = t[1]
+    if len(t) == 3:
+        vDir = fetchVDir(t[1])
+        PilaO.append(vDir)
+        Ptipos.append(getValType(t[1]))
+        t[0] = t[1]
+    
+    if len(POoper) > 0:
+        if  POoper[-1] == '*' or POoper[-1] == '/':
+            rOp = PilaO.pop()
+            rType = Ptipos.pop()
+            lOp = PilaO.pop()
+            lType = Ptipos.pop()
+            op = POoper.pop()
+            resType = isValidOp(rType, lType, op)
+            resVdir = getVDirTemp(resType)
+            Cuadruplos.append(Cuad(Ops[op], lOp, rOp, resVdir))
+            PilaO.append(resVdir)
+
 # para expresiones anidadas entre paréntesis
 # para id's , elemento de vector y llamadas de función
 # constantes directas
 
 def p_factorp(t):
-    '''factorp : 
-               | APAR exp factorpp CPAR
+    '''factorp : APAR exp factorpp CPAR
                | ACOR exp CCOR
                | empty
     '''
+    
 # parametros de funcion
 # indice de vector
 # fue id sencillo
@@ -808,7 +942,7 @@ def p_ctes(t):
             | CTEF
     '''
     if len(t) == 2:
-        tablaConstantes[t[1]] = getVdirCTE(t[1], contConstI, contConstF)
+        tablaConstantes[t[1]] = getVdirCTE(t[1])
         t[0] = t[1]
 
 # id, indice vector o llamada de función
@@ -835,5 +969,7 @@ import ply.yacc as yacc
 parser = yacc.yacc()
 f = open("./pass3.txt", "r")
 input = f.read()
-print(input)
+#print(input)
 parser.parse(input, debug=0)
+for c in Cuadruplos:
+    print(str(c.count) + " " + "Cuad --> " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep))

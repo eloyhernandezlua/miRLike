@@ -1,7 +1,7 @@
 Program MyRlike;
 VARS
-    int: i;
+    int: i, k, m;
     float: valor;
 main(){
-    i = 12;
+    m = i;
 }
