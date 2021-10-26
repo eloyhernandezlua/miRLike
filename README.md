@@ -26,3 +26,15 @@ Lista de dudas para resolver en asesoría o clase para la proxima semana
 ### Avance 3
 
 Ya se puede hacer la parte de manejo de expreciones con los datos reales desde el parsers, creación de la primer draft de la tabla de direcciones virtuales, asignación exitosa, probando con pass3.txt. Manejo de posibles nuevos errores. Mi compu murió esta seamana y perdí avances de la generación de cuadruplos, pero ya es cosa de reescibirlo, también se agregó la sección de project en GITHUB para tener un mejor control de lo que me falta y que hacer en cada avance
+
+### Avance 4
+
+* Se quitaron muchos prints de pruebas que ya no se necesitaban
+* Se modifico el acomodo de la memoria virtual
+* Definición del objeto cuadruplo para manejar solo 4 ints
+* Funciones para obtener las direcciones virutales según sea el caso
+* Moficaciones que ya permiten agregar correctamente cosas a la tabla de variables locales y globales
+* Se generan los cuadruplos de asignación
+* Lógica integrada para los cuadruplos arietméticos _no jalando al 100_
+
+En general está rezagado el avance a lo que debería de ser pero me pondré al corriente esta semana i, espero un avance 4.5 a mitad de la semana 
