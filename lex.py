@@ -1,4 +1,4 @@
-from os import popen
+from os import pipe, popen
 import re
 import sys 
 
@@ -15,6 +15,7 @@ usedNamesLocal = []
 PilaO = []
 POoper = []
 Ptipos = []
+PJumps = []
 Cuadruplos = [] 
 Consts = []
 tablaConstantes = {}
@@ -42,7 +43,7 @@ contConstF = 40000 - 1
 class Cuad:
     def __init__(self, op, dir1, dir2, recep) -> None:
         global Cuadruplos
-        self.count = len(Cuadruplos)
+        self.count = len(Cuadruplos) + 1
         self.op = op 
         self.dir1 = dir1 
         self.dir2 = dir2
@@ -66,7 +67,8 @@ Ops = {
      'read' : 13,
      'goto' : 14,
      'gotoF' : 15,
-     'gotoT' : 16
+     'gotoT' : 16,
+     'return' : 17
 }
 
 #**********
@@ -137,6 +139,10 @@ def ERROR(tipo, at = ""):
 
 
 def insertToFuncTable(id, tipo, scope, vars):
+    global mainFuncTable
+    global usedNamesGlobal
+    global usedNamesLocal
+
     if id in mainFuncTable:
         ERROR("funcion repetida")
     elif id in usedNamesGlobal:
@@ -521,6 +527,9 @@ def p_program(t):
 
 def p_agregarTablaFunciones(t):
     'agregarTablaFunciones : ID PTCOMA'
+    global currentScope
+    global globalVariables
+
     insertToFuncTable(t[1], 'void', currentScope, globalVariables)
 
 # estructura mínima de cualquier programa, imprime mensaje si es válida la sintaxis
@@ -533,12 +542,17 @@ def p_varss(t):
 # palabra reservada de vars para iniciar declaraciones
 
 def p_vars(t):
-    '''vars : tipo DOSPNTS ID varsppp varspp vars
+    '''vars : tipo DOSPNTS insertVar varsppp varspp vars
             | empty
     '''
-    if len(t) > 2:
-        vDir = getvDirVars(t[1], currentScope)
-        insertToVarTable(t[3], vDir, t[1])
+
+def p_insertVar(t):
+    'insertVar : ID'
+    global currentScope
+    global currentType
+
+    vDir = getvDirVars(currentType, currentScope)
+    insertToVarTable(t[1], vDir, currentType)
 
 # formato tipo : id, id[n] ;
 
@@ -551,32 +565,32 @@ def p_varsppp(t):
 
 def p_varspp(t):
     '''varspp : PTCOMA
-              | COMA ID varsppp varspp
+              | COMA insertVar varsppp varspp
     '''
-    if len(t) > 2:
-        vDir = getvDirVars(currentType, currentScope)
-        insertToVarTable(t[2], vDir, currentType)
-
 # fin de las declaraciones
 # múltiples variables del mismo tipo
 
 #------------------------------------
 def p_funcs(t):
-    '''funcs : FUNCTION funcsp ID funcspp
+    '''funcs : FUNCTION funcsp insertFunc funcspp
              | empty
     '''
     global currentScope
     global localVariables
-    global currentType
     global usedNamesLocal
-    if len(t) > 2: 
-        currentScope = 'l'
-        insertToFuncTable(t[3], currentType, currentScope, localVariables) #Supongo que aquí no debe ser localVariables, sino un pointer a la variable
-    else:
-        currentScope= 'g'
-        #
-        localVariables = {}
-        usedNamesLocal = []
+
+    currentScope= 'g'
+    localVariables = {}
+    usedNamesLocal = []
+
+def p_insertFunc(t):
+    'insertFunc : ID'
+    global currentScope
+    global currentType
+    global localVariables
+
+    currentScope = 'l'
+    insertToFuncTable(t[1], currentType, currentScope, localVariables)
 
 def p_funcspp(t):
     'funcspp : APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs'
@@ -638,12 +652,19 @@ def p_tipo(t):
 
 #------------------------------------
 def p_params(t):
-    '''params : tipo DOSPNTS ID ididx paramsp
+    '''params : tipo DOSPNTS insertParams ididx paramsp
               | empty
     '''
+
+def p_insertParams(t):
+    '''insertParams : ID
+    '''
     global currentScope
+    global currentType
     currentScope = 'l'
-    insertToVarTable(t[3], t[1], currentScope)
+    vDir = getVDirTemp(currentType)
+    insertToVarTable(t[1], vDir, currentType)
+
 
 # parametros para las funciones  --> int: var1, float: var2[]
 
@@ -656,9 +677,36 @@ def p_paramsp(t):
 
 #------------------------------------
 def p_asig(t):
-    'asig : ID ididx IGUAL asigpp PTCOMA'
-    asignar(t[1], t[4])
+    'asig : varAs ididx igualAs asigpp PTCOMA'
+    global PilaO
+    global Ptipos
+    global Ops
 
+    if PilaO and Ptipos:
+        res = PilaO.pop()
+        tipoR = Ptipos.pop()
+        ladoIzq = PilaO.pop()
+        tipoI = Ptipos.pop()
+        validateTypes(tipoR, tipoI)
+        Cuadruplos.append(Cuad(Ops['='], res, -1, ladoIzq))
+    #asignar(t[1], t[4])
+
+def p_varAs(t):
+    'varAs : ID'
+    global PilaO
+    global Ptipos
+
+    vDir = fetchVDir(t[1])
+    PilaO.append(vDir)
+    Ptipos.append(getValType(t[1]))
+    
+def p_igualAs(t):
+    'igualAs : IGUAL'
+    global POoper
+    global Cuadruplos
+
+    POoper.append(t[1])
+    
 # asignación id = expresion, expresion booleana, char, string y arreglos
 # id = 123 ;
 # id = 123.21 ;
@@ -692,7 +740,6 @@ def p_asigpp(t):
               | CTEC
               | ACOR asigp CCOR
     '''
-    print("Aqqui el id -->" + t[1])
     if len(t) < 3:
         t[0] = t[1]
 # asignaciones para todo tipo de dato y arreglos
@@ -726,17 +773,35 @@ def p_argsp(t):
 
 #------------------------------------
 def p_return(t):
-    'return : RETURN APAR asigpp CPAR PTCOMA'
+    'return : RETURN APAR exp CPAR PTCOMA'
+    global PilaO
+    global Cuadruplos
+    global Ops
+
+    retVal = PilaO.pop()
+
+    Cuadruplos.append(Cuad(Ops['return'], retVal, -1, -1))
+    #Quizá la dirección destino de este cuadrupo sea lo que esté en el tope de la fila de saltos
+
+
 # return --> return(lo que sea);
 # se usa asigpp porque cubre de manera neutra cualquier tipo de dato
 
 #------------------------------------
 def p_lectura(t):
-    'lectura : READ APAR ID ididx lecturapp CPAR PTCOMA'
+    'lectura : READ APAR readId ididx lecturapp CPAR PTCOMA'
 # leer de usuario y guardar sobre una variable o indice de un vector
 
+def p_readId(t):
+    '''readId : ID
+    '''
+    global Cuadruplos
+    global Ops
+    var = fetchVDir(t[1])
+    Cuadruplos.append(Cuad(Ops['read'], -1, -1, var))
+
 def p_lecturapp(t):
-    '''lecturapp : COMA ID ididx lecturapp
+    '''lecturapp : COMA readId ididx lecturapp
                  | empty
     '''
 # lectura de múltiples elementos
@@ -745,13 +810,28 @@ def p_lecturapp(t):
 #------------------------------------
 def p_escritura(t):
     'escritura : WRITE APAR escriturap escriturapp CPAR PTCOMA'
+
 # escribir todo tipo de dato menos arreglo (suponiendo que si se quiere imprimir, ya debería de estar en una variable)
 
 def p_escriturap(t):
-    '''escriturap : STRING
+    '''escriturap : pushEsc
                   | exp
-                  | CTEC
     '''
+    global PilaO
+    global Cuadruplos
+    global Ops
+
+    res = PilaO.pop()
+    Cuadruplos.append(Cuad(Ops['print'], -1, -1, res))  
+
+
+def p_pushEsc(t):
+    '''pushEsc : STRING
+               | CTEC
+    '''
+    global PilaO
+    PilaO.append(t[1])
+
 # todos los tipos de datos
 
 def p_escriturapp(t):
@@ -762,7 +842,16 @@ def p_escriturapp(t):
 
 #------------------------------------
 def p_cond(t):
-    'cond : IF APAR condp CPAR THEN ALLA estatutos CLLA condpp'
+    'cond : IF APAR condp checkCond THEN ALLA estatutos CLLA condpp'
+    
+    global PJumps
+    global Cuadruplos
+
+    if PJumps:
+        end = PJumps.pop()
+        cuadToChange = Cuadruplos[end]
+        cuadToChange.recep = len(Cuadruplos) + 1
+
 # estructura sencilla de if con opcional de un else
 
 def p_condp(t):
@@ -773,14 +862,83 @@ def p_condp(t):
 # lo unico que puede procesar la condición son cosas que sean booleanas
 
 def p_condpp(t):
-    '''condpp : ELSE ALLA estatutos CLLA
+    '''condpp : checkElse ALLA estatutos CLLA
               | empty
     '''
 # hay un else dentro de la condición
 
+def p_checkElse(t):
+    '''checkElse : ELSE
+    '''
+    global Cuadruplos
+    global PJumps
+    global Ops
+
+    if PJumps:
+        Cuadruplos.append(Cuad(Ops['goto'], -1, -1, -99))
+        false = PJumps.pop()
+        PJumps.append(len(Cuadruplos))
+
+        cuadToChange = Cuadruplos[false]
+        cuadToChange.recep = len(Cuadruplos) + 1
+
+
+def p_checkCond(t):
+    '''checkCond : CPAR
+    '''
+    global Ptipos
+    global PilaO
+    global Cuadruplos
+    global PJumps
+    global Ops
+
+    if Ptipos and PilaO:
+        expType = Ptipos.pop()
+        validateTypes(expType, 'bool')
+        result = PilaO.pop()
+        Cuadruplos.append(Cuad(Ops['gotoF'], result, -1, -99))
+
+
 #------------------------------------
 def p_while(t):
-    'while : WHILE APAR condp CPAR DO ALLA estatutos CLLA'
+    'while : saveWhile APAR condp checkWhileCond DO ALLA estatutos CLLA'
+
+    global PJumps
+    global Cuadruplos
+    global Ops
+
+    if PJumps:
+        end = PJumps.pop()
+        ret = PJumps.pop()
+        Cuadruplos.append(Cuad(Ops['goto'], -1, -1, ret))
+        cuadToChange = Cuadruplos[end]
+        cuadToChange.recep = len(Cuadruplos) + 1
+
+
+def p_saveWhile(t):
+    '''saveWhile : WHILE
+    '''
+    global PJumps
+    global Cuadruplos
+    PJumps.append(len(Cuadruplos) + 1)
+
+def p_checkWhileCond(t):
+    '''checkWhileCond : CPAR
+    '''
+    global Ptipos
+    global PilaO
+    global Cuadruplos
+    global PJumps
+    global Ops
+
+    if Ptipos and PilaO:
+        expType = Ptipos.pop()
+        validateTypes(expType, 'bool')
+        res = PilaO.pop()
+        Cuadruplos.append(Cuad(Ops['gotoF'], res, -1, -99))
+        PJumps.append(len(Cuadruplos))
+
+
 # igual que la condición, para que inicie o no solo valora booleanos
 # usamos condp porque tiene lo mismo de manera neutral
 
@@ -826,19 +984,6 @@ def p_gexpp(t):
              | DIF mexp
              | empty
     '''
-    if t[1] == '>':
-        t[0] = t[0] > t[2]
-    elif t[1] == '<':
-        t[0] = t[0] < t[2]
-    elif t[1] == '>=':
-        t[0] = t[0] >= t[2]
-    elif t[1] == '<=':
-        t[0] = t[0] <= t[2]
-    elif t[1] == '==':
-        t[0] = t[0] == t[2]
-    elif t[1] == '!=':
-        t[0] = t[0] != t[2]
-
 
 def p_mexp(t):
     'mexp : termino mexpp'
@@ -846,21 +991,28 @@ def p_mexp(t):
 # terminos de menor jerarquía
 
 def p_mexpp(t):
-    '''mexpp : MAS mexp
-            | MENOS mexp
+    '''mexpp : operSR mexp
             | empty
     '''
-    if t[1] == '+':
-        t[0] = t[0] + t[2]
-        POoper.append(t[1])
-    elif t[1] == '-':
-        t[0] = t[0] - t[2]
-        POoper.append(t[1])
 # solo sumas o restas de terminos
+
+def p_operSR(t):
+    '''operSR : MENOS
+              | MAS
+    '''
+    global POoper
+    POoper.append(t[1])
+
 
 #------------------------------------
 def p_termino(t):
     'termino : factor terminop'
+
+    global POoper
+    global PilaO
+    global Ptipos
+    global Cuadruplos
+
     if len(POoper) > 0:
         if POoper[-1] == '+' or POoper[-1] == '-':
             rOp = PilaO.pop()
@@ -876,17 +1028,17 @@ def p_termino(t):
 # segundo nivel de jerarquía
 
 def p_terminop(t):
-    '''terminop : POR termino
-                | DIV termino
+    '''terminop : oper termino
                 | empty
     '''
-    if t[1] == '*':
-        t[0] = t[0] * t[2]
-        POoper.append(t[1])
-    elif t[1] == "/":
-        t[0] = t[0] / t[2]
-        POoper.append(t[1])
 # solo multiplicaciones y divisiones de factores
+
+def p_oper(t):
+    '''oper : DIV
+            | POR
+    '''
+    global POoper
+    POoper.append(t[1])
 
 #--------------------------
 def p_factor(t): 
@@ -894,7 +1046,15 @@ def p_factor(t):
               | ID factorp
               | ctes
     '''
+    global PilaO
+    global Ptipos
+    global POoper
+    global Cuadruplos
+
     if len(t) == 2:
+        vDir = fetchVDir(t[1])
+        PilaO.append(vDir)
+        Ptipos.append(getValType(t[1]))
         t[0] = t[1]
     if len(t) == 3:
         vDir = fetchVDir(t[1])
@@ -941,6 +1101,7 @@ def p_ctes(t):
             | CTEI
             | CTEF
     '''
+    global tablaConstantes
     if len(t) == 2:
         tablaConstantes[t[1]] = getVdirCTE(t[1])
         t[0] = t[1]
@@ -971,5 +1132,7 @@ f = open("./pass3.txt", "r")
 input = f.read()
 #print(input)
 parser.parse(input, debug=0)
+print(localVariables)
+print(globalVariables)
 for c in Cuadruplos:
     print(str(c.count) + " " + "Cuad --> " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep))

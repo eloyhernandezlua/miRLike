@@ -3,5 +3,12 @@ VARS
     int: i, k, m;
     float: valor;
 main(){
-    m = i;
+    i = 40;
+    k = 23;
+    m = i + k * 3;
+
+    write("hola mundo");
+    read(k);
+
+    return(i);
 }
