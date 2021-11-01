@@ -19,11 +19,13 @@ PJumps = []
 Cuadruplos = [] 
 Consts = []
 tablaConstantes = {}
+VControl = 0
+VFinal = 0
 
 
 ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
-logicops = ['&&', '||']
+logicops = ['and', 'or']
 
 
 contGlobI = 2000 - 1
@@ -61,14 +63,16 @@ Ops = {
     '>' : 7,
     '<=' : 8,
     ' >=' : 9,
-     '!=' : 10,
-     '=' : 11,
-     'print' : 12,
-     'read' : 13,
-     'goto' : 14,
-     'gotoF' : 15,
-     'gotoT' : 16,
-     'return' : 17
+    '!=' : 10,
+    '=' : 11,
+    'print' : 12,
+    'read' : 13,
+    'goto' : 14,
+    'gotoF' : 15,
+    'gotoT' : 16,
+    'return' : 17,
+    'and' : 18,
+    'or' : 19
 }
 
 #**********
@@ -219,8 +223,8 @@ def isValidOp(tipo1, tipo2, op):
         'stringstring!=',
         'boolbool==',
         'boolbool!=',
-        'boolbool&&',
-        'boolbool||',
+        'boolbooland',
+        'boolboolor',
     ]
     if validate not in valids:
         ERROR("invalid op", validate)
@@ -418,8 +422,8 @@ reserved = {
     'do' : 'DO',
     'for' : 'FOR',
     'to' : 'TO',
-    '&&' : 'AND',
-    '||' : 'OR'
+    'and' : 'AND',
+    'or' : 'OR'
 }
 
 #***********************************
@@ -630,6 +634,12 @@ def p_estatutos(t):
     # ^ Aquí falta agregar lo que vayan a ser los estatutos especiales: media, moda, stddev, etc ...
 # todos los posibles estatutos
 
+
+# ESTATUTOS QUE FALTAN -> 31/10
+# llamada
+# for
+# especiales
+
 def p_estatutop(t):
     '''estatutop : estatutos
                  | empty
@@ -726,8 +736,6 @@ def p_asigp(t):
 # formar vectores de cualquier tipo de dato
 # ultimo caso para declarar un vector vacio
 
-#//// NOTA: en semantica habrá que validar que sean todos los elementos del mismo tipo y que coincidan con el tipo de la declaración inicial
-
 def p_asigppp(t):
     '''asigppp : COMA asigp
                | empty
@@ -785,7 +793,6 @@ def p_return(t):
 
 
 # return --> return(lo que sea);
-# se usa asigpp porque cubre de manera neutra cualquier tipo de dato
 
 #------------------------------------
 def p_lectura(t):
@@ -842,29 +849,23 @@ def p_escriturapp(t):
 
 #------------------------------------
 def p_cond(t):
-    'cond : IF APAR condp checkCond THEN ALLA estatutos CLLA condpp'
+    'cond : IF APAR exp checkCond THEN ALLA estatutos CLLA condpp'
     
     global PJumps
     global Cuadruplos
 
     if PJumps:
         end = PJumps.pop()
-        cuadToChange = Cuadruplos[end]
+        cuadToChange = Cuadruplos[end - 1]
         cuadToChange.recep = len(Cuadruplos) + 1
 
 # estructura sencilla de if con opcional de un else
-
-def p_condp(t):
-    '''condp : exp
-             | TRUE
-             | FALSE
-    '''
-# lo unico que puede procesar la condición son cosas que sean booleanas
 
 def p_condpp(t):
     '''condpp : checkElse ALLA estatutos CLLA
               | empty
     '''
+
 # hay un else dentro de la condición
 
 def p_checkElse(t):
@@ -879,7 +880,7 @@ def p_checkElse(t):
         false = PJumps.pop()
         PJumps.append(len(Cuadruplos))
 
-        cuadToChange = Cuadruplos[false]
+        cuadToChange = Cuadruplos[false - 1]
         cuadToChange.recep = len(Cuadruplos) + 1
 
 
@@ -897,11 +898,12 @@ def p_checkCond(t):
         validateTypes(expType, 'bool')
         result = PilaO.pop()
         Cuadruplos.append(Cuad(Ops['gotoF'], result, -1, -99))
+        PJumps.append(len(Cuadruplos))
 
 
 #------------------------------------
 def p_while(t):
-    'while : saveWhile APAR condp checkWhileCond DO ALLA estatutos CLLA'
+    'while : saveWhile APAR exp checkWhileCond DO ALLA estatutos CLLA'
 
     global PJumps
     global Cuadruplos
@@ -911,7 +913,7 @@ def p_while(t):
         end = PJumps.pop()
         ret = PJumps.pop()
         Cuadruplos.append(Cuad(Ops['goto'], -1, -1, ret))
-        cuadToChange = Cuadruplos[end]
+        cuadToChange = Cuadruplos[end - 1]
         cuadToChange.recep = len(Cuadruplos) + 1
 
 
@@ -944,8 +946,85 @@ def p_checkWhileCond(t):
 
 #------------------------------------
 def p_for(t):
-    'for : FOR ID ididx IGUAL exp TO exp DO ALLA estatutos CLLA'
-# estructura básica de un for --> for i ([0]) = 0 to 10 do { estatutos }
+    'for : FOR varFor ididx IGUAL exp initFor exp beforeDo ALLA estatutos CLLA'
+
+    global VControl
+    global PJumps
+    global Cuadruplos
+    global Ops
+    global PilaO
+    global Ptipos
+
+    ty = getVDirTemp('int')
+    Cuadruplos.append(Cuad(Ops['+'], VControl, 1, ty))
+    Cuadruplos.append(Cuad(Ops['='], ty, -1, VControl))
+    Cuadruplos.append(Cuad(Ops['='], ty, -1,PilaO[-1]))
+    fin = PJumps.pop()
+    ret = PJumps.pop()
+    Cuadruplos.append(Cuad(Ops['goto'], -1, -1, ret))
+    Cuadruplos[fin - 1].recep = len(Cuadruplos) + 1
+    elimina = PilaO.pop()
+    tipoelimina = Ptipos.pop()
+
+
+
+
+# estructura básica de un for --> for i ([0]) = 0 to 10 do { estatutos } 
+
+def p_varFor(t):
+    '''varFor : ID
+    '''
+    global PilaO
+    global Ptipos
+
+    dVir = fetchVDir(t[1])
+    type = getType(t[1])
+
+    PilaO.append(dVir)
+    Ptipos.append(type)
+
+    validateTypes(type, 'int')
+
+
+def p_initFor(t):
+    '''initFor : TO
+    '''
+    global Ptipos
+    global VControl
+    global PilaO
+    global Cuadruplos
+    global Ops
+
+    exp_type = Ptipos.pop()
+    validateTypes(exp_type, 'int')
+    if PilaO:
+        exp = PilaO.pop()
+        VControl = PilaO[-1]
+        Cuadruplos.append(Cuad(Ops['='], exp, -1, VControl))
+
+def p_beforeDo(t):
+    '''beforeDo : DO
+    '''
+    global Ptipos
+    global PilaO
+    global VFinal
+    global VControl
+    global PJumps
+    global Cuadruplos
+    global Ops
+
+    if Ptipos and PilaO:
+        tiex = Ptipos.pop()
+        validateTypes(tiex, 'int')
+        exp = PilaO.pop()
+        VFinal = getVDirTemp('int')
+        Cuadruplos.append(Cuad(Ops['='], exp, -1, VFinal))
+        tx = getVDirTemp('bool')
+        Cuadruplos.append(Cuad(Ops['<'], VControl, VFinal, tx))
+        PJumps.append(len(Cuadruplos))
+        Cuadruplos.append(Cuad(Ops['gotoF'], tx, -1, -99))
+        PJumps.append(len(Cuadruplos))
+
 
 #------------------------------------
 
@@ -957,36 +1036,82 @@ def p_expp(t):
     '''expp : OR exp
             | empty
     '''
-    if t[1] == 'or':
-        t[0] = t[0] or t[2]
 
 def p_texp(t):
     'texp : gexp texpp'
     t[0] = t[1]
 
 def p_texpp(t):
-    '''texpp : AND texp
+    '''texpp : andCheck texp
              | empty
     '''
-    if t[1] == 'and':
-        t[0] = t[0] and t[2]
+def p_andCheck(t):
+    ''' andCheck : AND
+    '''
+    global POoper
+    POoper.append(t[1])
 
 def p_gexp(t):
     'gexp : mexp gexpp'
+
+    global POoper
+    global PilaO
+    global Ptipos
+    global Cuadruplos
+
+    if POoper:
+        if POoper[-1] == 'and':
+            rOp = PilaO.pop()
+            rType = Ptipos.pop()
+            lOp = PilaO.pop()
+            lType = Ptipos.pop()
+            op = POoper.pop()
+            resType = isValidOp(rType, lType, op)
+            resVdir = getVDirTemp(resType)
+            Cuadruplos.append(Cuad(Ops[op], lOp, rOp, resVdir))
+            PilaO.append(resVdir)
+            Ptipos.append(resType)
+    
     t[0] = t[1]
 
 def p_gexpp(t):
-    '''gexpp : MAYQ mexp
-             | MENQ mexp
-             | MAYI mexp
-             | MENI mexp
-             | IGUALIGUAL mexp
-             | DIF mexp
+    '''gexpp : addPO mexp
              | empty
     '''
+def p_addPO(t):
+    '''addPO : MAYQ
+             | MENQ
+             | MAYI
+             | MENI
+             | IGUAL IGUAL
+             | DIF
+    '''
+    global POoper
+    POoper.append(t[1])
 
 def p_mexp(t):
     'mexp : termino mexpp'
+
+    global POoper
+    global PilaO
+    global Ptipos
+    global Cuadruplos
+
+    opers = ['>', '<', '>=', '<=', '==', '!=']
+
+    if POoper:
+        if POoper[-1] in opers:
+            rOp = PilaO.pop()
+            rType = Ptipos.pop()
+            lOp = PilaO.pop()
+            lType = Ptipos.pop()
+            op = POoper.pop()
+            resType = isValidOp(rType, lType, op)
+            resVdir = getVDirTemp(resType)
+            Cuadruplos.append(Cuad(Ops[op], lOp, rOp, resVdir))
+            PilaO.append(resVdir)
+            Ptipos.append(resType)
+
     t[0] = t[1]
 # terminos de menor jerarquía
 
@@ -1012,6 +1137,7 @@ def p_termino(t):
     global PilaO
     global Ptipos
     global Cuadruplos
+    global Ops
 
     if len(POoper) > 0:
         if POoper[-1] == '+' or POoper[-1] == '-':
@@ -1024,6 +1150,7 @@ def p_termino(t):
             resVdir = getVDirTemp(resType)
             Cuadruplos.append(Cuad(Ops[op], lOp, rOp, resVdir))
             PilaO.append(resVdir)
+            Ptipos.append(resType)
     t[0] = t[1]
 # segundo nivel de jerarquía
 
@@ -1050,6 +1177,7 @@ def p_factor(t):
     global Ptipos
     global POoper
     global Cuadruplos
+    global Ops
 
     if len(t) == 2:
         vDir = fetchVDir(t[1])
@@ -1073,6 +1201,7 @@ def p_factor(t):
             resVdir = getVDirTemp(resType)
             Cuadruplos.append(Cuad(Ops[op], lOp, rOp, resVdir))
             PilaO.append(resVdir)
+            Ptipos.append(resType)
 
 # para expresiones anidadas entre paréntesis
 # para id's , elemento de vector y llamadas de función
@@ -1132,7 +1261,7 @@ f = open("./pass3.txt", "r")
 input = f.read()
 #print(input)
 parser.parse(input, debug=0)
-print(localVariables)
-print(globalVariables)
+#print(localVariables)
+#print(globalVariables)
 for c in Cuadruplos:
     print(str(c.count) + " " + "Cuad --> " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep))

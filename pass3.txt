@@ -4,11 +4,9 @@ VARS
     float: valor;
 main(){
     i = 40;
-    k = 23;
-    m = i + k * 3;
+    m = 234;
+    if (m > k and m > k) then {
+        i = 20;
+    }
 
-    write("hola mundo");
-    read(k);
-
-    return(i);
 }
