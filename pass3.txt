@@ -1,12 +1,23 @@
 Program MyRlike;
 VARS
-    int: i, k, m;
+    int: i, k, m, c;
     float: valor;
+
+function int fact (int: j);
+VARS int: i;
+{ 
+    i = i + j;
+    i = j * j;
+    write(i);
+}
+
 main(){
     i = 40;
     m = 234;
+    c = 'r';
     if (m > k and m > k) then {
         i = 20;
     }
+    
 
 }

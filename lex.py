@@ -18,9 +18,11 @@ Ptipos = []
 PJumps = []
 Cuadruplos = [] 
 Consts = []
+ParameterTable = []
 tablaConstantes = {}
 VControl = 0
 VFinal = 0
+contTemps = 0
 
 
 ariops = ['+', '-', '*', '/']
@@ -40,10 +42,11 @@ contTempC = 34000 -1
 contTempB = 36000 - 1
 contConstI = 38000 - 1
 contConstF = 40000 - 1
+contConstC = 43000 - 1
 
 #Definir objeto cuadruplo 
 class Cuad:
-    def __init__(self, op, dir1, dir2, recep) -> None:
+    def __init__(self, op, dir1, dir2, recep):
         global Cuadruplos
         self.count = len(Cuadruplos) + 1
         self.op = op 
@@ -51,7 +54,6 @@ class Cuad:
         self.dir2 = dir2
         self.recep = recep
 
-#Operaciones para cuádrupolos <<-- aquí es al revés TODO
 Ops = {
     '' : -1,
     '+' : 1,
@@ -72,7 +74,8 @@ Ops = {
     'gotoT' : 16,
     'return' : 17,
     'and' : 18,
-    'or' : 19
+    'or' : 19,
+    'endFunc' : 20
 }
 
 #**********
@@ -90,6 +93,7 @@ Ops = {
 # | temp bool      | 36000 | 
 # | const int      | 38000 |
 # | const float    | 40000 |
+# | const char     | 43000 |
 # -------------------------- 
 
 
@@ -97,12 +101,16 @@ Ops = {
 def getVdirCTE(v):
     global contConstF
     global contConstI
+    global contConstC
     if type(v) == int:
         contConstI += 1
         return contConstI
     elif type(v) == float:
         contConstF += + 1
         return contConstF
+    elif type(v) == str: 
+        contConstC += 1
+        return contConstC
     else: 
         ERROR("type error", str(v))
 
@@ -160,6 +168,9 @@ def getVDirTemp(type):
     global contTempC
     global contTempF
     global contTempI
+    global contTemps
+
+    contTemps += 1
 
     if type == 'int':
         contTempI += 1
@@ -462,11 +473,6 @@ tokens = [
 #types
 t_ignore = "\t | '' | \n"
 
-def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value,'ID')    # Check for reserved words
-    return t
-
 t_PTCOMA = r'\;'
 t_APAR = r'\('
 t_CPAR = r'\)'
@@ -482,7 +488,7 @@ t_MAS = r'\+'
 t_MENOS = r'\-'
 t_DIV = r'\/'
 t_POR = r'\*'
-t_CTEC = r"\'.\'"
+t_CTEC = r'\'(.{1})\''
 t_MAYQ = r'\>'
 t_MENQ = r'\<'
 t_MAYI = r'\>\='
@@ -509,6 +515,11 @@ def t_CTEI(t):
         t.value = 0
     return t
 
+def t_ID(t):
+    r'[A-Za-z]([A-Za-z]|[0-9])*'
+    t.type = reserved.get(t.value,'ID')    # Check for reserved words
+    return t
+
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
@@ -526,15 +537,32 @@ lexer = lex.lex()
 #Gramatic rules
 
 def p_program(t):
-    'program : PROGRAM agregarTablaFunciones varss funcs MAIN APAR CPAR ALLA estatutos CLLA'
+    'program : PROGRAM agregarTablaFunciones varss funcs MAIN APAR CPAR ALLA poptomain estatutos CLLA'
     print('Código aceptado')
 
 def p_agregarTablaFunciones(t):
     'agregarTablaFunciones : ID PTCOMA'
     global currentScope
     global globalVariables
+    global Cuadruplos
+    global Ops
+    global PJumps
 
     insertToFuncTable(t[1], 'void', currentScope, globalVariables)
+    Cuadruplos.append(Cuad(Ops['goto'], -1, -1, -99))
+    PJumps.append(len(Cuadruplos))
+
+
+def p_poptomain(t):
+    '''poptomain : '''
+    global Cuadruplos
+    global PJumps
+
+    if PJumps:
+        end = PJumps.pop()
+        cuadToChange = Cuadruplos[end - 1]
+        cuadToChange.recep = len(Cuadruplos) + 1
+
 
 # estructura mínima de cualquier programa, imprime mensaje si es válida la sintaxis
 
@@ -579,27 +607,51 @@ def p_funcs(t):
     '''funcs : FUNCTION funcsp insertFunc funcspp
              | empty
     '''
-    global currentScope
-    global localVariables
-    global usedNamesLocal
-
-    currentScope= 'g'
-    localVariables = {}
-    usedNamesLocal = []
 
 def p_insertFunc(t):
     'insertFunc : ID'
     global currentScope
     global currentType
     global localVariables
-
+    t[0] = t[1]
     currentScope = 'l'
     insertToFuncTable(t[1], currentType, currentScope, localVariables)
 
 def p_funcspp(t):
-    'funcspp : APAR params CPAR PTCOMA varss ALLA estatutos CLLA funcs'
+    'funcspp : APAR params CPAR PTCOMA varss ALLA addsize estatutos CLLA endfunction funcs'
     global currentScope
     currentScope = 'l'
+
+def p_endfunciton(t):
+    '''endfunction : '''
+    global currentScope
+    global localVariables
+    global usedNamesLocal
+    global Cuadruplos
+    global Ops
+    global mainFuncTable 
+    global contTemps
+
+    
+    mainFuncTable[t[-10]]['numTemps'] = contTemps
+    currentScope= 'g'
+    localVariables = {}
+    usedNamesLocal = []
+    contTemps = 0
+    Cuadruplos.append(Cuad(Ops['endFunc'], -1, -1, -1))
+
+def p_addsize(t):
+    '''addsize : '''
+    global ParameterTable
+    global mainFuncTable
+    global localVariables
+    global Cuadruplos
+
+    nombreFunc = t[-7]
+    mainFuncTable[nombreFunc]['numParamsVars'] = len(localVariables)
+    mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos)
+    
+
 
 # formato --> function void/tipo nombre función(int: id, float: id[]) 
 # / espacio de declaracion de variables /
@@ -622,7 +674,6 @@ def p_funcsp(t):
 #------------------------------------
 def p_estatutos(t):
     '''estatutos : asig estatutop
-                 | llamada estatutop
                  | return estatutop
                  | lectura estatutop
                  | escritura estatutop
@@ -634,11 +685,6 @@ def p_estatutos(t):
     # ^ Aquí falta agregar lo que vayan a ser los estatutos especiales: media, moda, stddev, etc ...
 # todos los posibles estatutos
 
-
-# ESTATUTOS QUE FALTAN -> 31/10
-# llamada
-# for
-# especiales
 
 def p_estatutop(t):
     '''estatutop : estatutos
@@ -671,9 +717,11 @@ def p_insertParams(t):
     '''
     global currentScope
     global currentType
+    global ParameterTable
     currentScope = 'l'
-    vDir = getVDirTemp(currentType)
+    vDir = getvDirVars(currentType, currentScope)
     insertToVarTable(t[1], vDir, currentType)
+    ParameterTable.append(currentType)
 
 
 # parametros para las funciones  --> int: var1, float: var2[]
@@ -728,7 +776,6 @@ def p_igualAs(t):
 
 def p_asigp(t):
     '''asigp : exp asigppp
-             | CTEC asigppp
              | empty
     '''
     
@@ -745,7 +792,6 @@ def p_asigppp(t):
 
 def p_asigpp(t):
     '''asigpp : exp
-              | CTEC
               | ACOR asigp CCOR
     '''
     if len(t) < 3:
@@ -760,23 +806,23 @@ def p_ididx(t):
 # vertiente para ver si es id simple o si tiene indice
 
 #------------------------------------
-def p_llamada(t):
-    'llamada : ID APAR args CPAR PTCOMA'
+#def p_llamada(t):
+#    'llamada : ID APAR args CPAR PTCOMA'
 
 # llamada --> func(12, var, var[3]);
 
 #------------------------------------
-def p_args(t):
-    '''args : ctes argsp
-            | exp argsp
-            | CTEC argsp
-    '''
+#def p_args(t):
+#    '''args : ctes argsp
+#            | exp argsp
+#            | CTEC argsp
+#    '''
 # aceptar todo tipo de dato para llamar a funciones en argumentos
 
-def p_argsp(t):
-    '''argsp : COMA args
-             | empty
-    '''
+#def p_argsp(t):
+#    '''argsp : COMA args
+#             | empty
+#    '''
 # multiples argumentos en llamada
 
 #------------------------------------
@@ -922,7 +968,7 @@ def p_saveWhile(t):
     '''
     global PJumps
     global Cuadruplos
-    PJumps.append(len(Cuadruplos) + 1)
+    PJumps.append(len(Cuadruplos))
 
 def p_checkWhileCond(t):
     '''checkWhileCond : CPAR
@@ -1170,7 +1216,6 @@ def p_oper(t):
 #--------------------------
 def p_factor(t): 
     '''factor : APAR exp CPAR
-              | ID factorp
               | ctes
     '''
     global PilaO
@@ -1180,7 +1225,7 @@ def p_factor(t):
     global Ops
 
     if len(t) == 2:
-        vDir = fetchVDir(t[1])
+        vDir = fetchVDir(str(t[1]))
         PilaO.append(vDir)
         Ptipos.append(getValType(t[1]))
         t[0] = t[1]
@@ -1226,13 +1271,15 @@ def p_factorpp(t):
 
 #----------------------------------
 def p_ctes(t):
-    '''ctes : ID factorp
+    '''ctes : CTEC
             | CTEI
             | CTEF
+            | ID factorp
     '''
     global tablaConstantes
     if len(t) == 2:
         tablaConstantes[t[1]] = getVdirCTE(t[1])
+        print(tablaConstantes)
         t[0] = t[1]
 
 # id, indice vector o llamada de función
@@ -1263,5 +1310,6 @@ input = f.read()
 parser.parse(input, debug=0)
 #print(localVariables)
 #print(globalVariables)
+#print(mainFuncTable)
 for c in Cuadruplos:
     print(str(c.count) + " " + "Cuad --> " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep))
