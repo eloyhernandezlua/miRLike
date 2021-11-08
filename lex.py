@@ -350,6 +350,7 @@ def fetchVDir(val):
                 try:
                     return tablaConstantes[str(val)]
                 except:
+                    print('simon')
                     ERROR("no existe", val)
 
 def asignar(val1, val2):
@@ -423,8 +424,9 @@ def validateExistance(id):
     global localVariables
     global globalVariables
     global tablaConstantes
+    global mainFuncTable
 
-    if id not in tablaConstantes and id not in globalVariables and id not in localVariables:
+    if id not in tablaConstantes and id not in globalVariables and id not in localVariables and id not in mainFuncTable:
         print('5')
         ERROR("no existe", id)
 
@@ -677,9 +679,9 @@ def p_addsize(t):
     global localVariables
     global Cuadruplos
 
-    nombreFunc = t[-7]
-    #mainFuncTable[nombreFunc]['numParamsVars'] = len(localVariables)
-    #mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos)
+    nombreFunc = t[-8]
+    mainFuncTable[nombreFunc]['numParamsVars'] = len(localVariables)
+    mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos)
     
 
 
@@ -1284,10 +1286,18 @@ def p_factor(t):
 # constantes directas
 
 def p_factorp(t):
-    '''factorp : APAR exp factorpp CPAR
+    '''factorp : APAR createEra exp factorpp CPAR
                | ACOR exp CCOR
                | empty
     '''
+
+def p_createEra(t):
+    '''createEra : '''
+    global Cuadruplos
+    global Ops
+    global mainFuncTable
+    print('entro era')
+    id = (t[-3])
     
 # parametros de funcion
 # indice de vector

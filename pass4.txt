@@ -2,6 +2,15 @@ Program MyRlike;
 VARS
     int: i, k, m;
     char: c;    
+
+function int fact (int: j);
+VARS int: i;
+{ 
+    write(i);
+}
 main(){
     c = 'r';
+    i = 20;
+    fact(i);
+
 }
