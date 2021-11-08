@@ -1,13 +1,12 @@
 Program MyRlike;
 VARS
-    int: i, k, m, c;
+    int: i, k, m;
+    char: c;
     float: valor;
 
 function int fact (int: j);
 VARS int: i;
 { 
-    i = i + j;
-    i = j * j;
     write(i);
 }
 

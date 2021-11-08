@@ -18,7 +18,8 @@ Ptipos = []
 PJumps = []
 Cuadruplos = [] 
 Consts = []
-ParameterTable = []
+ParameterTable = {}
+ParameterTableList = []
 tablaConstantes = {}
 VControl = 0
 VFinal = 0
@@ -320,29 +321,36 @@ def getValType(val):
             return 'float'
         except:
             try:
-                chr(val)
-                return 'char'
+                str(val)
+                if len(val) == 3:
+                    return 'char'
+                else:
+                    return 'string'
             except:
                 try:
-                    str(val)
-                    return 'string'
+                    bool(val)
+                    return 'bool'
                 except:
-                    try:
-                        bool(val)
-                        return 'bool'
-                    except:
-                        ERROR("mal tipo", val)
+                    ERROR("mal tipo", val)
     
 
 def fetchVDir(val):
+    global tablaConstantes
     if val in localVariables:
         return localVariables[val]['vDir']
     elif val in globalVariables:
         return globalVariables[val]['vDir']
-    elif val in tablaConstantes:
-        return tablaConstantes[val]
-    else :
-        ERROR("no existe", val)
+    else:
+        try:
+            return tablaConstantes[int(val)]
+        except:
+            try :
+                return tablaConstantes[float(val)]
+            except : 
+                try:
+                    return tablaConstantes[str(val)]
+                except:
+                    ERROR("no existe", val)
 
 def asignar(val1, val2):
     if val1 not in localVariables and val1 not in globalVariables:
@@ -391,6 +399,7 @@ def getVal(var):
         except:
             ERROR("no value", var)
     else:
+        print('2')
         ERROR("no existe", var)
 
 def getType(var):
@@ -398,6 +407,7 @@ def getType(var):
         try: 
             return localVariables[var]['tipo']
         except:
+            print('1')
             ERROR("no tipo", var)
     elif var in globalVariables:
         try: 
@@ -405,7 +415,18 @@ def getType(var):
         except:
             ERROR("no tipo", var)
     else:
+        print('6')
         ERROR("no existe", var)
+
+
+def validateExistance(id):
+    global localVariables
+    global globalVariables
+    global tablaConstantes
+
+    if id not in tablaConstantes and id not in globalVariables and id not in localVariables:
+        print('5')
+        ERROR("no existe", id)
 
 #*********************************
 #reserved words
@@ -471,7 +492,7 @@ tokens = [
 
 #************************************
 #types
-t_ignore = "\t | '' | \n"
+t_ignore = ' \t'
 
 t_PTCOMA = r'\;'
 t_APAR = r'\('
@@ -488,7 +509,7 @@ t_MAS = r'\+'
 t_MENOS = r'\-'
 t_DIV = r'\/'
 t_POR = r'\*'
-t_CTEC = r'\'(.{1})\''
+t_CTEC = r"\'.\'"
 t_MAYQ = r'\>'
 t_MENQ = r'\<'
 t_MAYI = r'\>\='
@@ -618,9 +639,17 @@ def p_insertFunc(t):
     insertToFuncTable(t[1], currentType, currentScope, localVariables)
 
 def p_funcspp(t):
-    'funcspp : APAR params CPAR PTCOMA varss ALLA addsize estatutos CLLA endfunction funcs'
+    'funcspp : APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos CLLA endfunction funcs'
     global currentScope
     currentScope = 'l'
+
+
+def p_updateParamTable(t):
+    '''updateParamTable : '''
+    global ParameterTableList
+    global ParameterTable
+    id = t[-4]
+    
 
 def p_endfunciton(t):
     '''endfunction : '''
@@ -632,8 +661,9 @@ def p_endfunciton(t):
     global mainFuncTable 
     global contTemps
 
+    idfunc = t[-11]
     
-    mainFuncTable[t[-10]]['numTemps'] = contTemps
+    mainFuncTable[idfunc]['numTemps'] = contTemps
     currentScope= 'g'
     localVariables = {}
     usedNamesLocal = []
@@ -648,8 +678,8 @@ def p_addsize(t):
     global Cuadruplos
 
     nombreFunc = t[-7]
-    mainFuncTable[nombreFunc]['numParamsVars'] = len(localVariables)
-    mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos)
+    #mainFuncTable[nombreFunc]['numParamsVars'] = len(localVariables)
+    #mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos)
     
 
 
@@ -717,11 +747,11 @@ def p_insertParams(t):
     '''
     global currentScope
     global currentType
-    global ParameterTable
+    global ParameterTableList
     currentScope = 'l'
     vDir = getvDirVars(currentType, currentScope)
     insertToVarTable(t[1], vDir, currentType)
-    ParameterTable.append(currentType)
+    ParameterTableList.append(currentType)
 
 
 # parametros para las funciones  --> int: var1, float: var2[]
@@ -1223,9 +1253,10 @@ def p_factor(t):
     global POoper
     global Cuadruplos
     global Ops
+    global tablaConstantes
 
     if len(t) == 2:
-        vDir = fetchVDir(str(t[1]))
+        vDir = fetchVDir(t[1])
         PilaO.append(vDir)
         Ptipos.append(getValType(t[1]))
         t[0] = t[1]
@@ -1274,13 +1305,17 @@ def p_ctes(t):
     '''ctes : CTEC
             | CTEI
             | CTEF
-            | ID factorp
+            | ID validateExistance factorp
     '''
     global tablaConstantes
     if len(t) == 2:
         tablaConstantes[t[1]] = getVdirCTE(t[1])
-        print(tablaConstantes)
         t[0] = t[1]
+    t[0] = t[1]
+
+def p_validateExistance(t):
+    '''validateExistance : '''
+    validateExistance(t[-1])
 
 # id, indice vector o llamada de función
     # se usa factorp porque tiene exactamente la misma función, no altera en nada

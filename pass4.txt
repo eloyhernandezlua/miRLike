@@ -1,0 +1,7 @@
+Program MyRlike;
+VARS
+    int: i, k, m;
+    char: c;    
+main(){
+    c = 'r';
+}
