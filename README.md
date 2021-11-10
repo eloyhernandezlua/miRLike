@@ -38,3 +38,10 @@ Ya se puede hacer la parte de manejo de expreciones con los datos reales desde e
 * Lógica integrada para los cuadruplos arietméticos _no jalando al 100_
 
 En general está rezagado el avance a lo que debería de ser pero me pondré al corriente esta semana i, espero un avance 4.5 a mitad de la semana 
+
+
+### Avance 5
+* Se generan cuadruplos para funciones
+* cuadruplos como el goto inicial al mai
+* correcció de bugs 
+* avances en papel de mapa de memoria y manejo de arreglos
