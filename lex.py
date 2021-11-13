@@ -24,6 +24,9 @@ tablaConstantes = {}
 VControl = 0
 VFinal = 0
 contTemps = 0
+contParams = 0
+isArray = False
+PDim = []
 
 
 ariops = ['+', '-', '*', '/']
@@ -44,6 +47,8 @@ contTempB = 36000 - 1
 contConstI = 38000 - 1
 contConstF = 40000 - 1
 contConstC = 43000 - 1
+contFuncV = 46000 - 1
+contPointers = 50000 - 1
 
 #Definir objeto cuadruplo 
 class Cuad:
@@ -76,11 +81,14 @@ Ops = {
     'return' : 17,
     'and' : 18,
     'or' : 19,
-    'endFunc' : 20
+    'endFunc' : 20,
+    'era' : 21,
+    'parameter' : 22,
+    'gosub' : 23
 }
 
 #**********
-#Plan para manejar las vdirs ---> al 23/10
+#Plan para manejar las vdirs ---> al 12/11
 # --------------------------
 # | globales int   | 2000  |
 # | globlaes float | 5000  |
@@ -95,9 +103,43 @@ Ops = {
 # | const int      | 38000 |
 # | const float    | 40000 |
 # | const char     | 43000 |
+# | fun vars       | 46000 |
+# | pointers       | 50000 |
 # -------------------------- 
 
 
+def getFuncVDir():
+    global contFuncV
+    contFuncV += 1
+    return contFuncV
+
+def endFuncReset():
+    global contLocI
+    global contLocF
+    global contLocC 
+    global contTempI
+    global contTempF
+    global contTempC
+    global contTempB
+    global contPointers
+    global currentScope
+    global localVariables
+    global usedNamesLocal
+    global contTemps
+
+    contLocI = 12000 - 1
+    contLocF = 20000 - 1
+    contLocC = 28000 -1
+    contTempI = 30000 - 1 
+    contTempF = 32000 - 1
+    contTempC = 34000 -1
+    contTempB = 36000 - 1
+    contPointers = 50000 - 1
+
+    currentScope= 'g'
+    localVariables = {}
+    usedNamesLocal = []
+    contTemps = 0
 
 def getVdirCTE(v):
     global contConstF
@@ -146,6 +188,12 @@ def ERROR(tipo, at = ""):
         extra = "ERROR EN TIPO DE DATO"
     elif tipo == "invalid op":
         extra = "INVALID OPERATION"
+    elif tipo == "function had no parameters":
+        extra = "FUNCTION EXPECTED NO PARAMETERS"
+    elif tipo == "Missing or too much parameters":
+        extra = "MISSING OR TOO MUCH PARAMETERS"
+    elif tipo == "no dims":
+        extra = "VAR HAS NO DIMESIONS"
 
     print("ERROR: " + extra + "\n @ --> " + at)
     sys.exit()
@@ -256,26 +304,33 @@ def isValidOp(tipo1, tipo2, op):
 
 
 def getvDirVars(tipo, scope):
+    global contGlobI
+    global contGlobF
+    global contGlobC
+    global contLocI
+    global contLocF
+    global contLocC
+
     if scope == 'g':
         if tipo == 'int': 
-            global contGlobI
             contGlobI += 1
             return contGlobI + 1
         elif tipo == 'float':
-            global contGlobF
             contGlobF += 1
             return contGlobF + 1
         elif tipo == 'char':
-            global contGlobC
             contGlobC += 1
             return contGlobC + 1
     else:
         if tipo == 'int': 
-            return contLocI + 1
+            contLocI += 1
+            return contLocI
         elif tipo == 'float':
-            return contLocF + 1
+            contLocF += 1
+            return contLocF
         elif tipo == 'char':
-            return contLocC + 1
+            contLocC += 1
+            return contLocC 
 
 
 def insertToVarTable(id, vDir, tipo):
@@ -336,6 +391,10 @@ def getValType(val):
 
 def fetchVDir(val):
     global tablaConstantes
+    global localVariables
+    global globalVariables
+    global mainFuncTable
+
     if val in localVariables:
         return localVariables[val]['vDir']
     elif val in globalVariables:
@@ -350,7 +409,8 @@ def fetchVDir(val):
                 try:
                     return tablaConstantes[str(val)]
                 except:
-                    print('simon')
+                    print("aqui")
+                    print(globalVariables)
                     ERROR("no existe", val)
 
 def asignar(val1, val2):
@@ -400,7 +460,6 @@ def getVal(var):
         except:
             ERROR("no value", var)
     else:
-        print('2')
         ERROR("no existe", var)
 
 def getType(var):
@@ -408,7 +467,6 @@ def getType(var):
         try: 
             return localVariables[var]['tipo']
         except:
-            print('1')
             ERROR("no tipo", var)
     elif var in globalVariables:
         try: 
@@ -429,6 +487,38 @@ def validateExistance(id):
     if id not in tablaConstantes and id not in globalVariables and id not in localVariables and id not in mainFuncTable:
         print('5')
         ERROR("no existe", id)
+
+def setNextVDir(cScope, cType, size):
+    global contLocI
+    global contLocF
+    global contLocC
+
+    global contGlobI
+    global contGlobF
+    global contGlobC
+
+    if cScope == 'l':
+        if cType == 'int':
+            contLocI += size
+        elif cType == 'float':
+            contLocF += size
+        elif cType == 'char':
+            contLocC += size
+    elif cScope == 'g':
+        if cType == 'int':
+            contGlobI += size
+        elif cType == 'float':
+            contGlobF += size
+        elif cType == 'char':
+            contGlobC += size
+
+def checkForDims(id):
+    global localVariables
+    global globalVariables
+
+    if not localVariables[id]['isArray'] and not globalVariables[id]['isArray']:
+        ERROR("no dims", id)
+
 
 #*********************************
 #reserved words
@@ -612,9 +702,33 @@ def p_insertVar(t):
 # formato tipo : id, id[n] ;
 
 def p_varsppp(t):
-    '''varsppp : ACOR CTEI CCOR
+    '''varsppp : initDim CTEI setDim
                | empty
     '''
+
+def p_setDim(t):
+    '''setDim : CCOR'''
+    global currentScope
+    global currentType
+
+    size = int(t[-1])
+
+    setNextVDir(currentScope, currentType, size)    
+
+
+def p_initDim(t):
+    '''initDim : ACOR'''
+    global localVariables
+    global globalVariables
+    global currentScope
+
+    id = t[-1]
+    if currentScope == 'l':
+        localVariables[id]['isArray'] = True
+    elif currentScope == 'g':
+        globalVariables[id]['isArray'] = True
+
+
 # recibir dimension del vector
 # fue variable simple
 
@@ -636,8 +750,12 @@ def p_insertFunc(t):
     global currentScope
     global currentType
     global localVariables
+    global globalVariables
+
     t[0] = t[1]
     currentScope = 'l'
+    vDir = getFuncVDir()
+    globalVariables[t[1]] = {'vDir': vDir, 'tipo': currentType}
     insertToFuncTable(t[1], currentType, currentScope, localVariables)
 
 def p_funcspp(t):
@@ -655,22 +773,16 @@ def p_updateParamTable(t):
 
 def p_endfunciton(t):
     '''endfunction : '''
-    global currentScope
-    global localVariables
-    global usedNamesLocal
-    global Cuadruplos
-    global Ops
+
     global mainFuncTable 
     global contTemps
-
-    idfunc = t[-11]
+    global Cuadruplos
+    global Ops
     
+    idfunc = t[-11]
     mainFuncTable[idfunc]['numTemps'] = contTemps
-    currentScope= 'g'
-    localVariables = {}
-    usedNamesLocal = []
-    contTemps = 0
     Cuadruplos.append(Cuad(Ops['endFunc'], -1, -1, -1))
+    endFuncReset()
 
 def p_addsize(t):
     '''addsize : '''
@@ -681,7 +793,7 @@ def p_addsize(t):
 
     nombreFunc = t[-8]
     mainFuncTable[nombreFunc]['numParamsVars'] = len(localVariables)
-    mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos)
+    mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos) + 1
     
 
 
@@ -823,18 +935,35 @@ def p_asigppp(t):
 # fin de elementos
 
 def p_asigpp(t):
-    '''asigpp : exp
-              | ACOR asigp CCOR
-    '''
+    '''asigpp : exp'''
     if len(t) < 3:
         t[0] = t[1]
 # asignaciones para todo tipo de dato y arreglos
 
 #------------------------------------
 def p_ididx(t):
-    '''ididx : ACOR exp CCOR
+    '''ididx : corArr exp CCOR
              | empty
     '''
+
+def p_corArr(t):
+    '''corArr : ACOR'''
+    global PDim
+    global POoper
+    global PilaO
+    global Ptipos
+
+
+    id = PilaO.pop
+    tipo = Ptipos.pop()
+    idName = t[-1]
+    checkForDims(idName)
+    DIM = 1
+    PDim.append((id, DIM))
+    POoper.append("~") #fake bottom
+
+
+
 # vertiente para ver si es id simple o si tiene indice
 
 #------------------------------------
@@ -1286,27 +1415,69 @@ def p_factor(t):
 # constantes directas
 
 def p_factorp(t):
-    '''factorp : APAR createEra exp factorpp CPAR
+    '''factorp : APAR createEra exp valParams factorpp cparParams
                | ACOR exp CCOR
                | empty
     '''
+
+def p_cparParams(t):
+    '''cparParams : CPAR'''
+    global ParameterTableList
+    global contParams
+    global Cuadruplos
+    global Ops
+    global mainFuncTable
+
+    if len(ParameterTableList) != contParams:
+        ERROR("Missing or too much parameters")
+
+    id = t[-7]
+    initDir = mainFuncTable[id]['initFunc']
+
+    Cuadruplos.append(Cuad(Ops['gosub'], id, -1, initDir))
 
 def p_createEra(t):
     '''createEra : '''
     global Cuadruplos
     global Ops
     global mainFuncTable
-    print('entro era')
+    global contParams
+    
     id = (t[-3])
+    Cuadruplos.append(Cuad(Ops['era'], -1, -1, id))
+    contParams = 0
     
 # parametros de funcion
 # indice de vector
 # fue id sencillo
 
+def p_valParams(t):
+    '''valParams : '''
+
+    global contParams
+    global ParameterTableList
+    global PilaO
+    global Ptipos
+    global Cuadruplos
+    global Ops
+
+    if PilaO and Ptipos and ParameterTableList:
+        argument = PilaO.pop()
+        argType = Ptipos.pop()
+
+        if argType != ParameterTableList[contParams]:
+            ERROR("tipos distintos", t[-1])
+        contParams += 1
+        Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, contParams))
+    else:
+        ERROR("function had no parameters", t[-1])
+
 def p_factorpp(t):
-    '''factorpp : COMA exp factorpp
+    '''factorpp : COMA exp valParams factorpp
                 | empty
     '''
+    
+
 # múltiples parámetros
 # salir de bucle
 
@@ -1349,7 +1520,7 @@ def p_error(t):
 # procesar archivo de input
 import ply.yacc as yacc
 parser = yacc.yacc()
-f = open("./pass3.txt", "r")
+f = open("./pass4.txt", "r")
 input = f.read()
 #print(input)
 parser.parse(input, debug=0)

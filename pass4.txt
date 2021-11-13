@@ -11,6 +11,6 @@ VARS int: i;
 main(){
     c = 'r';
     i = 20;
-    fact(i);
+    fact(i)
 
 }

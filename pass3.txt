@@ -5,9 +5,13 @@ VARS
     float: valor;
 
 function int fact (int: j);
-VARS int: i;
+VARS int: i, e, w, r;
 { 
-    write(i);
+    i = 12;
+    e = 123;
+    w = e + i + 4;
+    r = w * e * i;
+    write(r);
 }
 
 main(){
