@@ -84,7 +84,8 @@ Ops = {
     'endFunc' : 20,
     'era' : 21,
     'parameter' : 22,
-    'gosub' : 23
+    'gosub' : 23,
+    'ver' : 24
 }
 
 #**********
@@ -217,6 +218,7 @@ def getVDirTemp(type):
     global contTempC
     global contTempF
     global contTempI
+    global contPointers
     global contTemps
 
     contTemps += 1
@@ -233,6 +235,9 @@ def getVDirTemp(type):
     elif type == 'bool':
         contTempB += 1
         return contTempB
+    elif type == 'pointer':
+        contPointers += 1
+        return contPointers
 
 
 ## Baila mi hija con el señor ## 
@@ -409,7 +414,6 @@ def fetchVDir(val):
                 try:
                     return tablaConstantes[str(val)]
                 except:
-                    print("aqui")
                     print(globalVariables)
                     ERROR("no existe", val)
 
@@ -474,7 +478,6 @@ def getType(var):
         except:
             ERROR("no tipo", var)
     else:
-        print('6')
         ERROR("no existe", var)
 
 
@@ -485,7 +488,6 @@ def validateExistance(id):
     global mainFuncTable
 
     if id not in tablaConstantes and id not in globalVariables and id not in localVariables and id not in mainFuncTable:
-        print('5')
         ERROR("no existe", id)
 
 def setNextVDir(cScope, cType, size):
@@ -515,9 +517,40 @@ def setNextVDir(cScope, cType, size):
 def checkForDims(id):
     global localVariables
     global globalVariables
+    try:
+        localVariables[id]['isArray']
+    except:
+        try:
+            globalVariables[id]['isArray']
+        except:
+            ERROR("no dims")
 
-    if not localVariables[id]['isArray'] and not globalVariables[id]['isArray']:
-        ERROR("no dims", id)
+def setSizeArr(id, scope, size):
+    global localVariables
+    global globalVariables
+
+    if scope == 'g':
+        globalVariables[id]['size'] = size
+    elif scope == 'l':
+        localVariables[id]['size'] = size
+
+def fetchLimit(id):
+    global globalVariables
+    global localVariables
+
+    try: 
+        return localVariables[id]['size']
+    except:
+        return globalVariables[id]['size']
+
+def fetchInitDir(id):
+    global localVariables
+    global globalVariables
+
+    try: 
+        return localVariables[id]['vDir']
+    except:
+        return globalVariables[id]['vDir']
 
 
 #*********************************
@@ -660,10 +693,13 @@ def p_agregarTablaFunciones(t):
     global Cuadruplos
     global Ops
     global PJumps
+    global tablaConstantes
 
     insertToFuncTable(t[1], 'void', currentScope, globalVariables)
     Cuadruplos.append(Cuad(Ops['goto'], -1, -1, -99))
     PJumps.append(len(Cuadruplos))
+    tablaConstantes[0] = getVdirCTE(0)
+    tablaConstantes[1] = getVdirCTE(1)
 
 
 def p_poptomain(t):
@@ -695,7 +731,7 @@ def p_insertVar(t):
     'insertVar : ID'
     global currentScope
     global currentType
-
+    t[0] = t[1]
     vDir = getvDirVars(currentType, currentScope)
     insertToVarTable(t[1], vDir, currentType)
 
@@ -710,9 +746,15 @@ def p_setDim(t):
     '''setDim : CCOR'''
     global currentScope
     global currentType
+    global tablaConstantes
 
     size = int(t[-1])
+    id = t[-3]
 
+    if not t[-1] in tablaConstantes:
+        tablaConstantes[size] = getVdirCTE(size)
+
+    setSizeArr(id, currentScope, size)
     setNextVDir(currentScope, currentType, size)    
 
 
@@ -897,7 +939,7 @@ def p_varAs(t):
     'varAs : ID'
     global PilaO
     global Ptipos
-
+    t[0] = t[1]
     vDir = fetchVDir(t[1])
     PilaO.append(vDir)
     Ptipos.append(getValType(t[1]))
@@ -942,9 +984,36 @@ def p_asigpp(t):
 
 #------------------------------------
 def p_ididx(t):
-    '''ididx : corArr exp CCOR
+    '''ididx : corArr exp ver CCOR
              | empty
     '''
+    global PilaO
+    global Cuadruplos
+    global Ops
+    global globalVariables
+    global POoper
+    global tablaConstantes
+
+    if len(t) > 2:
+        if PilaO:
+            aux1 = PilaO.pop()
+            initDir = fetchInitDir(t[-1])
+
+            if not initDir in tablaConstantes:
+                tablaConstantes[initDir] = getVdirCTE(initDir)
+
+            initDirVal = tablaConstantes[initDir]
+
+            pointer = getVDirTemp('pointer')
+
+            Cuadruplos.append(Cuad(Ops['+'], aux1, initDirVal, pointer))
+
+            PilaO.append(pointer)
+            POoper.pop()
+
+
+
+
 
 def p_corArr(t):
     '''corArr : ACOR'''
@@ -953,7 +1022,6 @@ def p_corArr(t):
     global PilaO
     global Ptipos
 
-
     id = PilaO.pop
     tipo = Ptipos.pop()
     idName = t[-1]
@@ -961,6 +1029,23 @@ def p_corArr(t):
     DIM = 1
     PDim.append((id, DIM))
     POoper.append("~") #fake bottom
+
+def p_ver(t):
+    '''ver : '''
+    
+    global PilaO
+    global Cuadruplos
+    global Ops
+    global tablaConstantes
+
+    val = PilaO[-1]
+    id = t[-3]
+    lim = fetchLimit(id)
+    limSup = fetchVDir(lim)
+    limInf = fetchVDir(0)
+
+    Cuadruplos.append(Cuad(Ops['ver'], val, limInf, limSup))
+
 
 
 
@@ -995,7 +1080,7 @@ def p_return(t):
 
     retVal = PilaO.pop()
 
-    Cuadruplos.append(Cuad(Ops['return'], retVal, -1, -1))
+    Cuadruplos.append(Cuad(Ops['return'], -1, -1, retVal))
     #Quizá la dirección destino de este cuadrupo sea lo que esté en el tope de la fila de saltos
 
 
@@ -1163,9 +1248,10 @@ def p_for(t):
     global Ptipos
 
     ty = getVDirTemp('int')
-    Cuadruplos.append(Cuad(Ops['+'], VControl, 1, ty))
+    vdirUno = fetchVDir(1)
+    Cuadruplos.append(Cuad(Ops['+'], VControl, vdirUno, ty))
     Cuadruplos.append(Cuad(Ops['='], ty, -1, VControl))
-    Cuadruplos.append(Cuad(Ops['='], ty, -1,PilaO[-1]))
+    Cuadruplos.append(Cuad(Ops['='], ty, -1, PilaO[-1]))
     fin = PJumps.pop()
     ret = PJumps.pop()
     Cuadruplos.append(Cuad(Ops['goto'], -1, -1, ret))
@@ -1355,6 +1441,7 @@ def p_termino(t):
             op = POoper.pop()
             resType = isValidOp(rType, lType, op)
             resVdir = getVDirTemp(resType)
+            print(PilaO)
             Cuadruplos.append(Cuad(Ops[op], lOp, rOp, resVdir))
             PilaO.append(resVdir)
             Ptipos.append(resType)
@@ -1416,9 +1503,60 @@ def p_factor(t):
 
 def p_factorp(t):
     '''factorp : APAR createEra exp valParams factorpp cparParams
-               | ACOR exp CCOR
+               | corArr exp ver endArrfac
                | empty
     '''
+    global PilaO
+    global Cuadruplos
+    global Ops
+    global globalVariables
+    global POoper
+    global tablaConstantes
+
+    if t[1] == '[':
+        print("\n\n\n\n\n\n\n\n Entro")
+        if PilaO:
+            aux1 = PilaO.pop()
+            initDir = fetchInitDir(t[-1])
+            print("\n\n\n\n\n\n\n\n ",t[-1])
+            if not initDir in tablaConstantes:
+                tablaConstantes[initDir] = getVdirCTE(initDir)
+
+            initDirVal = tablaConstantes[initDir]
+
+            pointer = getVDirTemp('pointer')
+
+            Cuadruplos.append(Cuad(Ops['+'], aux1, initDirVal, pointer))
+
+            PilaO.append(pointer)
+            POoper.pop()
+
+def p_endArrfac(t):
+    '''endArrfac : CCOR'''
+    global PilaO
+    global Cuadruplos
+    global Ops
+    global globalVariables
+    global POoper
+    global tablaConstantes
+
+    if t[1] == '[':
+        print("\n\n\n\n\n\n\n\n Entro")
+        if PilaO:
+            aux1 = PilaO.pop()
+            initDir = fetchInitDir(t[-1])
+            print("\n\n\n\n\n\n\n\n ",t[-1])
+            if not initDir in tablaConstantes:
+                tablaConstantes[initDir] = getVdirCTE(initDir)
+
+            initDirVal = tablaConstantes[initDir]
+
+            pointer = getVDirTemp('pointer')
+
+            Cuadruplos.append(Cuad(Ops['+'], aux1, initDirVal, pointer))
+
+            PilaO.append(pointer)
+            POoper.pop()
 
 def p_cparParams(t):
     '''cparParams : CPAR'''
@@ -1427,14 +1565,19 @@ def p_cparParams(t):
     global Cuadruplos
     global Ops
     global mainFuncTable
+    global globalVariables
 
     if len(ParameterTableList) != contParams:
         ERROR("Missing or too much parameters")
 
     id = t[-7]
     initDir = mainFuncTable[id]['initFunc']
+    funcDVir = globalVariables[id]['vDir']
+    funcType = globalVariables[id]['tipo']
+    temp = getVDirTemp(funcType)
 
     Cuadruplos.append(Cuad(Ops['gosub'], id, -1, initDir))
+    Cuadruplos.append(Cuad(Ops['='], funcDVir, -1, temp))
 
 def p_createEra(t):
     '''createEra : '''
@@ -1490,13 +1633,14 @@ def p_ctes(t):
     '''
     global tablaConstantes
     if len(t) == 2:
-        tablaConstantes[t[1]] = getVdirCTE(t[1])
-        t[0] = t[1]
+        if not t[1] in tablaConstantes:
+            tablaConstantes[t[1]] = getVdirCTE(t[1])
     t[0] = t[1]
 
 def p_validateExistance(t):
     '''validateExistance : '''
     validateExistance(t[-1])
+    t[0] = t[-1]
 
 # id, indice vector o llamada de función
     # se usa factorp porque tiene exactamente la misma función, no altera en nada
@@ -1524,8 +1668,10 @@ f = open("./pass4.txt", "r")
 input = f.read()
 #print(input)
 parser.parse(input, debug=0)
-#print(localVariables)
-#print(globalVariables)
-#print(mainFuncTable)
+# print(localVariables)
+print(globalVariables)
+# print(mainFuncTable)
+print(tablaConstantes)
+# print(PilaO)
 for c in Cuadruplos:
     print(str(c.count) + " " + "Cuad --> " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep))

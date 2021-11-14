@@ -1,16 +1,8 @@
 Program MyRlike;
 VARS
-    int: i, k, m;
-    char: c;    
-
-function int fact (int: j);
-VARS int: i;
-{ 
-    write(i);
-}
+    int: i, m;
+    int: A[5];   
 main(){
-    c = 'r';
-    i = 20;
-    fact(i)
+    m = A[1] + i;
 
 }
