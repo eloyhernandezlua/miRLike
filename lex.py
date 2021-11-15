@@ -525,6 +525,19 @@ def checkForDims(id):
         except:
             ERROR("no dims")
 
+def isarray(id):
+    global localVariables
+    global globalVariables
+    try:
+        localVariables[id]['isArray']
+        return True
+    except:
+        try:
+            globalVariables[id]['isArray']
+            return True
+        except:
+            return False
+
 def setSizeArr(id, scope, size):
     global localVariables
     global globalVariables
@@ -684,7 +697,28 @@ lexer = lex.lex()
 
 def p_program(t):
     'program : PROGRAM agregarTablaFunciones varss funcs MAIN APAR CPAR ALLA poptomain estatutos CLLA'
-    print('Código aceptado')
+    print('Código aceptado \n\n')
+
+    global contGlobI
+    global contTempI
+    global contGlobF
+    global contTempF
+    global contGlobC
+    global contTempC
+    global contTempB
+    global contPointers
+    global contConstC
+    global contConstI
+    global contConstF
+    global contFuncV    
+
+    nombreFunc = t[2]
+
+    mainFuncTable[nombreFunc]['numInts'] = (contGlobI - (2000-1)) + (contTempI - (30000 -1))
+    mainFuncTable[nombreFunc]['numFloats'] = (contGlobF - (5000-1)) + (contTempF - (32000 -1))
+    mainFuncTable[nombreFunc]['numChars'] = (contGlobC - (9000-1)) + (contTempC - (34000 -1))
+    mainFuncTable[nombreFunc]['numBools'] = (contTempB - (36000-1))
+    mainFuncTable[nombreFunc]['numPointers'] = (contPointers - (50000-1))
 
 def p_agregarTablaFunciones(t):
     'agregarTablaFunciones : ID PTCOMA'
@@ -694,6 +728,8 @@ def p_agregarTablaFunciones(t):
     global Ops
     global PJumps
     global tablaConstantes
+
+    t[0] = t[1]
 
     insertToFuncTable(t[1], 'void', currentScope, globalVariables)
     Cuadruplos.append(Cuad(Ops['goto'], -1, -1, -99))
@@ -754,7 +790,7 @@ def p_setDim(t):
     if not t[-1] in tablaConstantes:
         tablaConstantes[size] = getVdirCTE(size)
 
-    setSizeArr(id, currentScope, size)
+    setSizeArr(id, currentScope, size) #checar
     setNextVDir(currentScope, currentType, size)    
 
 
@@ -832,9 +868,22 @@ def p_addsize(t):
     global mainFuncTable
     global localVariables
     global Cuadruplos
+    global contLocI
+    global contTempI
+    global contLocF
+    global contTempF
+    global contLocC
+    global contTempC
+    global contTempB
+    global contPointers
 
     nombreFunc = t[-8]
     mainFuncTable[nombreFunc]['numParamsVars'] = len(localVariables)
+    mainFuncTable[nombreFunc]['numInts'] = (contLocI - (12000-1)) + (contTempI - (30000 -1))
+    mainFuncTable[nombreFunc]['numFloats'] = (contLocF - (20000-1)) + (contTempF - (32000 -1))
+    mainFuncTable[nombreFunc]['numChars'] = (contLocC - (28000-1)) + (contTempC - (34000 -1))
+    mainFuncTable[nombreFunc]['numBools'] = (contTempB - (36000-1))
+    mainFuncTable[nombreFunc]['numPointers'] = (contPointers - (50000-1))
     mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos) + 1
     
 
@@ -1010,6 +1059,7 @@ def p_ididx(t):
 
             PilaO.append(pointer)
             POoper.pop()
+            #print(PilaO, "<----")
 
 
 
@@ -1022,7 +1072,7 @@ def p_corArr(t):
     global PilaO
     global Ptipos
 
-    id = PilaO.pop
+    id = PilaO.pop()
     tipo = Ptipos.pop()
     idName = t[-1]
     checkForDims(idName)
@@ -1434,6 +1484,7 @@ def p_termino(t):
 
     if len(POoper) > 0:
         if POoper[-1] == '+' or POoper[-1] == '-':
+            #print(PilaO)
             rOp = PilaO.pop()
             rType = Ptipos.pop()
             lOp = PilaO.pop()
@@ -1441,7 +1492,6 @@ def p_termino(t):
             op = POoper.pop()
             resType = isValidOp(rType, lType, op)
             resVdir = getVDirTemp(resType)
-            print(PilaO)
             Cuadruplos.append(Cuad(Ops[op], lOp, rOp, resVdir))
             PilaO.append(resVdir)
             Ptipos.append(resType)
@@ -1462,8 +1512,21 @@ def p_oper(t):
     POoper.append(t[1])
 
 #--------------------------
+
+def p_meteFondo(t):
+    '''meteFondo : APAR'''
+    global POoper
+
+    POoper.append('~')
+
+def p_sacaFondo(t):
+    '''sacaFondo : CPAR'''
+    global POoper
+
+    POoper.pop()
+
 def p_factor(t): 
-    '''factor : APAR exp CPAR
+    '''factor : meteFondo exp sacaFondo
               | ctes
     '''
     global PilaO
@@ -1503,60 +1566,8 @@ def p_factor(t):
 
 def p_factorp(t):
     '''factorp : APAR createEra exp valParams factorpp cparParams
-               | corArr exp ver endArrfac
-               | empty
+               | ididx
     '''
-    global PilaO
-    global Cuadruplos
-    global Ops
-    global globalVariables
-    global POoper
-    global tablaConstantes
-
-    if t[1] == '[':
-        print("\n\n\n\n\n\n\n\n Entro")
-        if PilaO:
-            aux1 = PilaO.pop()
-            initDir = fetchInitDir(t[-1])
-            print("\n\n\n\n\n\n\n\n ",t[-1])
-            if not initDir in tablaConstantes:
-                tablaConstantes[initDir] = getVdirCTE(initDir)
-
-            initDirVal = tablaConstantes[initDir]
-
-            pointer = getVDirTemp('pointer')
-
-            Cuadruplos.append(Cuad(Ops['+'], aux1, initDirVal, pointer))
-
-            PilaO.append(pointer)
-            POoper.pop()
-
-def p_endArrfac(t):
-    '''endArrfac : CCOR'''
-    global PilaO
-    global Cuadruplos
-    global Ops
-    global globalVariables
-    global POoper
-    global tablaConstantes
-
-    if t[1] == '[':
-        print("\n\n\n\n\n\n\n\n Entro")
-        if PilaO:
-            aux1 = PilaO.pop()
-            initDir = fetchInitDir(t[-1])
-            print("\n\n\n\n\n\n\n\n ",t[-1])
-            if not initDir in tablaConstantes:
-                tablaConstantes[initDir] = getVdirCTE(initDir)
-
-            initDirVal = tablaConstantes[initDir]
-
-            pointer = getVDirTemp('pointer')
-
-            Cuadruplos.append(Cuad(Ops['+'], aux1, initDirVal, pointer))
-
-            PilaO.append(pointer)
-            POoper.pop()
 
 def p_cparParams(t):
     '''cparParams : CPAR'''
@@ -1664,14 +1675,17 @@ def p_error(t):
 # procesar archivo de input
 import ply.yacc as yacc
 parser = yacc.yacc()
-f = open("./pass4.txt", "r")
+f = open("./pass3.txt", "r")
 input = f.read()
 #print(input)
 parser.parse(input, debug=0)
 # print(localVariables)
-print(globalVariables)
+# print(globalVariables)
 # print(mainFuncTable)
-print(tablaConstantes)
+# print(tablaConstantes)
 # print(PilaO)
+output = open("cuads.o", "w")
 for c in Cuadruplos:
-    print(str(c.count) + " " + "Cuad --> " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep))
+    #print(str(c.count) + " " + "Cuad --> " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep))
+    output.write(str(c.count) + " " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep) + "\n")
+output.close()

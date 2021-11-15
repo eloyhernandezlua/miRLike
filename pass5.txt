@@ -1,0 +1,9 @@
+Program MyRlike;
+VARS
+    int: i, m, j, e;   
+main(){
+    i = 12;
+    m = 10;
+    j = i + m;
+    e = j * m;
+}
