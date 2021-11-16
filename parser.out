@@ -4,8 +4,6 @@ Unused terminals:
 
     BOOL
     FALSE
-    IGUALIGUAL
-    NOT
     STR
     TRUE
 
@@ -103,53 +101,54 @@ Rule 88    addPO -> MAYQ
 Rule 89    addPO -> MENQ
 Rule 90    addPO -> MAYI
 Rule 91    addPO -> MENI
-Rule 92    addPO -> IGUAL IGUAL
+Rule 92    addPO -> IGUALIGUAL
 Rule 93    addPO -> DIF
-Rule 94    mexp -> termino mexpp
-Rule 95    mexpp -> operSR mexp
-Rule 96    mexpp -> empty
-Rule 97    operSR -> MENOS
-Rule 98    operSR -> MAS
-Rule 99    termino -> factor terminop
-Rule 100   terminop -> oper termino
-Rule 101   terminop -> empty
-Rule 102   oper -> DIV
-Rule 103   oper -> POR
-Rule 104   meteFondo -> APAR
-Rule 105   sacaFondo -> CPAR
-Rule 106   factor -> meteFondo exp sacaFondo
-Rule 107   factor -> ctes
-Rule 108   factorp -> APAR createEra exp valParams factorpp cparParams
-Rule 109   factorp -> ididx
-Rule 110   cparParams -> CPAR
-Rule 111   createEra -> <empty>
-Rule 112   valParams -> <empty>
-Rule 113   factorpp -> COMA exp valParams factorpp
-Rule 114   factorpp -> empty
-Rule 115   ctes -> CTEC
-Rule 116   ctes -> CTEI
-Rule 117   ctes -> CTEF
-Rule 118   ctes -> ID validateExistance factorp
-Rule 119   validateExistance -> <empty>
-Rule 120   empty -> <empty>
+Rule 94    addPO -> NOT
+Rule 95    mexp -> termino mexpp
+Rule 96    mexpp -> operSR mexp
+Rule 97    mexpp -> empty
+Rule 98    operSR -> MENOS
+Rule 99    operSR -> MAS
+Rule 100   termino -> factor terminop
+Rule 101   terminop -> oper termino
+Rule 102   terminop -> empty
+Rule 103   oper -> DIV
+Rule 104   oper -> POR
+Rule 105   meteFondo -> APAR
+Rule 106   sacaFondo -> CPAR
+Rule 107   factor -> meteFondo exp sacaFondo
+Rule 108   factor -> ctes
+Rule 109   factorp -> APAR createEra exp valParams factorpp cparParams
+Rule 110   factorp -> ididx
+Rule 111   cparParams -> CPAR
+Rule 112   createEra -> <empty>
+Rule 113   valParams -> <empty>
+Rule 114   factorpp -> COMA exp valParams factorpp
+Rule 115   factorpp -> empty
+Rule 116   ctes -> CTEC
+Rule 117   ctes -> CTEI
+Rule 118   ctes -> CTEF
+Rule 119   ctes -> ID validateExistance factorp
+Rule 120   validateExistance -> <empty>
+Rule 121   empty -> <empty>
 
 Terminals, with rules where they appear
 
 ACOR                 : 12 52
 ALLA                 : 1 18 66 67 71 74
 AND                  : 84
-APAR                 : 1 18 54 55 59 66 71 104 108
+APAR                 : 1 18 54 55 59 66 71 105 109
 BOOL                 : 
 CCOR                 : 11 50
 CHAR                 : 36
 CLLA                 : 1 18 66 67 71 74
-COMA                 : 14 40 47 57 64 113
-CPAR                 : 1 18 54 55 59 70 73 105 110
-CTEC                 : 63 115
-CTEF                 : 117
-CTEI                 : 9 116
+COMA                 : 14 40 47 57 64 114
+CPAR                 : 1 18 54 55 59 70 73 106 111
+CTEC                 : 63 116
+CTEF                 : 118
+CTEI                 : 9 117
 DIF                  : 93
-DIV                  : 102
+DIV                  : 103
 DO                   : 71 77
 DOSPNTS              : 6 37
 ELSE                 : 69
@@ -157,21 +156,21 @@ FALSE                :
 FLOAT                : 35
 FOR                  : 74
 FUNCTION             : 15
-ID                   : 2 8 17 39 43 56 75 118
+ID                   : 2 8 17 39 43 56 75 119
 IF                   : 66
-IGUAL                : 44 74 92 92
-IGUALIGUAL           : 
+IGUAL                : 44 74
+IGUALIGUAL           : 92
 INT                  : 34
 MAIN                 : 1
-MAS                  : 98
+MAS                  : 99
 MAYI                 : 90
 MAYQ                 : 88
 MENI                 : 91
-MENOS                : 97
+MENOS                : 98
 MENQ                 : 89
-NOT                  : 
+NOT                  : 94
 OR                   : 79
-POR                  : 103
+POR                  : 104
 PROGRAM              : 1
 PTCOMA               : 2 13 18 42 54 55 59
 READ                 : 55
@@ -204,28 +203,28 @@ checkWhileCond       : 71
 cond                 : 28
 condpp               : 66
 corArr               : 50
-cparParams           : 108
-createEra            : 108
-ctes                 : 107
-empty                : 5 7 10 16 33 38 41 46 48 51 58 65 68 80 83 87 96 101 114
+cparParams           : 109
+createEra            : 109
+ctes                 : 108
+empty                : 5 7 10 16 33 38 41 46 48 51 58 65 68 80 83 87 97 102 115
 endfunction          : 18
 escritura            : 27
 escriturap           : 59 64
 escriturapp          : 59
 estatutop            : 24 25 26 27 28 29 30 31
 estatutos            : 1 18 32 66 67 71 74
-exp                  : 31 45 49 50 54 61 66 71 74 74 79 106 108 113
+exp                  : 31 45 49 50 54 61 66 71 74 74 79 107 109 114
 expp                 : 78
-factor               : 99
-factorp              : 118
-factorpp             : 108 113
+factor               : 100
+factorp              : 119
+factorpp             : 109 114
 for                  : 30
 funcs                : 1 18
 funcsp               : 15
 funcspp              : 15
 gexp                 : 81
 gexpp                : 85
-ididx                : 37 42 55 57 74 109
+ididx                : 37 42 55 57 74 110
 igualAs              : 42
 initDim              : 9
 initFor              : 74
@@ -234,11 +233,11 @@ insertParams         : 37
 insertVar            : 6 14
 lectura              : 26
 lecturapp            : 55 57
-meteFondo            : 106
-mexp                 : 85 86 95
-mexpp                : 94
-oper                 : 100
-operSR               : 95
+meteFondo            : 107
+mexp                 : 85 86 96
+mexpp                : 95
+oper                 : 101
+operSR               : 96
 params               : 18 40
 paramsp              : 37
 poptomain            : 1
@@ -246,17 +245,17 @@ program              : 0
 pushEsc              : 60
 readId               : 55 57
 return               : 25
-sacaFondo            : 106
+sacaFondo            : 107
 saveWhile            : 71
 setDim               : 9
-termino              : 94 100
-terminop             : 99
+termino              : 95 101
+terminop             : 100
 texp                 : 78 82
 texpp                : 81
 tipo                 : 6 23 37
 updateParamTable     : 18
-valParams            : 108 113
-validateExistance    : 118
+valParams            : 109 114
+validateExistance    : 119
 varAs                : 42
 varFor               : 74
 vars                 : 4 6
@@ -297,11 +296,11 @@ state 3
     (1) program -> PROGRAM agregarTablaFunciones . varss funcs MAIN APAR CPAR ALLA poptomain estatutos CLLA
     (4) varss -> . VARS vars
     (5) varss -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     VARS            shift and go to state 6
-    FUNCTION        reduce using rule 120 (empty -> .)
-    MAIN            reduce using rule 120 (empty -> .)
+    FUNCTION        reduce using rule 121 (empty -> .)
+    MAIN            reduce using rule 121 (empty -> .)
 
     varss                          shift and go to state 5
     empty                          shift and go to state 7
@@ -318,10 +317,10 @@ state 5
     (1) program -> PROGRAM agregarTablaFunciones varss . funcs MAIN APAR CPAR ALLA poptomain estatutos CLLA
     (15) funcs -> . FUNCTION funcsp insertFunc funcspp
     (16) funcs -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     FUNCTION        shift and go to state 10
-    MAIN            reduce using rule 120 (empty -> .)
+    MAIN            reduce using rule 121 (empty -> .)
 
     funcs                          shift and go to state 9
     empty                          shift and go to state 11
@@ -334,14 +333,14 @@ state 6
     (34) tipo -> . INT
     (35) tipo -> . FLOAT
     (36) tipo -> . CHAR
-    (120) empty -> .
+    (121) empty -> .
 
     INT             shift and go to state 15
     FLOAT           shift and go to state 16
     CHAR            shift and go to state 17
-    FUNCTION        reduce using rule 120 (empty -> .)
-    MAIN            reduce using rule 120 (empty -> .)
-    ALLA            reduce using rule 120 (empty -> .)
+    FUNCTION        reduce using rule 121 (empty -> .)
+    MAIN            reduce using rule 121 (empty -> .)
+    ALLA            reduce using rule 121 (empty -> .)
 
     vars                           shift and go to state 12
     tipo                           shift and go to state 13
@@ -513,11 +512,11 @@ state 26
     (9) varsppp -> . initDim CTEI setDim
     (10) varsppp -> . empty
     (12) initDim -> . ACOR
-    (120) empty -> .
+    (121) empty -> .
 
     ACOR            shift and go to state 34
-    PTCOMA          reduce using rule 120 (empty -> .)
-    COMA            reduce using rule 120 (empty -> .)
+    PTCOMA          reduce using rule 121 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
 
     varsppp                        shift and go to state 31
     initDim                        shift and go to state 32
@@ -554,12 +553,12 @@ state 30
     (34) tipo -> . INT
     (35) tipo -> . FLOAT
     (36) tipo -> . CHAR
-    (120) empty -> .
+    (121) empty -> .
 
     INT             shift and go to state 15
     FLOAT           shift and go to state 16
     CHAR            shift and go to state 17
-    CPAR            reduce using rule 120 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     params                         shift and go to state 36
     tipo                           shift and go to state 37
@@ -646,14 +645,14 @@ state 39
     (34) tipo -> . INT
     (35) tipo -> . FLOAT
     (36) tipo -> . CHAR
-    (120) empty -> .
+    (121) empty -> .
 
     INT             shift and go to state 15
     FLOAT           shift and go to state 16
     CHAR            shift and go to state 17
-    FUNCTION        reduce using rule 120 (empty -> .)
-    MAIN            reduce using rule 120 (empty -> .)
-    ALLA            reduce using rule 120 (empty -> .)
+    FUNCTION        reduce using rule 121 (empty -> .)
+    MAIN            reduce using rule 121 (empty -> .)
+    ALLA            reduce using rule 121 (empty -> .)
 
     tipo                           shift and go to state 13
     vars                           shift and go to state 46
@@ -712,15 +711,15 @@ state 43
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     RETURN          shift and go to state 61
     READ            shift and go to state 62
@@ -786,11 +785,11 @@ state 47
     (9) varsppp -> . initDim CTEI setDim
     (10) varsppp -> . empty
     (12) initDim -> . ACOR
-    (120) empty -> .
+    (121) empty -> .
 
     ACOR            shift and go to state 34
-    PTCOMA          reduce using rule 120 (empty -> .)
-    COMA            reduce using rule 120 (empty -> .)
+    PTCOMA          reduce using rule 121 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
 
     varsppp                        shift and go to state 82
     initDim                        shift and go to state 32
@@ -814,13 +813,13 @@ state 49
 
 state 50
 
-    (104) meteFondo -> APAR .
+    (105) meteFondo -> APAR .
 
-    APAR            reduce using rule 104 (meteFondo -> APAR .)
-    CTEC            reduce using rule 104 (meteFondo -> APAR .)
-    CTEI            reduce using rule 104 (meteFondo -> APAR .)
-    CTEF            reduce using rule 104 (meteFondo -> APAR .)
-    ID              reduce using rule 104 (meteFondo -> APAR .)
+    APAR            reduce using rule 105 (meteFondo -> APAR .)
+    CTEC            reduce using rule 105 (meteFondo -> APAR .)
+    CTEI            reduce using rule 105 (meteFondo -> APAR .)
+    CTEF            reduce using rule 105 (meteFondo -> APAR .)
+    ID              reduce using rule 105 (meteFondo -> APAR .)
 
 
 state 51
@@ -843,7 +842,7 @@ state 52
     (29) estatutos -> . while estatutop
     (30) estatutos -> . for estatutop
     (31) estatutos -> . exp estatutop
-    (120) empty -> .
+    (121) empty -> .
     (42) asig -> . varAs ididx igualAs asigpp PTCOMA
     (54) return -> . RETURN APAR exp CPAR PTCOMA
     (55) lectura -> . READ APAR readId ididx lecturapp CPAR PTCOMA
@@ -856,17 +855,17 @@ state 52
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    CLLA            reduce using rule 120 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
     RETURN          shift and go to state 61
     READ            shift and go to state 62
     WRITE           shift and go to state 63
@@ -913,7 +912,7 @@ state 53
     (29) estatutos -> . while estatutop
     (30) estatutos -> . for estatutop
     (31) estatutos -> . exp estatutop
-    (120) empty -> .
+    (121) empty -> .
     (42) asig -> . varAs ididx igualAs asigpp PTCOMA
     (54) return -> . RETURN APAR exp CPAR PTCOMA
     (55) lectura -> . READ APAR readId ididx lecturapp CPAR PTCOMA
@@ -926,17 +925,17 @@ state 53
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    CLLA            reduce using rule 120 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
     RETURN          shift and go to state 61
     READ            shift and go to state 62
     WRITE           shift and go to state 63
@@ -983,7 +982,7 @@ state 54
     (29) estatutos -> . while estatutop
     (30) estatutos -> . for estatutop
     (31) estatutos -> . exp estatutop
-    (120) empty -> .
+    (121) empty -> .
     (42) asig -> . varAs ididx igualAs asigpp PTCOMA
     (54) return -> . RETURN APAR exp CPAR PTCOMA
     (55) lectura -> . READ APAR readId ididx lecturapp CPAR PTCOMA
@@ -996,17 +995,17 @@ state 54
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    CLLA            reduce using rule 120 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
     RETURN          shift and go to state 61
     READ            shift and go to state 62
     WRITE           shift and go to state 63
@@ -1053,7 +1052,7 @@ state 55
     (29) estatutos -> . while estatutop
     (30) estatutos -> . for estatutop
     (31) estatutos -> . exp estatutop
-    (120) empty -> .
+    (121) empty -> .
     (42) asig -> . varAs ididx igualAs asigpp PTCOMA
     (54) return -> . RETURN APAR exp CPAR PTCOMA
     (55) lectura -> . READ APAR readId ididx lecturapp CPAR PTCOMA
@@ -1066,17 +1065,17 @@ state 55
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    CLLA            reduce using rule 120 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
     RETURN          shift and go to state 61
     READ            shift and go to state 62
     WRITE           shift and go to state 63
@@ -1123,7 +1122,7 @@ state 56
     (29) estatutos -> . while estatutop
     (30) estatutos -> . for estatutop
     (31) estatutos -> . exp estatutop
-    (120) empty -> .
+    (121) empty -> .
     (42) asig -> . varAs ididx igualAs asigpp PTCOMA
     (54) return -> . RETURN APAR exp CPAR PTCOMA
     (55) lectura -> . READ APAR readId ididx lecturapp CPAR PTCOMA
@@ -1136,17 +1135,17 @@ state 56
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    CLLA            reduce using rule 120 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
     RETURN          shift and go to state 61
     READ            shift and go to state 62
     WRITE           shift and go to state 63
@@ -1193,7 +1192,7 @@ state 57
     (29) estatutos -> . while estatutop
     (30) estatutos -> . for estatutop
     (31) estatutos -> . exp estatutop
-    (120) empty -> .
+    (121) empty -> .
     (42) asig -> . varAs ididx igualAs asigpp PTCOMA
     (54) return -> . RETURN APAR exp CPAR PTCOMA
     (55) lectura -> . READ APAR readId ididx lecturapp CPAR PTCOMA
@@ -1206,17 +1205,17 @@ state 57
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    CLLA            reduce using rule 120 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
     RETURN          shift and go to state 61
     READ            shift and go to state 62
     WRITE           shift and go to state 63
@@ -1263,7 +1262,7 @@ state 58
     (29) estatutos -> . while estatutop
     (30) estatutos -> . for estatutop
     (31) estatutos -> . exp estatutop
-    (120) empty -> .
+    (121) empty -> .
     (42) asig -> . varAs ididx igualAs asigpp PTCOMA
     (54) return -> . RETURN APAR exp CPAR PTCOMA
     (55) lectura -> . READ APAR readId ididx lecturapp CPAR PTCOMA
@@ -1276,17 +1275,17 @@ state 58
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    CLLA            reduce using rule 120 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
     RETURN          shift and go to state 61
     READ            shift and go to state 62
     WRITE           shift and go to state 63
@@ -1333,7 +1332,7 @@ state 59
     (29) estatutos -> . while estatutop
     (30) estatutos -> . for estatutop
     (31) estatutos -> . exp estatutop
-    (120) empty -> .
+    (121) empty -> .
     (42) asig -> . varAs ididx igualAs asigpp PTCOMA
     (54) return -> . RETURN APAR exp CPAR PTCOMA
     (55) lectura -> . READ APAR readId ididx lecturapp CPAR PTCOMA
@@ -1346,17 +1345,17 @@ state 59
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    CLLA            reduce using rule 120 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
     RETURN          shift and go to state 61
     READ            shift and go to state 62
     WRITE           shift and go to state 63
@@ -1396,10 +1395,10 @@ state 60
     (50) ididx -> . corArr exp ver CCOR
     (51) ididx -> . empty
     (52) corArr -> . ACOR
-    (120) empty -> .
+    (121) empty -> .
 
     ACOR            shift and go to state 97
-    IGUAL           reduce using rule 120 (empty -> .)
+    IGUAL           reduce using rule 121 (empty -> .)
 
     ididx                          shift and go to state 94
     corArr                         shift and go to state 95
@@ -1454,27 +1453,27 @@ state 67
     (78) exp -> texp . expp
     (79) expp -> . OR exp
     (80) expp -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     OR              shift and go to state 106
-    RETURN          reduce using rule 120 (empty -> .)
-    READ            reduce using rule 120 (empty -> .)
-    WRITE           reduce using rule 120 (empty -> .)
-    IF              reduce using rule 120 (empty -> .)
-    FOR             reduce using rule 120 (empty -> .)
-    ID              reduce using rule 120 (empty -> .)
-    WHILE           reduce using rule 120 (empty -> .)
-    APAR            reduce using rule 120 (empty -> .)
-    CTEC            reduce using rule 120 (empty -> .)
-    CTEI            reduce using rule 120 (empty -> .)
-    CTEF            reduce using rule 120 (empty -> .)
-    CLLA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
-    CCOR            reduce using rule 120 (empty -> .)
-    COMA            reduce using rule 120 (empty -> .)
-    PTCOMA          reduce using rule 120 (empty -> .)
-    TO              reduce using rule 120 (empty -> .)
-    DO              reduce using rule 120 (empty -> .)
+    RETURN          reduce using rule 121 (empty -> .)
+    READ            reduce using rule 121 (empty -> .)
+    WRITE           reduce using rule 121 (empty -> .)
+    IF              reduce using rule 121 (empty -> .)
+    FOR             reduce using rule 121 (empty -> .)
+    ID              reduce using rule 121 (empty -> .)
+    WHILE           reduce using rule 121 (empty -> .)
+    APAR            reduce using rule 121 (empty -> .)
+    CTEC            reduce using rule 121 (empty -> .)
+    CTEI            reduce using rule 121 (empty -> .)
+    CTEF            reduce using rule 121 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
+    CCOR            reduce using rule 121 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    PTCOMA          reduce using rule 121 (empty -> .)
+    TO              reduce using rule 121 (empty -> .)
+    DO              reduce using rule 121 (empty -> .)
 
     expp                           shift and go to state 105
     empty                          shift and go to state 107
@@ -1482,39 +1481,39 @@ state 67
 state 68
 
     (43) varAs -> ID .
-    (118) ctes -> ID . validateExistance factorp
-    (119) validateExistance -> .
+    (119) ctes -> ID . validateExistance factorp
+    (120) validateExistance -> .
 
   ! reduce/reduce conflict for ACOR resolved using rule 43 (varAs -> ID .)
-  ! reduce/reduce conflict for IGUAL resolved using rule 43 (varAs -> ID .)
     ACOR            reduce using rule 43 (varAs -> ID .)
     IGUAL           reduce using rule 43 (varAs -> ID .)
-    APAR            reduce using rule 119 (validateExistance -> .)
-    DIV             reduce using rule 119 (validateExistance -> .)
-    POR             reduce using rule 119 (validateExistance -> .)
-    MENOS           reduce using rule 119 (validateExistance -> .)
-    MAS             reduce using rule 119 (validateExistance -> .)
-    MAYQ            reduce using rule 119 (validateExistance -> .)
-    MENQ            reduce using rule 119 (validateExistance -> .)
-    MAYI            reduce using rule 119 (validateExistance -> .)
-    MENI            reduce using rule 119 (validateExistance -> .)
-    DIF             reduce using rule 119 (validateExistance -> .)
-    AND             reduce using rule 119 (validateExistance -> .)
-    OR              reduce using rule 119 (validateExistance -> .)
-    RETURN          reduce using rule 119 (validateExistance -> .)
-    READ            reduce using rule 119 (validateExistance -> .)
-    WRITE           reduce using rule 119 (validateExistance -> .)
-    IF              reduce using rule 119 (validateExistance -> .)
-    FOR             reduce using rule 119 (validateExistance -> .)
-    ID              reduce using rule 119 (validateExistance -> .)
-    WHILE           reduce using rule 119 (validateExistance -> .)
-    CTEC            reduce using rule 119 (validateExistance -> .)
-    CTEI            reduce using rule 119 (validateExistance -> .)
-    CTEF            reduce using rule 119 (validateExistance -> .)
-    CLLA            reduce using rule 119 (validateExistance -> .)
+    APAR            reduce using rule 120 (validateExistance -> .)
+    DIV             reduce using rule 120 (validateExistance -> .)
+    POR             reduce using rule 120 (validateExistance -> .)
+    MENOS           reduce using rule 120 (validateExistance -> .)
+    MAS             reduce using rule 120 (validateExistance -> .)
+    MAYQ            reduce using rule 120 (validateExistance -> .)
+    MENQ            reduce using rule 120 (validateExistance -> .)
+    MAYI            reduce using rule 120 (validateExistance -> .)
+    MENI            reduce using rule 120 (validateExistance -> .)
+    IGUALIGUAL      reduce using rule 120 (validateExistance -> .)
+    DIF             reduce using rule 120 (validateExistance -> .)
+    NOT             reduce using rule 120 (validateExistance -> .)
+    AND             reduce using rule 120 (validateExistance -> .)
+    OR              reduce using rule 120 (validateExistance -> .)
+    RETURN          reduce using rule 120 (validateExistance -> .)
+    READ            reduce using rule 120 (validateExistance -> .)
+    WRITE           reduce using rule 120 (validateExistance -> .)
+    IF              reduce using rule 120 (validateExistance -> .)
+    FOR             reduce using rule 120 (validateExistance -> .)
+    ID              reduce using rule 120 (validateExistance -> .)
+    WHILE           reduce using rule 120 (validateExistance -> .)
+    CTEC            reduce using rule 120 (validateExistance -> .)
+    CTEI            reduce using rule 120 (validateExistance -> .)
+    CTEF            reduce using rule 120 (validateExistance -> .)
+    CLLA            reduce using rule 120 (validateExistance -> .)
 
-  ! ACOR            [ reduce using rule 119 (validateExistance -> .) ]
-  ! IGUAL           [ reduce using rule 119 (validateExistance -> .) ]
+  ! ACOR            [ reduce using rule 120 (validateExistance -> .) ]
 
     validateExistance              shift and go to state 108
 
@@ -1531,28 +1530,28 @@ state 70
     (82) texpp -> . andCheck texp
     (83) texpp -> . empty
     (84) andCheck -> . AND
-    (120) empty -> .
+    (121) empty -> .
 
     AND             shift and go to state 112
-    OR              reduce using rule 120 (empty -> .)
-    RETURN          reduce using rule 120 (empty -> .)
-    READ            reduce using rule 120 (empty -> .)
-    WRITE           reduce using rule 120 (empty -> .)
-    IF              reduce using rule 120 (empty -> .)
-    FOR             reduce using rule 120 (empty -> .)
-    ID              reduce using rule 120 (empty -> .)
-    WHILE           reduce using rule 120 (empty -> .)
-    APAR            reduce using rule 120 (empty -> .)
-    CTEC            reduce using rule 120 (empty -> .)
-    CTEI            reduce using rule 120 (empty -> .)
-    CTEF            reduce using rule 120 (empty -> .)
-    CLLA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
-    CCOR            reduce using rule 120 (empty -> .)
-    COMA            reduce using rule 120 (empty -> .)
-    PTCOMA          reduce using rule 120 (empty -> .)
-    TO              reduce using rule 120 (empty -> .)
-    DO              reduce using rule 120 (empty -> .)
+    OR              reduce using rule 121 (empty -> .)
+    RETURN          reduce using rule 121 (empty -> .)
+    READ            reduce using rule 121 (empty -> .)
+    WRITE           reduce using rule 121 (empty -> .)
+    IF              reduce using rule 121 (empty -> .)
+    FOR             reduce using rule 121 (empty -> .)
+    ID              reduce using rule 121 (empty -> .)
+    WHILE           reduce using rule 121 (empty -> .)
+    APAR            reduce using rule 121 (empty -> .)
+    CTEC            reduce using rule 121 (empty -> .)
+    CTEI            reduce using rule 121 (empty -> .)
+    CTEF            reduce using rule 121 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
+    CCOR            reduce using rule 121 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    PTCOMA          reduce using rule 121 (empty -> .)
+    TO              reduce using rule 121 (empty -> .)
+    DO              reduce using rule 121 (empty -> .)
 
     texpp                          shift and go to state 109
     andCheck                       shift and go to state 110
@@ -1567,36 +1566,38 @@ state 71
     (89) addPO -> . MENQ
     (90) addPO -> . MAYI
     (91) addPO -> . MENI
-    (92) addPO -> . IGUAL IGUAL
+    (92) addPO -> . IGUALIGUAL
     (93) addPO -> . DIF
-    (120) empty -> .
+    (94) addPO -> . NOT
+    (121) empty -> .
 
     MAYQ            shift and go to state 116
     MENQ            shift and go to state 117
     MAYI            shift and go to state 118
     MENI            shift and go to state 119
-    IGUAL           shift and go to state 120
+    IGUALIGUAL      shift and go to state 120
     DIF             shift and go to state 121
-    AND             reduce using rule 120 (empty -> .)
-    OR              reduce using rule 120 (empty -> .)
-    RETURN          reduce using rule 120 (empty -> .)
-    READ            reduce using rule 120 (empty -> .)
-    WRITE           reduce using rule 120 (empty -> .)
-    IF              reduce using rule 120 (empty -> .)
-    FOR             reduce using rule 120 (empty -> .)
-    ID              reduce using rule 120 (empty -> .)
-    WHILE           reduce using rule 120 (empty -> .)
-    APAR            reduce using rule 120 (empty -> .)
-    CTEC            reduce using rule 120 (empty -> .)
-    CTEI            reduce using rule 120 (empty -> .)
-    CTEF            reduce using rule 120 (empty -> .)
-    CLLA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
-    CCOR            reduce using rule 120 (empty -> .)
-    COMA            reduce using rule 120 (empty -> .)
-    PTCOMA          reduce using rule 120 (empty -> .)
-    TO              reduce using rule 120 (empty -> .)
-    DO              reduce using rule 120 (empty -> .)
+    NOT             shift and go to state 122
+    AND             reduce using rule 121 (empty -> .)
+    OR              reduce using rule 121 (empty -> .)
+    RETURN          reduce using rule 121 (empty -> .)
+    READ            reduce using rule 121 (empty -> .)
+    WRITE           reduce using rule 121 (empty -> .)
+    IF              reduce using rule 121 (empty -> .)
+    FOR             reduce using rule 121 (empty -> .)
+    ID              reduce using rule 121 (empty -> .)
+    WHILE           reduce using rule 121 (empty -> .)
+    APAR            reduce using rule 121 (empty -> .)
+    CTEC            reduce using rule 121 (empty -> .)
+    CTEI            reduce using rule 121 (empty -> .)
+    CTEF            reduce using rule 121 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
+    CCOR            reduce using rule 121 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    PTCOMA          reduce using rule 121 (empty -> .)
+    TO              reduce using rule 121 (empty -> .)
+    DO              reduce using rule 121 (empty -> .)
 
     gexpp                          shift and go to state 113
     addPO                          shift and go to state 114
@@ -1604,114 +1605,116 @@ state 71
 
 state 72
 
-    (94) mexp -> termino . mexpp
-    (95) mexpp -> . operSR mexp
-    (96) mexpp -> . empty
-    (97) operSR -> . MENOS
-    (98) operSR -> . MAS
-    (120) empty -> .
+    (95) mexp -> termino . mexpp
+    (96) mexpp -> . operSR mexp
+    (97) mexpp -> . empty
+    (98) operSR -> . MENOS
+    (99) operSR -> . MAS
+    (121) empty -> .
 
-    MENOS           shift and go to state 125
-    MAS             shift and go to state 126
-    MAYQ            reduce using rule 120 (empty -> .)
-    MENQ            reduce using rule 120 (empty -> .)
-    MAYI            reduce using rule 120 (empty -> .)
-    MENI            reduce using rule 120 (empty -> .)
-    IGUAL           reduce using rule 120 (empty -> .)
-    DIF             reduce using rule 120 (empty -> .)
-    AND             reduce using rule 120 (empty -> .)
-    OR              reduce using rule 120 (empty -> .)
-    RETURN          reduce using rule 120 (empty -> .)
-    READ            reduce using rule 120 (empty -> .)
-    WRITE           reduce using rule 120 (empty -> .)
-    IF              reduce using rule 120 (empty -> .)
-    FOR             reduce using rule 120 (empty -> .)
-    ID              reduce using rule 120 (empty -> .)
-    WHILE           reduce using rule 120 (empty -> .)
-    APAR            reduce using rule 120 (empty -> .)
-    CTEC            reduce using rule 120 (empty -> .)
-    CTEI            reduce using rule 120 (empty -> .)
-    CTEF            reduce using rule 120 (empty -> .)
-    CLLA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
-    CCOR            reduce using rule 120 (empty -> .)
-    COMA            reduce using rule 120 (empty -> .)
-    PTCOMA          reduce using rule 120 (empty -> .)
-    TO              reduce using rule 120 (empty -> .)
-    DO              reduce using rule 120 (empty -> .)
+    MENOS           shift and go to state 126
+    MAS             shift and go to state 127
+    MAYQ            reduce using rule 121 (empty -> .)
+    MENQ            reduce using rule 121 (empty -> .)
+    MAYI            reduce using rule 121 (empty -> .)
+    MENI            reduce using rule 121 (empty -> .)
+    IGUALIGUAL      reduce using rule 121 (empty -> .)
+    DIF             reduce using rule 121 (empty -> .)
+    NOT             reduce using rule 121 (empty -> .)
+    AND             reduce using rule 121 (empty -> .)
+    OR              reduce using rule 121 (empty -> .)
+    RETURN          reduce using rule 121 (empty -> .)
+    READ            reduce using rule 121 (empty -> .)
+    WRITE           reduce using rule 121 (empty -> .)
+    IF              reduce using rule 121 (empty -> .)
+    FOR             reduce using rule 121 (empty -> .)
+    ID              reduce using rule 121 (empty -> .)
+    WHILE           reduce using rule 121 (empty -> .)
+    APAR            reduce using rule 121 (empty -> .)
+    CTEC            reduce using rule 121 (empty -> .)
+    CTEI            reduce using rule 121 (empty -> .)
+    CTEF            reduce using rule 121 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
+    CCOR            reduce using rule 121 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    PTCOMA          reduce using rule 121 (empty -> .)
+    TO              reduce using rule 121 (empty -> .)
+    DO              reduce using rule 121 (empty -> .)
 
-    mexpp                          shift and go to state 122
-    operSR                         shift and go to state 123
-    empty                          shift and go to state 124
+    mexpp                          shift and go to state 123
+    operSR                         shift and go to state 124
+    empty                          shift and go to state 125
 
 state 73
 
-    (99) termino -> factor . terminop
-    (100) terminop -> . oper termino
-    (101) terminop -> . empty
-    (102) oper -> . DIV
-    (103) oper -> . POR
-    (120) empty -> .
+    (100) termino -> factor . terminop
+    (101) terminop -> . oper termino
+    (102) terminop -> . empty
+    (103) oper -> . DIV
+    (104) oper -> . POR
+    (121) empty -> .
 
-    DIV             shift and go to state 130
-    POR             shift and go to state 131
-    MENOS           reduce using rule 120 (empty -> .)
-    MAS             reduce using rule 120 (empty -> .)
-    MAYQ            reduce using rule 120 (empty -> .)
-    MENQ            reduce using rule 120 (empty -> .)
-    MAYI            reduce using rule 120 (empty -> .)
-    MENI            reduce using rule 120 (empty -> .)
-    IGUAL           reduce using rule 120 (empty -> .)
-    DIF             reduce using rule 120 (empty -> .)
-    AND             reduce using rule 120 (empty -> .)
-    OR              reduce using rule 120 (empty -> .)
-    RETURN          reduce using rule 120 (empty -> .)
-    READ            reduce using rule 120 (empty -> .)
-    WRITE           reduce using rule 120 (empty -> .)
-    IF              reduce using rule 120 (empty -> .)
-    FOR             reduce using rule 120 (empty -> .)
-    ID              reduce using rule 120 (empty -> .)
-    WHILE           reduce using rule 120 (empty -> .)
-    APAR            reduce using rule 120 (empty -> .)
-    CTEC            reduce using rule 120 (empty -> .)
-    CTEI            reduce using rule 120 (empty -> .)
-    CTEF            reduce using rule 120 (empty -> .)
-    CLLA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
-    CCOR            reduce using rule 120 (empty -> .)
-    COMA            reduce using rule 120 (empty -> .)
-    PTCOMA          reduce using rule 120 (empty -> .)
-    TO              reduce using rule 120 (empty -> .)
-    DO              reduce using rule 120 (empty -> .)
+    DIV             shift and go to state 131
+    POR             shift and go to state 132
+    MENOS           reduce using rule 121 (empty -> .)
+    MAS             reduce using rule 121 (empty -> .)
+    MAYQ            reduce using rule 121 (empty -> .)
+    MENQ            reduce using rule 121 (empty -> .)
+    MAYI            reduce using rule 121 (empty -> .)
+    MENI            reduce using rule 121 (empty -> .)
+    IGUALIGUAL      reduce using rule 121 (empty -> .)
+    DIF             reduce using rule 121 (empty -> .)
+    NOT             reduce using rule 121 (empty -> .)
+    AND             reduce using rule 121 (empty -> .)
+    OR              reduce using rule 121 (empty -> .)
+    RETURN          reduce using rule 121 (empty -> .)
+    READ            reduce using rule 121 (empty -> .)
+    WRITE           reduce using rule 121 (empty -> .)
+    IF              reduce using rule 121 (empty -> .)
+    FOR             reduce using rule 121 (empty -> .)
+    ID              reduce using rule 121 (empty -> .)
+    WHILE           reduce using rule 121 (empty -> .)
+    APAR            reduce using rule 121 (empty -> .)
+    CTEC            reduce using rule 121 (empty -> .)
+    CTEI            reduce using rule 121 (empty -> .)
+    CTEF            reduce using rule 121 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
+    CCOR            reduce using rule 121 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    PTCOMA          reduce using rule 121 (empty -> .)
+    TO              reduce using rule 121 (empty -> .)
+    DO              reduce using rule 121 (empty -> .)
 
-    terminop                       shift and go to state 127
-    oper                           shift and go to state 128
-    empty                          shift and go to state 129
+    terminop                       shift and go to state 128
+    oper                           shift and go to state 129
+    empty                          shift and go to state 130
 
 state 74
 
-    (106) factor -> meteFondo . exp sacaFondo
+    (107) factor -> meteFondo . exp sacaFondo
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     meteFondo                      shift and go to state 74
-    exp                            shift and go to state 132
+    exp                            shift and go to state 133
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -1721,153 +1724,157 @@ state 74
 
 state 75
 
-    (107) factor -> ctes .
+    (108) factor -> ctes .
 
-    DIV             reduce using rule 107 (factor -> ctes .)
-    POR             reduce using rule 107 (factor -> ctes .)
-    MENOS           reduce using rule 107 (factor -> ctes .)
-    MAS             reduce using rule 107 (factor -> ctes .)
-    MAYQ            reduce using rule 107 (factor -> ctes .)
-    MENQ            reduce using rule 107 (factor -> ctes .)
-    MAYI            reduce using rule 107 (factor -> ctes .)
-    MENI            reduce using rule 107 (factor -> ctes .)
-    IGUAL           reduce using rule 107 (factor -> ctes .)
-    DIF             reduce using rule 107 (factor -> ctes .)
-    AND             reduce using rule 107 (factor -> ctes .)
-    OR              reduce using rule 107 (factor -> ctes .)
-    RETURN          reduce using rule 107 (factor -> ctes .)
-    READ            reduce using rule 107 (factor -> ctes .)
-    WRITE           reduce using rule 107 (factor -> ctes .)
-    IF              reduce using rule 107 (factor -> ctes .)
-    FOR             reduce using rule 107 (factor -> ctes .)
-    ID              reduce using rule 107 (factor -> ctes .)
-    WHILE           reduce using rule 107 (factor -> ctes .)
-    APAR            reduce using rule 107 (factor -> ctes .)
-    CTEC            reduce using rule 107 (factor -> ctes .)
-    CTEI            reduce using rule 107 (factor -> ctes .)
-    CTEF            reduce using rule 107 (factor -> ctes .)
-    CLLA            reduce using rule 107 (factor -> ctes .)
-    CPAR            reduce using rule 107 (factor -> ctes .)
-    CCOR            reduce using rule 107 (factor -> ctes .)
-    COMA            reduce using rule 107 (factor -> ctes .)
-    PTCOMA          reduce using rule 107 (factor -> ctes .)
-    TO              reduce using rule 107 (factor -> ctes .)
-    DO              reduce using rule 107 (factor -> ctes .)
+    DIV             reduce using rule 108 (factor -> ctes .)
+    POR             reduce using rule 108 (factor -> ctes .)
+    MENOS           reduce using rule 108 (factor -> ctes .)
+    MAS             reduce using rule 108 (factor -> ctes .)
+    MAYQ            reduce using rule 108 (factor -> ctes .)
+    MENQ            reduce using rule 108 (factor -> ctes .)
+    MAYI            reduce using rule 108 (factor -> ctes .)
+    MENI            reduce using rule 108 (factor -> ctes .)
+    IGUALIGUAL      reduce using rule 108 (factor -> ctes .)
+    DIF             reduce using rule 108 (factor -> ctes .)
+    NOT             reduce using rule 108 (factor -> ctes .)
+    AND             reduce using rule 108 (factor -> ctes .)
+    OR              reduce using rule 108 (factor -> ctes .)
+    RETURN          reduce using rule 108 (factor -> ctes .)
+    READ            reduce using rule 108 (factor -> ctes .)
+    WRITE           reduce using rule 108 (factor -> ctes .)
+    IF              reduce using rule 108 (factor -> ctes .)
+    FOR             reduce using rule 108 (factor -> ctes .)
+    ID              reduce using rule 108 (factor -> ctes .)
+    WHILE           reduce using rule 108 (factor -> ctes .)
+    APAR            reduce using rule 108 (factor -> ctes .)
+    CTEC            reduce using rule 108 (factor -> ctes .)
+    CTEI            reduce using rule 108 (factor -> ctes .)
+    CTEF            reduce using rule 108 (factor -> ctes .)
+    CLLA            reduce using rule 108 (factor -> ctes .)
+    CPAR            reduce using rule 108 (factor -> ctes .)
+    CCOR            reduce using rule 108 (factor -> ctes .)
+    COMA            reduce using rule 108 (factor -> ctes .)
+    PTCOMA          reduce using rule 108 (factor -> ctes .)
+    TO              reduce using rule 108 (factor -> ctes .)
+    DO              reduce using rule 108 (factor -> ctes .)
 
 
 state 76
 
-    (115) ctes -> CTEC .
+    (116) ctes -> CTEC .
 
-    DIV             reduce using rule 115 (ctes -> CTEC .)
-    POR             reduce using rule 115 (ctes -> CTEC .)
-    MENOS           reduce using rule 115 (ctes -> CTEC .)
-    MAS             reduce using rule 115 (ctes -> CTEC .)
-    MAYQ            reduce using rule 115 (ctes -> CTEC .)
-    MENQ            reduce using rule 115 (ctes -> CTEC .)
-    MAYI            reduce using rule 115 (ctes -> CTEC .)
-    MENI            reduce using rule 115 (ctes -> CTEC .)
-    IGUAL           reduce using rule 115 (ctes -> CTEC .)
-    DIF             reduce using rule 115 (ctes -> CTEC .)
-    AND             reduce using rule 115 (ctes -> CTEC .)
-    OR              reduce using rule 115 (ctes -> CTEC .)
-    RETURN          reduce using rule 115 (ctes -> CTEC .)
-    READ            reduce using rule 115 (ctes -> CTEC .)
-    WRITE           reduce using rule 115 (ctes -> CTEC .)
-    IF              reduce using rule 115 (ctes -> CTEC .)
-    FOR             reduce using rule 115 (ctes -> CTEC .)
-    ID              reduce using rule 115 (ctes -> CTEC .)
-    WHILE           reduce using rule 115 (ctes -> CTEC .)
-    APAR            reduce using rule 115 (ctes -> CTEC .)
-    CTEC            reduce using rule 115 (ctes -> CTEC .)
-    CTEI            reduce using rule 115 (ctes -> CTEC .)
-    CTEF            reduce using rule 115 (ctes -> CTEC .)
-    CLLA            reduce using rule 115 (ctes -> CTEC .)
-    CPAR            reduce using rule 115 (ctes -> CTEC .)
-    CCOR            reduce using rule 115 (ctes -> CTEC .)
-    COMA            reduce using rule 115 (ctes -> CTEC .)
-    PTCOMA          reduce using rule 115 (ctes -> CTEC .)
-    TO              reduce using rule 115 (ctes -> CTEC .)
-    DO              reduce using rule 115 (ctes -> CTEC .)
+    DIV             reduce using rule 116 (ctes -> CTEC .)
+    POR             reduce using rule 116 (ctes -> CTEC .)
+    MENOS           reduce using rule 116 (ctes -> CTEC .)
+    MAS             reduce using rule 116 (ctes -> CTEC .)
+    MAYQ            reduce using rule 116 (ctes -> CTEC .)
+    MENQ            reduce using rule 116 (ctes -> CTEC .)
+    MAYI            reduce using rule 116 (ctes -> CTEC .)
+    MENI            reduce using rule 116 (ctes -> CTEC .)
+    IGUALIGUAL      reduce using rule 116 (ctes -> CTEC .)
+    DIF             reduce using rule 116 (ctes -> CTEC .)
+    NOT             reduce using rule 116 (ctes -> CTEC .)
+    AND             reduce using rule 116 (ctes -> CTEC .)
+    OR              reduce using rule 116 (ctes -> CTEC .)
+    RETURN          reduce using rule 116 (ctes -> CTEC .)
+    READ            reduce using rule 116 (ctes -> CTEC .)
+    WRITE           reduce using rule 116 (ctes -> CTEC .)
+    IF              reduce using rule 116 (ctes -> CTEC .)
+    FOR             reduce using rule 116 (ctes -> CTEC .)
+    ID              reduce using rule 116 (ctes -> CTEC .)
+    WHILE           reduce using rule 116 (ctes -> CTEC .)
+    APAR            reduce using rule 116 (ctes -> CTEC .)
+    CTEC            reduce using rule 116 (ctes -> CTEC .)
+    CTEI            reduce using rule 116 (ctes -> CTEC .)
+    CTEF            reduce using rule 116 (ctes -> CTEC .)
+    CLLA            reduce using rule 116 (ctes -> CTEC .)
+    CPAR            reduce using rule 116 (ctes -> CTEC .)
+    CCOR            reduce using rule 116 (ctes -> CTEC .)
+    COMA            reduce using rule 116 (ctes -> CTEC .)
+    PTCOMA          reduce using rule 116 (ctes -> CTEC .)
+    TO              reduce using rule 116 (ctes -> CTEC .)
+    DO              reduce using rule 116 (ctes -> CTEC .)
 
 
 state 77
 
-    (116) ctes -> CTEI .
+    (117) ctes -> CTEI .
 
-    DIV             reduce using rule 116 (ctes -> CTEI .)
-    POR             reduce using rule 116 (ctes -> CTEI .)
-    MENOS           reduce using rule 116 (ctes -> CTEI .)
-    MAS             reduce using rule 116 (ctes -> CTEI .)
-    MAYQ            reduce using rule 116 (ctes -> CTEI .)
-    MENQ            reduce using rule 116 (ctes -> CTEI .)
-    MAYI            reduce using rule 116 (ctes -> CTEI .)
-    MENI            reduce using rule 116 (ctes -> CTEI .)
-    IGUAL           reduce using rule 116 (ctes -> CTEI .)
-    DIF             reduce using rule 116 (ctes -> CTEI .)
-    AND             reduce using rule 116 (ctes -> CTEI .)
-    OR              reduce using rule 116 (ctes -> CTEI .)
-    RETURN          reduce using rule 116 (ctes -> CTEI .)
-    READ            reduce using rule 116 (ctes -> CTEI .)
-    WRITE           reduce using rule 116 (ctes -> CTEI .)
-    IF              reduce using rule 116 (ctes -> CTEI .)
-    FOR             reduce using rule 116 (ctes -> CTEI .)
-    ID              reduce using rule 116 (ctes -> CTEI .)
-    WHILE           reduce using rule 116 (ctes -> CTEI .)
-    APAR            reduce using rule 116 (ctes -> CTEI .)
-    CTEC            reduce using rule 116 (ctes -> CTEI .)
-    CTEI            reduce using rule 116 (ctes -> CTEI .)
-    CTEF            reduce using rule 116 (ctes -> CTEI .)
-    CLLA            reduce using rule 116 (ctes -> CTEI .)
-    CPAR            reduce using rule 116 (ctes -> CTEI .)
-    CCOR            reduce using rule 116 (ctes -> CTEI .)
-    COMA            reduce using rule 116 (ctes -> CTEI .)
-    PTCOMA          reduce using rule 116 (ctes -> CTEI .)
-    TO              reduce using rule 116 (ctes -> CTEI .)
-    DO              reduce using rule 116 (ctes -> CTEI .)
+    DIV             reduce using rule 117 (ctes -> CTEI .)
+    POR             reduce using rule 117 (ctes -> CTEI .)
+    MENOS           reduce using rule 117 (ctes -> CTEI .)
+    MAS             reduce using rule 117 (ctes -> CTEI .)
+    MAYQ            reduce using rule 117 (ctes -> CTEI .)
+    MENQ            reduce using rule 117 (ctes -> CTEI .)
+    MAYI            reduce using rule 117 (ctes -> CTEI .)
+    MENI            reduce using rule 117 (ctes -> CTEI .)
+    IGUALIGUAL      reduce using rule 117 (ctes -> CTEI .)
+    DIF             reduce using rule 117 (ctes -> CTEI .)
+    NOT             reduce using rule 117 (ctes -> CTEI .)
+    AND             reduce using rule 117 (ctes -> CTEI .)
+    OR              reduce using rule 117 (ctes -> CTEI .)
+    RETURN          reduce using rule 117 (ctes -> CTEI .)
+    READ            reduce using rule 117 (ctes -> CTEI .)
+    WRITE           reduce using rule 117 (ctes -> CTEI .)
+    IF              reduce using rule 117 (ctes -> CTEI .)
+    FOR             reduce using rule 117 (ctes -> CTEI .)
+    ID              reduce using rule 117 (ctes -> CTEI .)
+    WHILE           reduce using rule 117 (ctes -> CTEI .)
+    APAR            reduce using rule 117 (ctes -> CTEI .)
+    CTEC            reduce using rule 117 (ctes -> CTEI .)
+    CTEI            reduce using rule 117 (ctes -> CTEI .)
+    CTEF            reduce using rule 117 (ctes -> CTEI .)
+    CLLA            reduce using rule 117 (ctes -> CTEI .)
+    CPAR            reduce using rule 117 (ctes -> CTEI .)
+    CCOR            reduce using rule 117 (ctes -> CTEI .)
+    COMA            reduce using rule 117 (ctes -> CTEI .)
+    PTCOMA          reduce using rule 117 (ctes -> CTEI .)
+    TO              reduce using rule 117 (ctes -> CTEI .)
+    DO              reduce using rule 117 (ctes -> CTEI .)
 
 
 state 78
 
-    (117) ctes -> CTEF .
+    (118) ctes -> CTEF .
 
-    DIV             reduce using rule 117 (ctes -> CTEF .)
-    POR             reduce using rule 117 (ctes -> CTEF .)
-    MENOS           reduce using rule 117 (ctes -> CTEF .)
-    MAS             reduce using rule 117 (ctes -> CTEF .)
-    MAYQ            reduce using rule 117 (ctes -> CTEF .)
-    MENQ            reduce using rule 117 (ctes -> CTEF .)
-    MAYI            reduce using rule 117 (ctes -> CTEF .)
-    MENI            reduce using rule 117 (ctes -> CTEF .)
-    IGUAL           reduce using rule 117 (ctes -> CTEF .)
-    DIF             reduce using rule 117 (ctes -> CTEF .)
-    AND             reduce using rule 117 (ctes -> CTEF .)
-    OR              reduce using rule 117 (ctes -> CTEF .)
-    RETURN          reduce using rule 117 (ctes -> CTEF .)
-    READ            reduce using rule 117 (ctes -> CTEF .)
-    WRITE           reduce using rule 117 (ctes -> CTEF .)
-    IF              reduce using rule 117 (ctes -> CTEF .)
-    FOR             reduce using rule 117 (ctes -> CTEF .)
-    ID              reduce using rule 117 (ctes -> CTEF .)
-    WHILE           reduce using rule 117 (ctes -> CTEF .)
-    APAR            reduce using rule 117 (ctes -> CTEF .)
-    CTEC            reduce using rule 117 (ctes -> CTEF .)
-    CTEI            reduce using rule 117 (ctes -> CTEF .)
-    CTEF            reduce using rule 117 (ctes -> CTEF .)
-    CLLA            reduce using rule 117 (ctes -> CTEF .)
-    CPAR            reduce using rule 117 (ctes -> CTEF .)
-    CCOR            reduce using rule 117 (ctes -> CTEF .)
-    COMA            reduce using rule 117 (ctes -> CTEF .)
-    PTCOMA          reduce using rule 117 (ctes -> CTEF .)
-    TO              reduce using rule 117 (ctes -> CTEF .)
-    DO              reduce using rule 117 (ctes -> CTEF .)
+    DIV             reduce using rule 118 (ctes -> CTEF .)
+    POR             reduce using rule 118 (ctes -> CTEF .)
+    MENOS           reduce using rule 118 (ctes -> CTEF .)
+    MAS             reduce using rule 118 (ctes -> CTEF .)
+    MAYQ            reduce using rule 118 (ctes -> CTEF .)
+    MENQ            reduce using rule 118 (ctes -> CTEF .)
+    MAYI            reduce using rule 118 (ctes -> CTEF .)
+    MENI            reduce using rule 118 (ctes -> CTEF .)
+    IGUALIGUAL      reduce using rule 118 (ctes -> CTEF .)
+    DIF             reduce using rule 118 (ctes -> CTEF .)
+    NOT             reduce using rule 118 (ctes -> CTEF .)
+    AND             reduce using rule 118 (ctes -> CTEF .)
+    OR              reduce using rule 118 (ctes -> CTEF .)
+    RETURN          reduce using rule 118 (ctes -> CTEF .)
+    READ            reduce using rule 118 (ctes -> CTEF .)
+    WRITE           reduce using rule 118 (ctes -> CTEF .)
+    IF              reduce using rule 118 (ctes -> CTEF .)
+    FOR             reduce using rule 118 (ctes -> CTEF .)
+    ID              reduce using rule 118 (ctes -> CTEF .)
+    WHILE           reduce using rule 118 (ctes -> CTEF .)
+    APAR            reduce using rule 118 (ctes -> CTEF .)
+    CTEC            reduce using rule 118 (ctes -> CTEF .)
+    CTEI            reduce using rule 118 (ctes -> CTEF .)
+    CTEF            reduce using rule 118 (ctes -> CTEF .)
+    CLLA            reduce using rule 118 (ctes -> CTEF .)
+    CPAR            reduce using rule 118 (ctes -> CTEF .)
+    CCOR            reduce using rule 118 (ctes -> CTEF .)
+    COMA            reduce using rule 118 (ctes -> CTEF .)
+    PTCOMA          reduce using rule 118 (ctes -> CTEF .)
+    TO              reduce using rule 118 (ctes -> CTEF .)
+    DO              reduce using rule 118 (ctes -> CTEF .)
 
 
 state 79
 
     (18) funcspp -> APAR params CPAR updateParamTable . PTCOMA varss ALLA addsize estatutos CLLA endfunction funcs
 
-    PTCOMA          shift and go to state 134
+    PTCOMA          shift and go to state 135
 
 
 state 80
@@ -1876,13 +1883,13 @@ state 80
     (50) ididx -> . corArr exp ver CCOR
     (51) ididx -> . empty
     (52) corArr -> . ACOR
-    (120) empty -> .
+    (121) empty -> .
 
     ACOR            shift and go to state 97
-    COMA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
-    ididx                          shift and go to state 135
+    ididx                          shift and go to state 136
     corArr                         shift and go to state 95
     empty                          shift and go to state 96
 
@@ -1904,7 +1911,7 @@ state 82
     PTCOMA          shift and go to state 40
     COMA            shift and go to state 41
 
-    varspp                         shift and go to state 136
+    varspp                         shift and go to state 137
 
 state 83
 
@@ -1988,9 +1995,9 @@ state 94
     (42) asig -> varAs ididx . igualAs asigpp PTCOMA
     (44) igualAs -> . IGUAL
 
-    IGUAL           shift and go to state 138
+    IGUAL           shift and go to state 139
 
-    igualAs                        shift and go to state 137
+    igualAs                        shift and go to state 138
 
 state 95
 
@@ -1998,23 +2005,23 @@ state 95
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
-    exp                            shift and go to state 139
+    exp                            shift and go to state 140
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -2038,7 +2045,9 @@ state 96
     MENQ            reduce using rule 51 (ididx -> empty .)
     MAYI            reduce using rule 51 (ididx -> empty .)
     MENI            reduce using rule 51 (ididx -> empty .)
+    IGUALIGUAL      reduce using rule 51 (ididx -> empty .)
     DIF             reduce using rule 51 (ididx -> empty .)
+    NOT             reduce using rule 51 (ididx -> empty .)
     AND             reduce using rule 51 (ididx -> empty .)
     OR              reduce using rule 51 (ididx -> empty .)
     RETURN          reduce using rule 51 (ididx -> empty .)
@@ -2076,23 +2085,23 @@ state 98
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
-    exp                            shift and go to state 140
+    exp                            shift and go to state 141
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -2106,9 +2115,9 @@ state 99
     (55) lectura -> READ APAR . readId ididx lecturapp CPAR PTCOMA
     (56) readId -> . ID
 
-    ID              shift and go to state 142
+    ID              shift and go to state 143
 
-    readId                         shift and go to state 141
+    readId                         shift and go to state 142
 
 state 100
 
@@ -2120,26 +2129,26 @@ state 100
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    STRING          shift and go to state 146
-    CTEC            shift and go to state 147
+    STRING          shift and go to state 147
+    CTEC            shift and go to state 148
     APAR            shift and go to state 50
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
-    escriturap                     shift and go to state 143
-    pushEsc                        shift and go to state 144
-    exp                            shift and go to state 145
+    escriturap                     shift and go to state 144
+    pushEsc                        shift and go to state 145
+    exp                            shift and go to state 146
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -2154,23 +2163,23 @@ state 101
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
-    exp                            shift and go to state 148
+    exp                            shift and go to state 149
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -2185,23 +2194,23 @@ state 102
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
-    exp                            shift and go to state 149
+    exp                            shift and go to state 150
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -2216,12 +2225,12 @@ state 103
     (50) ididx -> . corArr exp ver CCOR
     (51) ididx -> . empty
     (52) corArr -> . ACOR
-    (120) empty -> .
+    (121) empty -> .
 
     ACOR            shift and go to state 97
-    IGUAL           reduce using rule 120 (empty -> .)
+    IGUAL           reduce using rule 121 (empty -> .)
 
-    ididx                          shift and go to state 150
+    ididx                          shift and go to state 151
     corArr                         shift and go to state 95
     empty                          shift and go to state 96
 
@@ -2263,23 +2272,23 @@ state 106
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
-    exp                            shift and go to state 151
+    exp                            shift and go to state 152
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -2314,51 +2323,52 @@ state 107
 
 state 108
 
-    (118) ctes -> ID validateExistance . factorp
-    (108) factorp -> . APAR createEra exp valParams factorpp cparParams
-    (109) factorp -> . ididx
+    (119) ctes -> ID validateExistance . factorp
+    (109) factorp -> . APAR createEra exp valParams factorpp cparParams
+    (110) factorp -> . ididx
     (50) ididx -> . corArr exp ver CCOR
     (51) ididx -> . empty
     (52) corArr -> . ACOR
-    (120) empty -> .
+    (121) empty -> .
 
   ! shift/reduce conflict for APAR resolved as shift
-    APAR            shift and go to state 153
+    APAR            shift and go to state 154
     ACOR            shift and go to state 97
-    DIV             reduce using rule 120 (empty -> .)
-    POR             reduce using rule 120 (empty -> .)
-    MENOS           reduce using rule 120 (empty -> .)
-    MAS             reduce using rule 120 (empty -> .)
-    MAYQ            reduce using rule 120 (empty -> .)
-    MENQ            reduce using rule 120 (empty -> .)
-    MAYI            reduce using rule 120 (empty -> .)
-    MENI            reduce using rule 120 (empty -> .)
-    IGUAL           reduce using rule 120 (empty -> .)
-    DIF             reduce using rule 120 (empty -> .)
-    AND             reduce using rule 120 (empty -> .)
-    OR              reduce using rule 120 (empty -> .)
-    RETURN          reduce using rule 120 (empty -> .)
-    READ            reduce using rule 120 (empty -> .)
-    WRITE           reduce using rule 120 (empty -> .)
-    IF              reduce using rule 120 (empty -> .)
-    FOR             reduce using rule 120 (empty -> .)
-    ID              reduce using rule 120 (empty -> .)
-    WHILE           reduce using rule 120 (empty -> .)
-    CTEC            reduce using rule 120 (empty -> .)
-    CTEI            reduce using rule 120 (empty -> .)
-    CTEF            reduce using rule 120 (empty -> .)
-    CLLA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
-    CCOR            reduce using rule 120 (empty -> .)
-    COMA            reduce using rule 120 (empty -> .)
-    PTCOMA          reduce using rule 120 (empty -> .)
-    TO              reduce using rule 120 (empty -> .)
-    DO              reduce using rule 120 (empty -> .)
+    DIV             reduce using rule 121 (empty -> .)
+    POR             reduce using rule 121 (empty -> .)
+    MENOS           reduce using rule 121 (empty -> .)
+    MAS             reduce using rule 121 (empty -> .)
+    MAYQ            reduce using rule 121 (empty -> .)
+    MENQ            reduce using rule 121 (empty -> .)
+    MAYI            reduce using rule 121 (empty -> .)
+    MENI            reduce using rule 121 (empty -> .)
+    IGUALIGUAL      reduce using rule 121 (empty -> .)
+    DIF             reduce using rule 121 (empty -> .)
+    NOT             reduce using rule 121 (empty -> .)
+    AND             reduce using rule 121 (empty -> .)
+    OR              reduce using rule 121 (empty -> .)
+    RETURN          reduce using rule 121 (empty -> .)
+    READ            reduce using rule 121 (empty -> .)
+    WRITE           reduce using rule 121 (empty -> .)
+    IF              reduce using rule 121 (empty -> .)
+    FOR             reduce using rule 121 (empty -> .)
+    ID              reduce using rule 121 (empty -> .)
+    WHILE           reduce using rule 121 (empty -> .)
+    CTEC            reduce using rule 121 (empty -> .)
+    CTEI            reduce using rule 121 (empty -> .)
+    CTEF            reduce using rule 121 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
+    CCOR            reduce using rule 121 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    PTCOMA          reduce using rule 121 (empty -> .)
+    TO              reduce using rule 121 (empty -> .)
+    DO              reduce using rule 121 (empty -> .)
 
-  ! APAR            [ reduce using rule 120 (empty -> .) ]
+  ! APAR            [ reduce using rule 121 (empty -> .) ]
 
-    factorp                        shift and go to state 152
-    ididx                          shift and go to state 154
+    factorp                        shift and go to state 153
+    ididx                          shift and go to state 155
     corArr                         shift and go to state 95
     empty                          shift and go to state 96
 
@@ -2392,23 +2402,23 @@ state 110
     (82) texpp -> andCheck . texp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
-    texp                           shift and go to state 155
+    texp                           shift and go to state 156
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
     termino                        shift and go to state 72
@@ -2481,23 +2491,23 @@ state 113
 state 114
 
     (86) gexpp -> addPO . mexp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
-    mexp                           shift and go to state 156
+    mexp                           shift and go to state 157
     termino                        shift and go to state 72
     factor                         shift and go to state 73
     meteFondo                      shift and go to state 74
@@ -2575,9 +2585,13 @@ state 119
 
 state 120
 
-    (92) addPO -> IGUAL . IGUAL
+    (92) addPO -> IGUALIGUAL .
 
-    IGUAL           shift and go to state 157
+    APAR            reduce using rule 92 (addPO -> IGUALIGUAL .)
+    CTEC            reduce using rule 92 (addPO -> IGUALIGUAL .)
+    CTEI            reduce using rule 92 (addPO -> IGUALIGUAL .)
+    CTEF            reduce using rule 92 (addPO -> IGUALIGUAL .)
+    ID              reduce using rule 92 (addPO -> IGUALIGUAL .)
 
 
 state 121
@@ -2593,54 +2607,66 @@ state 121
 
 state 122
 
-    (94) mexp -> termino mexpp .
+    (94) addPO -> NOT .
 
-    MAYQ            reduce using rule 94 (mexp -> termino mexpp .)
-    MENQ            reduce using rule 94 (mexp -> termino mexpp .)
-    MAYI            reduce using rule 94 (mexp -> termino mexpp .)
-    MENI            reduce using rule 94 (mexp -> termino mexpp .)
-    IGUAL           reduce using rule 94 (mexp -> termino mexpp .)
-    DIF             reduce using rule 94 (mexp -> termino mexpp .)
-    AND             reduce using rule 94 (mexp -> termino mexpp .)
-    OR              reduce using rule 94 (mexp -> termino mexpp .)
-    RETURN          reduce using rule 94 (mexp -> termino mexpp .)
-    READ            reduce using rule 94 (mexp -> termino mexpp .)
-    WRITE           reduce using rule 94 (mexp -> termino mexpp .)
-    IF              reduce using rule 94 (mexp -> termino mexpp .)
-    FOR             reduce using rule 94 (mexp -> termino mexpp .)
-    ID              reduce using rule 94 (mexp -> termino mexpp .)
-    WHILE           reduce using rule 94 (mexp -> termino mexpp .)
-    APAR            reduce using rule 94 (mexp -> termino mexpp .)
-    CTEC            reduce using rule 94 (mexp -> termino mexpp .)
-    CTEI            reduce using rule 94 (mexp -> termino mexpp .)
-    CTEF            reduce using rule 94 (mexp -> termino mexpp .)
-    CLLA            reduce using rule 94 (mexp -> termino mexpp .)
-    CPAR            reduce using rule 94 (mexp -> termino mexpp .)
-    CCOR            reduce using rule 94 (mexp -> termino mexpp .)
-    COMA            reduce using rule 94 (mexp -> termino mexpp .)
-    PTCOMA          reduce using rule 94 (mexp -> termino mexpp .)
-    TO              reduce using rule 94 (mexp -> termino mexpp .)
-    DO              reduce using rule 94 (mexp -> termino mexpp .)
+    APAR            reduce using rule 94 (addPO -> NOT .)
+    CTEC            reduce using rule 94 (addPO -> NOT .)
+    CTEI            reduce using rule 94 (addPO -> NOT .)
+    CTEF            reduce using rule 94 (addPO -> NOT .)
+    ID              reduce using rule 94 (addPO -> NOT .)
 
 
 state 123
 
-    (95) mexpp -> operSR . mexp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> termino mexpp .
+
+    MAYQ            reduce using rule 95 (mexp -> termino mexpp .)
+    MENQ            reduce using rule 95 (mexp -> termino mexpp .)
+    MAYI            reduce using rule 95 (mexp -> termino mexpp .)
+    MENI            reduce using rule 95 (mexp -> termino mexpp .)
+    IGUALIGUAL      reduce using rule 95 (mexp -> termino mexpp .)
+    DIF             reduce using rule 95 (mexp -> termino mexpp .)
+    NOT             reduce using rule 95 (mexp -> termino mexpp .)
+    AND             reduce using rule 95 (mexp -> termino mexpp .)
+    OR              reduce using rule 95 (mexp -> termino mexpp .)
+    RETURN          reduce using rule 95 (mexp -> termino mexpp .)
+    READ            reduce using rule 95 (mexp -> termino mexpp .)
+    WRITE           reduce using rule 95 (mexp -> termino mexpp .)
+    IF              reduce using rule 95 (mexp -> termino mexpp .)
+    FOR             reduce using rule 95 (mexp -> termino mexpp .)
+    ID              reduce using rule 95 (mexp -> termino mexpp .)
+    WHILE           reduce using rule 95 (mexp -> termino mexpp .)
+    APAR            reduce using rule 95 (mexp -> termino mexpp .)
+    CTEC            reduce using rule 95 (mexp -> termino mexpp .)
+    CTEI            reduce using rule 95 (mexp -> termino mexpp .)
+    CTEF            reduce using rule 95 (mexp -> termino mexpp .)
+    CLLA            reduce using rule 95 (mexp -> termino mexpp .)
+    CPAR            reduce using rule 95 (mexp -> termino mexpp .)
+    CCOR            reduce using rule 95 (mexp -> termino mexpp .)
+    COMA            reduce using rule 95 (mexp -> termino mexpp .)
+    PTCOMA          reduce using rule 95 (mexp -> termino mexpp .)
+    TO              reduce using rule 95 (mexp -> termino mexpp .)
+    DO              reduce using rule 95 (mexp -> termino mexpp .)
+
+
+state 124
+
+    (96) mexpp -> operSR . mexp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     mexp                           shift and go to state 158
     termino                        shift and go to state 72
@@ -2648,248 +2674,252 @@ state 123
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 124
-
-    (96) mexpp -> empty .
-
-    MAYQ            reduce using rule 96 (mexpp -> empty .)
-    MENQ            reduce using rule 96 (mexpp -> empty .)
-    MAYI            reduce using rule 96 (mexpp -> empty .)
-    MENI            reduce using rule 96 (mexpp -> empty .)
-    IGUAL           reduce using rule 96 (mexpp -> empty .)
-    DIF             reduce using rule 96 (mexpp -> empty .)
-    AND             reduce using rule 96 (mexpp -> empty .)
-    OR              reduce using rule 96 (mexpp -> empty .)
-    RETURN          reduce using rule 96 (mexpp -> empty .)
-    READ            reduce using rule 96 (mexpp -> empty .)
-    WRITE           reduce using rule 96 (mexpp -> empty .)
-    IF              reduce using rule 96 (mexpp -> empty .)
-    FOR             reduce using rule 96 (mexpp -> empty .)
-    ID              reduce using rule 96 (mexpp -> empty .)
-    WHILE           reduce using rule 96 (mexpp -> empty .)
-    APAR            reduce using rule 96 (mexpp -> empty .)
-    CTEC            reduce using rule 96 (mexpp -> empty .)
-    CTEI            reduce using rule 96 (mexpp -> empty .)
-    CTEF            reduce using rule 96 (mexpp -> empty .)
-    CLLA            reduce using rule 96 (mexpp -> empty .)
-    CPAR            reduce using rule 96 (mexpp -> empty .)
-    CCOR            reduce using rule 96 (mexpp -> empty .)
-    COMA            reduce using rule 96 (mexpp -> empty .)
-    PTCOMA          reduce using rule 96 (mexpp -> empty .)
-    TO              reduce using rule 96 (mexpp -> empty .)
-    DO              reduce using rule 96 (mexpp -> empty .)
-
-
 state 125
 
-    (97) operSR -> MENOS .
+    (97) mexpp -> empty .
 
-    APAR            reduce using rule 97 (operSR -> MENOS .)
-    CTEC            reduce using rule 97 (operSR -> MENOS .)
-    CTEI            reduce using rule 97 (operSR -> MENOS .)
-    CTEF            reduce using rule 97 (operSR -> MENOS .)
-    ID              reduce using rule 97 (operSR -> MENOS .)
+    MAYQ            reduce using rule 97 (mexpp -> empty .)
+    MENQ            reduce using rule 97 (mexpp -> empty .)
+    MAYI            reduce using rule 97 (mexpp -> empty .)
+    MENI            reduce using rule 97 (mexpp -> empty .)
+    IGUALIGUAL      reduce using rule 97 (mexpp -> empty .)
+    DIF             reduce using rule 97 (mexpp -> empty .)
+    NOT             reduce using rule 97 (mexpp -> empty .)
+    AND             reduce using rule 97 (mexpp -> empty .)
+    OR              reduce using rule 97 (mexpp -> empty .)
+    RETURN          reduce using rule 97 (mexpp -> empty .)
+    READ            reduce using rule 97 (mexpp -> empty .)
+    WRITE           reduce using rule 97 (mexpp -> empty .)
+    IF              reduce using rule 97 (mexpp -> empty .)
+    FOR             reduce using rule 97 (mexpp -> empty .)
+    ID              reduce using rule 97 (mexpp -> empty .)
+    WHILE           reduce using rule 97 (mexpp -> empty .)
+    APAR            reduce using rule 97 (mexpp -> empty .)
+    CTEC            reduce using rule 97 (mexpp -> empty .)
+    CTEI            reduce using rule 97 (mexpp -> empty .)
+    CTEF            reduce using rule 97 (mexpp -> empty .)
+    CLLA            reduce using rule 97 (mexpp -> empty .)
+    CPAR            reduce using rule 97 (mexpp -> empty .)
+    CCOR            reduce using rule 97 (mexpp -> empty .)
+    COMA            reduce using rule 97 (mexpp -> empty .)
+    PTCOMA          reduce using rule 97 (mexpp -> empty .)
+    TO              reduce using rule 97 (mexpp -> empty .)
+    DO              reduce using rule 97 (mexpp -> empty .)
 
 
 state 126
 
-    (98) operSR -> MAS .
+    (98) operSR -> MENOS .
 
-    APAR            reduce using rule 98 (operSR -> MAS .)
-    CTEC            reduce using rule 98 (operSR -> MAS .)
-    CTEI            reduce using rule 98 (operSR -> MAS .)
-    CTEF            reduce using rule 98 (operSR -> MAS .)
-    ID              reduce using rule 98 (operSR -> MAS .)
+    APAR            reduce using rule 98 (operSR -> MENOS .)
+    CTEC            reduce using rule 98 (operSR -> MENOS .)
+    CTEI            reduce using rule 98 (operSR -> MENOS .)
+    CTEF            reduce using rule 98 (operSR -> MENOS .)
+    ID              reduce using rule 98 (operSR -> MENOS .)
 
 
 state 127
 
-    (99) termino -> factor terminop .
+    (99) operSR -> MAS .
 
-    MENOS           reduce using rule 99 (termino -> factor terminop .)
-    MAS             reduce using rule 99 (termino -> factor terminop .)
-    MAYQ            reduce using rule 99 (termino -> factor terminop .)
-    MENQ            reduce using rule 99 (termino -> factor terminop .)
-    MAYI            reduce using rule 99 (termino -> factor terminop .)
-    MENI            reduce using rule 99 (termino -> factor terminop .)
-    IGUAL           reduce using rule 99 (termino -> factor terminop .)
-    DIF             reduce using rule 99 (termino -> factor terminop .)
-    AND             reduce using rule 99 (termino -> factor terminop .)
-    OR              reduce using rule 99 (termino -> factor terminop .)
-    RETURN          reduce using rule 99 (termino -> factor terminop .)
-    READ            reduce using rule 99 (termino -> factor terminop .)
-    WRITE           reduce using rule 99 (termino -> factor terminop .)
-    IF              reduce using rule 99 (termino -> factor terminop .)
-    FOR             reduce using rule 99 (termino -> factor terminop .)
-    ID              reduce using rule 99 (termino -> factor terminop .)
-    WHILE           reduce using rule 99 (termino -> factor terminop .)
-    APAR            reduce using rule 99 (termino -> factor terminop .)
-    CTEC            reduce using rule 99 (termino -> factor terminop .)
-    CTEI            reduce using rule 99 (termino -> factor terminop .)
-    CTEF            reduce using rule 99 (termino -> factor terminop .)
-    CLLA            reduce using rule 99 (termino -> factor terminop .)
-    CPAR            reduce using rule 99 (termino -> factor terminop .)
-    CCOR            reduce using rule 99 (termino -> factor terminop .)
-    COMA            reduce using rule 99 (termino -> factor terminop .)
-    PTCOMA          reduce using rule 99 (termino -> factor terminop .)
-    TO              reduce using rule 99 (termino -> factor terminop .)
-    DO              reduce using rule 99 (termino -> factor terminop .)
+    APAR            reduce using rule 99 (operSR -> MAS .)
+    CTEC            reduce using rule 99 (operSR -> MAS .)
+    CTEI            reduce using rule 99 (operSR -> MAS .)
+    CTEF            reduce using rule 99 (operSR -> MAS .)
+    ID              reduce using rule 99 (operSR -> MAS .)
 
 
 state 128
 
-    (100) terminop -> oper . termino
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (100) termino -> factor terminop .
+
+    MENOS           reduce using rule 100 (termino -> factor terminop .)
+    MAS             reduce using rule 100 (termino -> factor terminop .)
+    MAYQ            reduce using rule 100 (termino -> factor terminop .)
+    MENQ            reduce using rule 100 (termino -> factor terminop .)
+    MAYI            reduce using rule 100 (termino -> factor terminop .)
+    MENI            reduce using rule 100 (termino -> factor terminop .)
+    IGUALIGUAL      reduce using rule 100 (termino -> factor terminop .)
+    DIF             reduce using rule 100 (termino -> factor terminop .)
+    NOT             reduce using rule 100 (termino -> factor terminop .)
+    AND             reduce using rule 100 (termino -> factor terminop .)
+    OR              reduce using rule 100 (termino -> factor terminop .)
+    RETURN          reduce using rule 100 (termino -> factor terminop .)
+    READ            reduce using rule 100 (termino -> factor terminop .)
+    WRITE           reduce using rule 100 (termino -> factor terminop .)
+    IF              reduce using rule 100 (termino -> factor terminop .)
+    FOR             reduce using rule 100 (termino -> factor terminop .)
+    ID              reduce using rule 100 (termino -> factor terminop .)
+    WHILE           reduce using rule 100 (termino -> factor terminop .)
+    APAR            reduce using rule 100 (termino -> factor terminop .)
+    CTEC            reduce using rule 100 (termino -> factor terminop .)
+    CTEI            reduce using rule 100 (termino -> factor terminop .)
+    CTEF            reduce using rule 100 (termino -> factor terminop .)
+    CLLA            reduce using rule 100 (termino -> factor terminop .)
+    CPAR            reduce using rule 100 (termino -> factor terminop .)
+    CCOR            reduce using rule 100 (termino -> factor terminop .)
+    COMA            reduce using rule 100 (termino -> factor terminop .)
+    PTCOMA          reduce using rule 100 (termino -> factor terminop .)
+    TO              reduce using rule 100 (termino -> factor terminop .)
+    DO              reduce using rule 100 (termino -> factor terminop .)
+
+
+state 129
+
+    (101) terminop -> oper . termino
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     termino                        shift and go to state 159
     factor                         shift and go to state 73
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 129
-
-    (101) terminop -> empty .
-
-    MENOS           reduce using rule 101 (terminop -> empty .)
-    MAS             reduce using rule 101 (terminop -> empty .)
-    MAYQ            reduce using rule 101 (terminop -> empty .)
-    MENQ            reduce using rule 101 (terminop -> empty .)
-    MAYI            reduce using rule 101 (terminop -> empty .)
-    MENI            reduce using rule 101 (terminop -> empty .)
-    IGUAL           reduce using rule 101 (terminop -> empty .)
-    DIF             reduce using rule 101 (terminop -> empty .)
-    AND             reduce using rule 101 (terminop -> empty .)
-    OR              reduce using rule 101 (terminop -> empty .)
-    RETURN          reduce using rule 101 (terminop -> empty .)
-    READ            reduce using rule 101 (terminop -> empty .)
-    WRITE           reduce using rule 101 (terminop -> empty .)
-    IF              reduce using rule 101 (terminop -> empty .)
-    FOR             reduce using rule 101 (terminop -> empty .)
-    ID              reduce using rule 101 (terminop -> empty .)
-    WHILE           reduce using rule 101 (terminop -> empty .)
-    APAR            reduce using rule 101 (terminop -> empty .)
-    CTEC            reduce using rule 101 (terminop -> empty .)
-    CTEI            reduce using rule 101 (terminop -> empty .)
-    CTEF            reduce using rule 101 (terminop -> empty .)
-    CLLA            reduce using rule 101 (terminop -> empty .)
-    CPAR            reduce using rule 101 (terminop -> empty .)
-    CCOR            reduce using rule 101 (terminop -> empty .)
-    COMA            reduce using rule 101 (terminop -> empty .)
-    PTCOMA          reduce using rule 101 (terminop -> empty .)
-    TO              reduce using rule 101 (terminop -> empty .)
-    DO              reduce using rule 101 (terminop -> empty .)
-
-
 state 130
 
-    (102) oper -> DIV .
+    (102) terminop -> empty .
 
-    APAR            reduce using rule 102 (oper -> DIV .)
-    CTEC            reduce using rule 102 (oper -> DIV .)
-    CTEI            reduce using rule 102 (oper -> DIV .)
-    CTEF            reduce using rule 102 (oper -> DIV .)
-    ID              reduce using rule 102 (oper -> DIV .)
+    MENOS           reduce using rule 102 (terminop -> empty .)
+    MAS             reduce using rule 102 (terminop -> empty .)
+    MAYQ            reduce using rule 102 (terminop -> empty .)
+    MENQ            reduce using rule 102 (terminop -> empty .)
+    MAYI            reduce using rule 102 (terminop -> empty .)
+    MENI            reduce using rule 102 (terminop -> empty .)
+    IGUALIGUAL      reduce using rule 102 (terminop -> empty .)
+    DIF             reduce using rule 102 (terminop -> empty .)
+    NOT             reduce using rule 102 (terminop -> empty .)
+    AND             reduce using rule 102 (terminop -> empty .)
+    OR              reduce using rule 102 (terminop -> empty .)
+    RETURN          reduce using rule 102 (terminop -> empty .)
+    READ            reduce using rule 102 (terminop -> empty .)
+    WRITE           reduce using rule 102 (terminop -> empty .)
+    IF              reduce using rule 102 (terminop -> empty .)
+    FOR             reduce using rule 102 (terminop -> empty .)
+    ID              reduce using rule 102 (terminop -> empty .)
+    WHILE           reduce using rule 102 (terminop -> empty .)
+    APAR            reduce using rule 102 (terminop -> empty .)
+    CTEC            reduce using rule 102 (terminop -> empty .)
+    CTEI            reduce using rule 102 (terminop -> empty .)
+    CTEF            reduce using rule 102 (terminop -> empty .)
+    CLLA            reduce using rule 102 (terminop -> empty .)
+    CPAR            reduce using rule 102 (terminop -> empty .)
+    CCOR            reduce using rule 102 (terminop -> empty .)
+    COMA            reduce using rule 102 (terminop -> empty .)
+    PTCOMA          reduce using rule 102 (terminop -> empty .)
+    TO              reduce using rule 102 (terminop -> empty .)
+    DO              reduce using rule 102 (terminop -> empty .)
 
 
 state 131
 
-    (103) oper -> POR .
+    (103) oper -> DIV .
 
-    APAR            reduce using rule 103 (oper -> POR .)
-    CTEC            reduce using rule 103 (oper -> POR .)
-    CTEI            reduce using rule 103 (oper -> POR .)
-    CTEF            reduce using rule 103 (oper -> POR .)
-    ID              reduce using rule 103 (oper -> POR .)
+    APAR            reduce using rule 103 (oper -> DIV .)
+    CTEC            reduce using rule 103 (oper -> DIV .)
+    CTEI            reduce using rule 103 (oper -> DIV .)
+    CTEF            reduce using rule 103 (oper -> DIV .)
+    ID              reduce using rule 103 (oper -> DIV .)
 
 
 state 132
 
-    (106) factor -> meteFondo exp . sacaFondo
-    (105) sacaFondo -> . CPAR
+    (104) oper -> POR .
+
+    APAR            reduce using rule 104 (oper -> POR .)
+    CTEC            reduce using rule 104 (oper -> POR .)
+    CTEI            reduce using rule 104 (oper -> POR .)
+    CTEF            reduce using rule 104 (oper -> POR .)
+    ID              reduce using rule 104 (oper -> POR .)
+
+
+state 133
+
+    (107) factor -> meteFondo exp . sacaFondo
+    (106) sacaFondo -> . CPAR
 
     CPAR            shift and go to state 161
 
     sacaFondo                      shift and go to state 160
 
-state 133
+state 134
 
-    (118) ctes -> ID . validateExistance factorp
-    (119) validateExistance -> .
+    (119) ctes -> ID . validateExistance factorp
+    (120) validateExistance -> .
 
-    APAR            reduce using rule 119 (validateExistance -> .)
-    ACOR            reduce using rule 119 (validateExistance -> .)
-    DIV             reduce using rule 119 (validateExistance -> .)
-    POR             reduce using rule 119 (validateExistance -> .)
-    MENOS           reduce using rule 119 (validateExistance -> .)
-    MAS             reduce using rule 119 (validateExistance -> .)
-    MAYQ            reduce using rule 119 (validateExistance -> .)
-    MENQ            reduce using rule 119 (validateExistance -> .)
-    MAYI            reduce using rule 119 (validateExistance -> .)
-    MENI            reduce using rule 119 (validateExistance -> .)
-    IGUAL           reduce using rule 119 (validateExistance -> .)
-    DIF             reduce using rule 119 (validateExistance -> .)
-    AND             reduce using rule 119 (validateExistance -> .)
-    OR              reduce using rule 119 (validateExistance -> .)
-    CPAR            reduce using rule 119 (validateExistance -> .)
-    CCOR            reduce using rule 119 (validateExistance -> .)
-    COMA            reduce using rule 119 (validateExistance -> .)
-    RETURN          reduce using rule 119 (validateExistance -> .)
-    READ            reduce using rule 119 (validateExistance -> .)
-    WRITE           reduce using rule 119 (validateExistance -> .)
-    IF              reduce using rule 119 (validateExistance -> .)
-    FOR             reduce using rule 119 (validateExistance -> .)
-    ID              reduce using rule 119 (validateExistance -> .)
-    WHILE           reduce using rule 119 (validateExistance -> .)
-    CTEC            reduce using rule 119 (validateExistance -> .)
-    CTEI            reduce using rule 119 (validateExistance -> .)
-    CTEF            reduce using rule 119 (validateExistance -> .)
-    CLLA            reduce using rule 119 (validateExistance -> .)
-    PTCOMA          reduce using rule 119 (validateExistance -> .)
-    TO              reduce using rule 119 (validateExistance -> .)
-    DO              reduce using rule 119 (validateExistance -> .)
+    APAR            reduce using rule 120 (validateExistance -> .)
+    ACOR            reduce using rule 120 (validateExistance -> .)
+    DIV             reduce using rule 120 (validateExistance -> .)
+    POR             reduce using rule 120 (validateExistance -> .)
+    MENOS           reduce using rule 120 (validateExistance -> .)
+    MAS             reduce using rule 120 (validateExistance -> .)
+    MAYQ            reduce using rule 120 (validateExistance -> .)
+    MENQ            reduce using rule 120 (validateExistance -> .)
+    MAYI            reduce using rule 120 (validateExistance -> .)
+    MENI            reduce using rule 120 (validateExistance -> .)
+    IGUALIGUAL      reduce using rule 120 (validateExistance -> .)
+    DIF             reduce using rule 120 (validateExistance -> .)
+    NOT             reduce using rule 120 (validateExistance -> .)
+    AND             reduce using rule 120 (validateExistance -> .)
+    OR              reduce using rule 120 (validateExistance -> .)
+    CPAR            reduce using rule 120 (validateExistance -> .)
+    CCOR            reduce using rule 120 (validateExistance -> .)
+    COMA            reduce using rule 120 (validateExistance -> .)
+    RETURN          reduce using rule 120 (validateExistance -> .)
+    READ            reduce using rule 120 (validateExistance -> .)
+    WRITE           reduce using rule 120 (validateExistance -> .)
+    IF              reduce using rule 120 (validateExistance -> .)
+    FOR             reduce using rule 120 (validateExistance -> .)
+    ID              reduce using rule 120 (validateExistance -> .)
+    WHILE           reduce using rule 120 (validateExistance -> .)
+    CTEC            reduce using rule 120 (validateExistance -> .)
+    CTEI            reduce using rule 120 (validateExistance -> .)
+    CTEF            reduce using rule 120 (validateExistance -> .)
+    CLLA            reduce using rule 120 (validateExistance -> .)
+    PTCOMA          reduce using rule 120 (validateExistance -> .)
+    TO              reduce using rule 120 (validateExistance -> .)
+    DO              reduce using rule 120 (validateExistance -> .)
 
     validateExistance              shift and go to state 108
 
-state 134
+state 135
 
     (18) funcspp -> APAR params CPAR updateParamTable PTCOMA . varss ALLA addsize estatutos CLLA endfunction funcs
     (4) varss -> . VARS vars
     (5) varss -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     VARS            shift and go to state 6
-    ALLA            reduce using rule 120 (empty -> .)
+    ALLA            reduce using rule 121 (empty -> .)
 
     varss                          shift and go to state 162
     empty                          shift and go to state 7
 
-state 135
+state 136
 
     (37) params -> tipo DOSPNTS insertParams ididx . paramsp
     (40) paramsp -> . COMA params
     (41) paramsp -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     COMA            shift and go to state 164
-    CPAR            reduce using rule 120 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     paramsp                        shift and go to state 163
     empty                          shift and go to state 165
 
-state 136
+state 137
 
     (14) varspp -> COMA insertVar varsppp varspp .
 
@@ -2901,28 +2931,28 @@ state 136
     ALLA            reduce using rule 14 (varspp -> COMA insertVar varsppp varspp .)
 
 
-state 137
+state 138
 
     (42) asig -> varAs ididx igualAs . asigpp PTCOMA
     (49) asigpp -> . exp
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     asigpp                         shift and go to state 166
     exp                            shift and go to state 167
@@ -2934,7 +2964,7 @@ state 137
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 138
+state 139
 
     (44) igualAs -> IGUAL .
 
@@ -2945,7 +2975,7 @@ state 138
     ID              reduce using rule 44 (igualAs -> IGUAL .)
 
 
-state 139
+state 140
 
     (50) ididx -> corArr exp . ver CCOR
     (53) ver -> .
@@ -2954,30 +2984,30 @@ state 139
 
     ver                            shift and go to state 168
 
-state 140
+state 141
 
     (54) return -> RETURN APAR exp . CPAR PTCOMA
 
     CPAR            shift and go to state 169
 
 
-state 141
+state 142
 
     (55) lectura -> READ APAR readId . ididx lecturapp CPAR PTCOMA
     (50) ididx -> . corArr exp ver CCOR
     (51) ididx -> . empty
     (52) corArr -> . ACOR
-    (120) empty -> .
+    (121) empty -> .
 
     ACOR            shift and go to state 97
-    COMA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     ididx                          shift and go to state 170
     corArr                         shift and go to state 95
     empty                          shift and go to state 96
 
-state 142
+state 143
 
     (56) readId -> ID .
 
@@ -2986,20 +3016,20 @@ state 142
     CPAR            reduce using rule 56 (readId -> ID .)
 
 
-state 143
+state 144
 
     (59) escritura -> WRITE APAR escriturap . escriturapp CPAR PTCOMA
     (64) escriturapp -> . COMA escriturap
     (65) escriturapp -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     COMA            shift and go to state 172
-    CPAR            reduce using rule 120 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     escriturapp                    shift and go to state 171
     empty                          shift and go to state 173
 
-state 144
+state 145
 
     (60) escriturap -> pushEsc .
 
@@ -3007,7 +3037,7 @@ state 144
     CPAR            reduce using rule 60 (escriturap -> pushEsc .)
 
 
-state 145
+state 146
 
     (61) escriturap -> exp .
 
@@ -3015,7 +3045,7 @@ state 145
     CPAR            reduce using rule 61 (escriturap -> exp .)
 
 
-state 146
+state 147
 
     (62) pushEsc -> STRING .
 
@@ -3023,33 +3053,34 @@ state 146
     CPAR            reduce using rule 62 (pushEsc -> STRING .)
 
 
-state 147
+state 148
 
     (63) pushEsc -> CTEC .
-    (115) ctes -> CTEC .
+    (116) ctes -> CTEC .
 
   ! reduce/reduce conflict for COMA resolved using rule 63 (pushEsc -> CTEC .)
   ! reduce/reduce conflict for CPAR resolved using rule 63 (pushEsc -> CTEC .)
     COMA            reduce using rule 63 (pushEsc -> CTEC .)
     CPAR            reduce using rule 63 (pushEsc -> CTEC .)
-    DIV             reduce using rule 115 (ctes -> CTEC .)
-    POR             reduce using rule 115 (ctes -> CTEC .)
-    MENOS           reduce using rule 115 (ctes -> CTEC .)
-    MAS             reduce using rule 115 (ctes -> CTEC .)
-    MAYQ            reduce using rule 115 (ctes -> CTEC .)
-    MENQ            reduce using rule 115 (ctes -> CTEC .)
-    MAYI            reduce using rule 115 (ctes -> CTEC .)
-    MENI            reduce using rule 115 (ctes -> CTEC .)
-    IGUAL           reduce using rule 115 (ctes -> CTEC .)
-    DIF             reduce using rule 115 (ctes -> CTEC .)
-    AND             reduce using rule 115 (ctes -> CTEC .)
-    OR              reduce using rule 115 (ctes -> CTEC .)
+    DIV             reduce using rule 116 (ctes -> CTEC .)
+    POR             reduce using rule 116 (ctes -> CTEC .)
+    MENOS           reduce using rule 116 (ctes -> CTEC .)
+    MAS             reduce using rule 116 (ctes -> CTEC .)
+    MAYQ            reduce using rule 116 (ctes -> CTEC .)
+    MENQ            reduce using rule 116 (ctes -> CTEC .)
+    MAYI            reduce using rule 116 (ctes -> CTEC .)
+    MENI            reduce using rule 116 (ctes -> CTEC .)
+    IGUALIGUAL      reduce using rule 116 (ctes -> CTEC .)
+    DIF             reduce using rule 116 (ctes -> CTEC .)
+    NOT             reduce using rule 116 (ctes -> CTEC .)
+    AND             reduce using rule 116 (ctes -> CTEC .)
+    OR              reduce using rule 116 (ctes -> CTEC .)
 
-  ! COMA            [ reduce using rule 115 (ctes -> CTEC .) ]
-  ! CPAR            [ reduce using rule 115 (ctes -> CTEC .) ]
+  ! COMA            [ reduce using rule 116 (ctes -> CTEC .) ]
+  ! CPAR            [ reduce using rule 116 (ctes -> CTEC .) ]
 
 
-state 148
+state 149
 
     (66) cond -> IF APAR exp . checkCond THEN ALLA estatutos CLLA condpp
     (70) checkCond -> . CPAR
@@ -3058,7 +3089,7 @@ state 148
 
     checkCond                      shift and go to state 174
 
-state 149
+state 150
 
     (71) while -> saveWhile APAR exp . checkWhileCond DO ALLA estatutos CLLA
     (73) checkWhileCond -> . CPAR
@@ -3067,14 +3098,14 @@ state 149
 
     checkWhileCond                 shift and go to state 176
 
-state 150
+state 151
 
     (74) for -> FOR varFor ididx . IGUAL exp initFor exp beforeDo ALLA estatutos CLLA
 
     IGUAL           shift and go to state 178
 
 
-state 151
+state 152
 
     (79) expp -> OR exp .
 
@@ -3098,92 +3129,94 @@ state 151
     DO              reduce using rule 79 (expp -> OR exp .)
 
 
-state 152
-
-    (118) ctes -> ID validateExistance factorp .
-
-    DIV             reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    POR             reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    MENOS           reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    MAS             reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    MAYQ            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    MENQ            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    MAYI            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    MENI            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    IGUAL           reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    DIF             reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    AND             reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    OR              reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    RETURN          reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    READ            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    WRITE           reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    IF              reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    FOR             reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    ID              reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    WHILE           reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    APAR            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    CTEC            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    CTEI            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    CTEF            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    CLLA            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    CPAR            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    CCOR            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    COMA            reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    PTCOMA          reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    TO              reduce using rule 118 (ctes -> ID validateExistance factorp .)
-    DO              reduce using rule 118 (ctes -> ID validateExistance factorp .)
-
-
 state 153
 
-    (108) factorp -> APAR . createEra exp valParams factorpp cparParams
-    (111) createEra -> .
+    (119) ctes -> ID validateExistance factorp .
 
-    APAR            reduce using rule 111 (createEra -> .)
-    CTEC            reduce using rule 111 (createEra -> .)
-    CTEI            reduce using rule 111 (createEra -> .)
-    CTEF            reduce using rule 111 (createEra -> .)
-    ID              reduce using rule 111 (createEra -> .)
+    DIV             reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    POR             reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    MENOS           reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    MAS             reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    MAYQ            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    MENQ            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    MAYI            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    MENI            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    IGUALIGUAL      reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    DIF             reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    NOT             reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    AND             reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    OR              reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    RETURN          reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    READ            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    WRITE           reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    IF              reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    FOR             reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    ID              reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    WHILE           reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    APAR            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    CTEC            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    CTEI            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    CTEF            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    CLLA            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    CPAR            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    CCOR            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    COMA            reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    PTCOMA          reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    TO              reduce using rule 119 (ctes -> ID validateExistance factorp .)
+    DO              reduce using rule 119 (ctes -> ID validateExistance factorp .)
 
-    createEra                      shift and go to state 179
 
 state 154
 
-    (109) factorp -> ididx .
+    (109) factorp -> APAR . createEra exp valParams factorpp cparParams
+    (112) createEra -> .
 
-    DIV             reduce using rule 109 (factorp -> ididx .)
-    POR             reduce using rule 109 (factorp -> ididx .)
-    MENOS           reduce using rule 109 (factorp -> ididx .)
-    MAS             reduce using rule 109 (factorp -> ididx .)
-    MAYQ            reduce using rule 109 (factorp -> ididx .)
-    MENQ            reduce using rule 109 (factorp -> ididx .)
-    MAYI            reduce using rule 109 (factorp -> ididx .)
-    MENI            reduce using rule 109 (factorp -> ididx .)
-    IGUAL           reduce using rule 109 (factorp -> ididx .)
-    DIF             reduce using rule 109 (factorp -> ididx .)
-    AND             reduce using rule 109 (factorp -> ididx .)
-    OR              reduce using rule 109 (factorp -> ididx .)
-    RETURN          reduce using rule 109 (factorp -> ididx .)
-    READ            reduce using rule 109 (factorp -> ididx .)
-    WRITE           reduce using rule 109 (factorp -> ididx .)
-    IF              reduce using rule 109 (factorp -> ididx .)
-    FOR             reduce using rule 109 (factorp -> ididx .)
-    ID              reduce using rule 109 (factorp -> ididx .)
-    WHILE           reduce using rule 109 (factorp -> ididx .)
-    APAR            reduce using rule 109 (factorp -> ididx .)
-    CTEC            reduce using rule 109 (factorp -> ididx .)
-    CTEI            reduce using rule 109 (factorp -> ididx .)
-    CTEF            reduce using rule 109 (factorp -> ididx .)
-    CLLA            reduce using rule 109 (factorp -> ididx .)
-    CPAR            reduce using rule 109 (factorp -> ididx .)
-    CCOR            reduce using rule 109 (factorp -> ididx .)
-    COMA            reduce using rule 109 (factorp -> ididx .)
-    PTCOMA          reduce using rule 109 (factorp -> ididx .)
-    TO              reduce using rule 109 (factorp -> ididx .)
-    DO              reduce using rule 109 (factorp -> ididx .)
+    APAR            reduce using rule 112 (createEra -> .)
+    CTEC            reduce using rule 112 (createEra -> .)
+    CTEI            reduce using rule 112 (createEra -> .)
+    CTEF            reduce using rule 112 (createEra -> .)
+    ID              reduce using rule 112 (createEra -> .)
 
+    createEra                      shift and go to state 179
 
 state 155
+
+    (110) factorp -> ididx .
+
+    DIV             reduce using rule 110 (factorp -> ididx .)
+    POR             reduce using rule 110 (factorp -> ididx .)
+    MENOS           reduce using rule 110 (factorp -> ididx .)
+    MAS             reduce using rule 110 (factorp -> ididx .)
+    MAYQ            reduce using rule 110 (factorp -> ididx .)
+    MENQ            reduce using rule 110 (factorp -> ididx .)
+    MAYI            reduce using rule 110 (factorp -> ididx .)
+    MENI            reduce using rule 110 (factorp -> ididx .)
+    IGUALIGUAL      reduce using rule 110 (factorp -> ididx .)
+    DIF             reduce using rule 110 (factorp -> ididx .)
+    NOT             reduce using rule 110 (factorp -> ididx .)
+    AND             reduce using rule 110 (factorp -> ididx .)
+    OR              reduce using rule 110 (factorp -> ididx .)
+    RETURN          reduce using rule 110 (factorp -> ididx .)
+    READ            reduce using rule 110 (factorp -> ididx .)
+    WRITE           reduce using rule 110 (factorp -> ididx .)
+    IF              reduce using rule 110 (factorp -> ididx .)
+    FOR             reduce using rule 110 (factorp -> ididx .)
+    ID              reduce using rule 110 (factorp -> ididx .)
+    WHILE           reduce using rule 110 (factorp -> ididx .)
+    APAR            reduce using rule 110 (factorp -> ididx .)
+    CTEC            reduce using rule 110 (factorp -> ididx .)
+    CTEI            reduce using rule 110 (factorp -> ididx .)
+    CTEF            reduce using rule 110 (factorp -> ididx .)
+    CLLA            reduce using rule 110 (factorp -> ididx .)
+    CPAR            reduce using rule 110 (factorp -> ididx .)
+    CCOR            reduce using rule 110 (factorp -> ididx .)
+    COMA            reduce using rule 110 (factorp -> ididx .)
+    PTCOMA          reduce using rule 110 (factorp -> ididx .)
+    TO              reduce using rule 110 (factorp -> ididx .)
+    DO              reduce using rule 110 (factorp -> ididx .)
+
+
+state 156
 
     (82) texpp -> andCheck texp .
 
@@ -3208,7 +3241,7 @@ state 155
     DO              reduce using rule 82 (texpp -> andCheck texp .)
 
 
-state 156
+state 157
 
     (86) gexpp -> addPO mexp .
 
@@ -3234,153 +3267,146 @@ state 156
     DO              reduce using rule 86 (gexpp -> addPO mexp .)
 
 
-state 157
-
-    (92) addPO -> IGUAL IGUAL .
-
-    APAR            reduce using rule 92 (addPO -> IGUAL IGUAL .)
-    CTEC            reduce using rule 92 (addPO -> IGUAL IGUAL .)
-    CTEI            reduce using rule 92 (addPO -> IGUAL IGUAL .)
-    CTEF            reduce using rule 92 (addPO -> IGUAL IGUAL .)
-    ID              reduce using rule 92 (addPO -> IGUAL IGUAL .)
-
-
 state 158
 
-    (95) mexpp -> operSR mexp .
+    (96) mexpp -> operSR mexp .
 
-    MAYQ            reduce using rule 95 (mexpp -> operSR mexp .)
-    MENQ            reduce using rule 95 (mexpp -> operSR mexp .)
-    MAYI            reduce using rule 95 (mexpp -> operSR mexp .)
-    MENI            reduce using rule 95 (mexpp -> operSR mexp .)
-    IGUAL           reduce using rule 95 (mexpp -> operSR mexp .)
-    DIF             reduce using rule 95 (mexpp -> operSR mexp .)
-    AND             reduce using rule 95 (mexpp -> operSR mexp .)
-    OR              reduce using rule 95 (mexpp -> operSR mexp .)
-    RETURN          reduce using rule 95 (mexpp -> operSR mexp .)
-    READ            reduce using rule 95 (mexpp -> operSR mexp .)
-    WRITE           reduce using rule 95 (mexpp -> operSR mexp .)
-    IF              reduce using rule 95 (mexpp -> operSR mexp .)
-    FOR             reduce using rule 95 (mexpp -> operSR mexp .)
-    ID              reduce using rule 95 (mexpp -> operSR mexp .)
-    WHILE           reduce using rule 95 (mexpp -> operSR mexp .)
-    APAR            reduce using rule 95 (mexpp -> operSR mexp .)
-    CTEC            reduce using rule 95 (mexpp -> operSR mexp .)
-    CTEI            reduce using rule 95 (mexpp -> operSR mexp .)
-    CTEF            reduce using rule 95 (mexpp -> operSR mexp .)
-    CLLA            reduce using rule 95 (mexpp -> operSR mexp .)
-    CPAR            reduce using rule 95 (mexpp -> operSR mexp .)
-    CCOR            reduce using rule 95 (mexpp -> operSR mexp .)
-    COMA            reduce using rule 95 (mexpp -> operSR mexp .)
-    PTCOMA          reduce using rule 95 (mexpp -> operSR mexp .)
-    TO              reduce using rule 95 (mexpp -> operSR mexp .)
-    DO              reduce using rule 95 (mexpp -> operSR mexp .)
+    MAYQ            reduce using rule 96 (mexpp -> operSR mexp .)
+    MENQ            reduce using rule 96 (mexpp -> operSR mexp .)
+    MAYI            reduce using rule 96 (mexpp -> operSR mexp .)
+    MENI            reduce using rule 96 (mexpp -> operSR mexp .)
+    IGUALIGUAL      reduce using rule 96 (mexpp -> operSR mexp .)
+    DIF             reduce using rule 96 (mexpp -> operSR mexp .)
+    NOT             reduce using rule 96 (mexpp -> operSR mexp .)
+    AND             reduce using rule 96 (mexpp -> operSR mexp .)
+    OR              reduce using rule 96 (mexpp -> operSR mexp .)
+    RETURN          reduce using rule 96 (mexpp -> operSR mexp .)
+    READ            reduce using rule 96 (mexpp -> operSR mexp .)
+    WRITE           reduce using rule 96 (mexpp -> operSR mexp .)
+    IF              reduce using rule 96 (mexpp -> operSR mexp .)
+    FOR             reduce using rule 96 (mexpp -> operSR mexp .)
+    ID              reduce using rule 96 (mexpp -> operSR mexp .)
+    WHILE           reduce using rule 96 (mexpp -> operSR mexp .)
+    APAR            reduce using rule 96 (mexpp -> operSR mexp .)
+    CTEC            reduce using rule 96 (mexpp -> operSR mexp .)
+    CTEI            reduce using rule 96 (mexpp -> operSR mexp .)
+    CTEF            reduce using rule 96 (mexpp -> operSR mexp .)
+    CLLA            reduce using rule 96 (mexpp -> operSR mexp .)
+    CPAR            reduce using rule 96 (mexpp -> operSR mexp .)
+    CCOR            reduce using rule 96 (mexpp -> operSR mexp .)
+    COMA            reduce using rule 96 (mexpp -> operSR mexp .)
+    PTCOMA          reduce using rule 96 (mexpp -> operSR mexp .)
+    TO              reduce using rule 96 (mexpp -> operSR mexp .)
+    DO              reduce using rule 96 (mexpp -> operSR mexp .)
 
 
 state 159
 
-    (100) terminop -> oper termino .
+    (101) terminop -> oper termino .
 
-    MENOS           reduce using rule 100 (terminop -> oper termino .)
-    MAS             reduce using rule 100 (terminop -> oper termino .)
-    MAYQ            reduce using rule 100 (terminop -> oper termino .)
-    MENQ            reduce using rule 100 (terminop -> oper termino .)
-    MAYI            reduce using rule 100 (terminop -> oper termino .)
-    MENI            reduce using rule 100 (terminop -> oper termino .)
-    IGUAL           reduce using rule 100 (terminop -> oper termino .)
-    DIF             reduce using rule 100 (terminop -> oper termino .)
-    AND             reduce using rule 100 (terminop -> oper termino .)
-    OR              reduce using rule 100 (terminop -> oper termino .)
-    RETURN          reduce using rule 100 (terminop -> oper termino .)
-    READ            reduce using rule 100 (terminop -> oper termino .)
-    WRITE           reduce using rule 100 (terminop -> oper termino .)
-    IF              reduce using rule 100 (terminop -> oper termino .)
-    FOR             reduce using rule 100 (terminop -> oper termino .)
-    ID              reduce using rule 100 (terminop -> oper termino .)
-    WHILE           reduce using rule 100 (terminop -> oper termino .)
-    APAR            reduce using rule 100 (terminop -> oper termino .)
-    CTEC            reduce using rule 100 (terminop -> oper termino .)
-    CTEI            reduce using rule 100 (terminop -> oper termino .)
-    CTEF            reduce using rule 100 (terminop -> oper termino .)
-    CLLA            reduce using rule 100 (terminop -> oper termino .)
-    CPAR            reduce using rule 100 (terminop -> oper termino .)
-    CCOR            reduce using rule 100 (terminop -> oper termino .)
-    COMA            reduce using rule 100 (terminop -> oper termino .)
-    PTCOMA          reduce using rule 100 (terminop -> oper termino .)
-    TO              reduce using rule 100 (terminop -> oper termino .)
-    DO              reduce using rule 100 (terminop -> oper termino .)
+    MENOS           reduce using rule 101 (terminop -> oper termino .)
+    MAS             reduce using rule 101 (terminop -> oper termino .)
+    MAYQ            reduce using rule 101 (terminop -> oper termino .)
+    MENQ            reduce using rule 101 (terminop -> oper termino .)
+    MAYI            reduce using rule 101 (terminop -> oper termino .)
+    MENI            reduce using rule 101 (terminop -> oper termino .)
+    IGUALIGUAL      reduce using rule 101 (terminop -> oper termino .)
+    DIF             reduce using rule 101 (terminop -> oper termino .)
+    NOT             reduce using rule 101 (terminop -> oper termino .)
+    AND             reduce using rule 101 (terminop -> oper termino .)
+    OR              reduce using rule 101 (terminop -> oper termino .)
+    RETURN          reduce using rule 101 (terminop -> oper termino .)
+    READ            reduce using rule 101 (terminop -> oper termino .)
+    WRITE           reduce using rule 101 (terminop -> oper termino .)
+    IF              reduce using rule 101 (terminop -> oper termino .)
+    FOR             reduce using rule 101 (terminop -> oper termino .)
+    ID              reduce using rule 101 (terminop -> oper termino .)
+    WHILE           reduce using rule 101 (terminop -> oper termino .)
+    APAR            reduce using rule 101 (terminop -> oper termino .)
+    CTEC            reduce using rule 101 (terminop -> oper termino .)
+    CTEI            reduce using rule 101 (terminop -> oper termino .)
+    CTEF            reduce using rule 101 (terminop -> oper termino .)
+    CLLA            reduce using rule 101 (terminop -> oper termino .)
+    CPAR            reduce using rule 101 (terminop -> oper termino .)
+    CCOR            reduce using rule 101 (terminop -> oper termino .)
+    COMA            reduce using rule 101 (terminop -> oper termino .)
+    PTCOMA          reduce using rule 101 (terminop -> oper termino .)
+    TO              reduce using rule 101 (terminop -> oper termino .)
+    DO              reduce using rule 101 (terminop -> oper termino .)
 
 
 state 160
 
-    (106) factor -> meteFondo exp sacaFondo .
+    (107) factor -> meteFondo exp sacaFondo .
 
-    DIV             reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    POR             reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    MENOS           reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    MAS             reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    MAYQ            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    MENQ            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    MAYI            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    MENI            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    IGUAL           reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    DIF             reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    AND             reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    OR              reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    RETURN          reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    READ            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    WRITE           reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    IF              reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    FOR             reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    ID              reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    WHILE           reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    APAR            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    CTEC            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    CTEI            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    CTEF            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    CLLA            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    CPAR            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    CCOR            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    COMA            reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    PTCOMA          reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    TO              reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
-    DO              reduce using rule 106 (factor -> meteFondo exp sacaFondo .)
+    DIV             reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    POR             reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    MENOS           reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    MAS             reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    MAYQ            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    MENQ            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    MAYI            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    MENI            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    IGUALIGUAL      reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    DIF             reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    NOT             reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    AND             reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    OR              reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    RETURN          reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    READ            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    WRITE           reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    IF              reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    FOR             reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    ID              reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    WHILE           reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    APAR            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    CTEC            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    CTEI            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    CTEF            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    CLLA            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    CPAR            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    CCOR            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    COMA            reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    PTCOMA          reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    TO              reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
+    DO              reduce using rule 107 (factor -> meteFondo exp sacaFondo .)
 
 
 state 161
 
-    (105) sacaFondo -> CPAR .
+    (106) sacaFondo -> CPAR .
 
-    DIV             reduce using rule 105 (sacaFondo -> CPAR .)
-    POR             reduce using rule 105 (sacaFondo -> CPAR .)
-    MENOS           reduce using rule 105 (sacaFondo -> CPAR .)
-    MAS             reduce using rule 105 (sacaFondo -> CPAR .)
-    MAYQ            reduce using rule 105 (sacaFondo -> CPAR .)
-    MENQ            reduce using rule 105 (sacaFondo -> CPAR .)
-    MAYI            reduce using rule 105 (sacaFondo -> CPAR .)
-    MENI            reduce using rule 105 (sacaFondo -> CPAR .)
-    IGUAL           reduce using rule 105 (sacaFondo -> CPAR .)
-    DIF             reduce using rule 105 (sacaFondo -> CPAR .)
-    AND             reduce using rule 105 (sacaFondo -> CPAR .)
-    OR              reduce using rule 105 (sacaFondo -> CPAR .)
-    RETURN          reduce using rule 105 (sacaFondo -> CPAR .)
-    READ            reduce using rule 105 (sacaFondo -> CPAR .)
-    WRITE           reduce using rule 105 (sacaFondo -> CPAR .)
-    IF              reduce using rule 105 (sacaFondo -> CPAR .)
-    FOR             reduce using rule 105 (sacaFondo -> CPAR .)
-    ID              reduce using rule 105 (sacaFondo -> CPAR .)
-    WHILE           reduce using rule 105 (sacaFondo -> CPAR .)
-    APAR            reduce using rule 105 (sacaFondo -> CPAR .)
-    CTEC            reduce using rule 105 (sacaFondo -> CPAR .)
-    CTEI            reduce using rule 105 (sacaFondo -> CPAR .)
-    CTEF            reduce using rule 105 (sacaFondo -> CPAR .)
-    CLLA            reduce using rule 105 (sacaFondo -> CPAR .)
-    CPAR            reduce using rule 105 (sacaFondo -> CPAR .)
-    CCOR            reduce using rule 105 (sacaFondo -> CPAR .)
-    COMA            reduce using rule 105 (sacaFondo -> CPAR .)
-    PTCOMA          reduce using rule 105 (sacaFondo -> CPAR .)
-    TO              reduce using rule 105 (sacaFondo -> CPAR .)
-    DO              reduce using rule 105 (sacaFondo -> CPAR .)
+    DIV             reduce using rule 106 (sacaFondo -> CPAR .)
+    POR             reduce using rule 106 (sacaFondo -> CPAR .)
+    MENOS           reduce using rule 106 (sacaFondo -> CPAR .)
+    MAS             reduce using rule 106 (sacaFondo -> CPAR .)
+    MAYQ            reduce using rule 106 (sacaFondo -> CPAR .)
+    MENQ            reduce using rule 106 (sacaFondo -> CPAR .)
+    MAYI            reduce using rule 106 (sacaFondo -> CPAR .)
+    MENI            reduce using rule 106 (sacaFondo -> CPAR .)
+    IGUALIGUAL      reduce using rule 106 (sacaFondo -> CPAR .)
+    DIF             reduce using rule 106 (sacaFondo -> CPAR .)
+    NOT             reduce using rule 106 (sacaFondo -> CPAR .)
+    AND             reduce using rule 106 (sacaFondo -> CPAR .)
+    OR              reduce using rule 106 (sacaFondo -> CPAR .)
+    RETURN          reduce using rule 106 (sacaFondo -> CPAR .)
+    READ            reduce using rule 106 (sacaFondo -> CPAR .)
+    WRITE           reduce using rule 106 (sacaFondo -> CPAR .)
+    IF              reduce using rule 106 (sacaFondo -> CPAR .)
+    FOR             reduce using rule 106 (sacaFondo -> CPAR .)
+    ID              reduce using rule 106 (sacaFondo -> CPAR .)
+    WHILE           reduce using rule 106 (sacaFondo -> CPAR .)
+    APAR            reduce using rule 106 (sacaFondo -> CPAR .)
+    CTEC            reduce using rule 106 (sacaFondo -> CPAR .)
+    CTEI            reduce using rule 106 (sacaFondo -> CPAR .)
+    CTEF            reduce using rule 106 (sacaFondo -> CPAR .)
+    CLLA            reduce using rule 106 (sacaFondo -> CPAR .)
+    CPAR            reduce using rule 106 (sacaFondo -> CPAR .)
+    CCOR            reduce using rule 106 (sacaFondo -> CPAR .)
+    COMA            reduce using rule 106 (sacaFondo -> CPAR .)
+    PTCOMA          reduce using rule 106 (sacaFondo -> CPAR .)
+    TO              reduce using rule 106 (sacaFondo -> CPAR .)
+    DO              reduce using rule 106 (sacaFondo -> CPAR .)
 
 
 state 162
@@ -3405,12 +3431,12 @@ state 164
     (34) tipo -> . INT
     (35) tipo -> . FLOAT
     (36) tipo -> . CHAR
-    (120) empty -> .
+    (121) empty -> .
 
     INT             shift and go to state 15
     FLOAT           shift and go to state 16
     CHAR            shift and go to state 17
-    CPAR            reduce using rule 120 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     params                         shift and go to state 181
     tipo                           shift and go to state 37
@@ -3456,10 +3482,10 @@ state 170
     (55) lectura -> READ APAR readId ididx . lecturapp CPAR PTCOMA
     (57) lecturapp -> . COMA readId ididx lecturapp
     (58) lecturapp -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     COMA            shift and go to state 186
-    CPAR            reduce using rule 120 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     lecturapp                      shift and go to state 185
     empty                          shift and go to state 187
@@ -3481,26 +3507,26 @@ state 172
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
-    STRING          shift and go to state 146
-    CTEC            shift and go to state 147
+    STRING          shift and go to state 147
+    CTEC            shift and go to state 148
     APAR            shift and go to state 50
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     escriturap                     shift and go to state 189
-    pushEsc                        shift and go to state 144
-    exp                            shift and go to state 145
+    pushEsc                        shift and go to state 145
+    exp                            shift and go to state 146
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -3550,21 +3576,21 @@ state 178
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     exp                            shift and go to state 192
     texp                           shift and go to state 67
@@ -3577,25 +3603,25 @@ state 178
 
 state 179
 
-    (108) factorp -> APAR createEra . exp valParams factorpp cparParams
+    (109) factorp -> APAR createEra . exp valParams factorpp cparParams
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     exp                            shift and go to state 193
     texp                           shift and go to state 67
@@ -3665,7 +3691,9 @@ state 183
     MENQ            reduce using rule 50 (ididx -> corArr exp ver CCOR .)
     MAYI            reduce using rule 50 (ididx -> corArr exp ver CCOR .)
     MENI            reduce using rule 50 (ididx -> corArr exp ver CCOR .)
+    IGUALIGUAL      reduce using rule 50 (ididx -> corArr exp ver CCOR .)
     DIF             reduce using rule 50 (ididx -> corArr exp ver CCOR .)
+    NOT             reduce using rule 50 (ididx -> corArr exp ver CCOR .)
     AND             reduce using rule 50 (ididx -> corArr exp ver CCOR .)
     OR              reduce using rule 50 (ididx -> corArr exp ver CCOR .)
     RETURN          reduce using rule 50 (ididx -> corArr exp ver CCOR .)
@@ -3716,7 +3744,7 @@ state 186
     (57) lecturapp -> COMA . readId ididx lecturapp
     (56) readId -> . ID
 
-    ID              shift and go to state 142
+    ID              shift and go to state 143
 
     readId                         shift and go to state 196
 
@@ -3766,11 +3794,11 @@ state 192
 
 state 193
 
-    (108) factorp -> APAR createEra exp . valParams factorpp cparParams
-    (112) valParams -> .
+    (109) factorp -> APAR createEra exp . valParams factorpp cparParams
+    (113) valParams -> .
 
-    COMA            reduce using rule 112 (valParams -> .)
-    CPAR            reduce using rule 112 (valParams -> .)
+    COMA            reduce using rule 113 (valParams -> .)
+    CPAR            reduce using rule 113 (valParams -> .)
 
     valParams                      shift and go to state 202
 
@@ -3797,15 +3825,15 @@ state 194
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     RETURN          shift and go to state 61
     READ            shift and go to state 62
@@ -3851,11 +3879,11 @@ state 196
     (50) ididx -> . corArr exp ver CCOR
     (51) ididx -> . empty
     (52) corArr -> . ACOR
-    (120) empty -> .
+    (121) empty -> .
 
     ACOR            shift and go to state 97
-    COMA            reduce using rule 120 (empty -> .)
-    CPAR            reduce using rule 120 (empty -> .)
+    COMA            reduce using rule 121 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     ididx                          shift and go to state 205
     corArr                         shift and go to state 95
@@ -3902,15 +3930,15 @@ state 198
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     RETURN          shift and go to state 61
     READ            shift and go to state 62
@@ -3966,15 +3994,15 @@ state 199
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     RETURN          shift and go to state 61
     READ            shift and go to state 62
@@ -4013,21 +4041,21 @@ state 200
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     exp                            shift and go to state 208
     texp                           shift and go to state 67
@@ -4051,13 +4079,13 @@ state 201
 
 state 202
 
-    (108) factorp -> APAR createEra exp valParams . factorpp cparParams
-    (113) factorpp -> . COMA exp valParams factorpp
-    (114) factorpp -> . empty
-    (120) empty -> .
+    (109) factorp -> APAR createEra exp valParams . factorpp cparParams
+    (114) factorpp -> . COMA exp valParams factorpp
+    (115) factorpp -> . empty
+    (121) empty -> .
 
     COMA            shift and go to state 210
-    CPAR            reduce using rule 120 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     factorpp                       shift and go to state 209
     empty                          shift and go to state 211
@@ -4092,10 +4120,10 @@ state 205
     (57) lecturapp -> COMA readId ididx . lecturapp
     (57) lecturapp -> . COMA readId ididx lecturapp
     (58) lecturapp -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     COMA            shift and go to state 186
-    CPAR            reduce using rule 120 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     lecturapp                      shift and go to state 213
     empty                          shift and go to state 187
@@ -4125,8 +4153,8 @@ state 208
 
 state 209
 
-    (108) factorp -> APAR createEra exp valParams factorpp . cparParams
-    (110) cparParams -> . CPAR
+    (109) factorp -> APAR createEra exp valParams factorpp . cparParams
+    (111) cparParams -> . CPAR
 
     CPAR            shift and go to state 219
 
@@ -4134,25 +4162,25 @@ state 209
 
 state 210
 
-    (113) factorpp -> COMA . exp valParams factorpp
+    (114) factorpp -> COMA . exp valParams factorpp
     (78) exp -> . texp expp
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     APAR            shift and go to state 50
     CTEC            shift and go to state 76
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
-    ID              shift and go to state 133
+    ID              shift and go to state 134
 
     exp                            shift and go to state 220
     texp                           shift and go to state 67
@@ -4165,9 +4193,9 @@ state 210
 
 state 211
 
-    (114) factorpp -> empty .
+    (115) factorpp -> empty .
 
-    CPAR            reduce using rule 114 (factorpp -> empty .)
+    CPAR            reduce using rule 115 (factorpp -> empty .)
 
 
 state 212
@@ -4193,21 +4221,21 @@ state 214
     (67) condpp -> . checkElse ALLA estatutos CLLA
     (68) condpp -> . empty
     (69) checkElse -> . ELSE
-    (120) empty -> .
+    (121) empty -> .
 
     ELSE            shift and go to state 225
-    RETURN          reduce using rule 120 (empty -> .)
-    READ            reduce using rule 120 (empty -> .)
-    WRITE           reduce using rule 120 (empty -> .)
-    IF              reduce using rule 120 (empty -> .)
-    FOR             reduce using rule 120 (empty -> .)
-    ID              reduce using rule 120 (empty -> .)
-    WHILE           reduce using rule 120 (empty -> .)
-    APAR            reduce using rule 120 (empty -> .)
-    CTEC            reduce using rule 120 (empty -> .)
-    CTEI            reduce using rule 120 (empty -> .)
-    CTEF            reduce using rule 120 (empty -> .)
-    CLLA            reduce using rule 120 (empty -> .)
+    RETURN          reduce using rule 121 (empty -> .)
+    READ            reduce using rule 121 (empty -> .)
+    WRITE           reduce using rule 121 (empty -> .)
+    IF              reduce using rule 121 (empty -> .)
+    FOR             reduce using rule 121 (empty -> .)
+    ID              reduce using rule 121 (empty -> .)
+    WHILE           reduce using rule 121 (empty -> .)
+    APAR            reduce using rule 121 (empty -> .)
+    CTEC            reduce using rule 121 (empty -> .)
+    CTEI            reduce using rule 121 (empty -> .)
+    CTEF            reduce using rule 121 (empty -> .)
+    CLLA            reduce using rule 121 (empty -> .)
 
     condpp                         shift and go to state 222
     checkElse                      shift and go to state 223
@@ -4247,83 +4275,85 @@ state 217
 
 state 218
 
-    (108) factorp -> APAR createEra exp valParams factorpp cparParams .
+    (109) factorp -> APAR createEra exp valParams factorpp cparParams .
 
-    DIV             reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    POR             reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    MENOS           reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    MAS             reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    MAYQ            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    MENQ            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    MAYI            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    MENI            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    IGUAL           reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    DIF             reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    AND             reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    OR              reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    RETURN          reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    READ            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    WRITE           reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    IF              reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    FOR             reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    ID              reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    WHILE           reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    APAR            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    CTEC            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    CTEI            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    CTEF            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    CLLA            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    CPAR            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    CCOR            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    COMA            reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    PTCOMA          reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    TO              reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
-    DO              reduce using rule 108 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    DIV             reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    POR             reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    MENOS           reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    MAS             reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    MAYQ            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    MENQ            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    MAYI            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    MENI            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    IGUALIGUAL      reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    DIF             reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    NOT             reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    AND             reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    OR              reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    RETURN          reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    READ            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    WRITE           reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    IF              reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    FOR             reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    ID              reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    WHILE           reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    APAR            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    CTEC            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    CTEI            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    CTEF            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    CLLA            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    CPAR            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    CCOR            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    COMA            reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    PTCOMA          reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    TO              reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
+    DO              reduce using rule 109 (factorp -> APAR createEra exp valParams factorpp cparParams .)
 
 
 state 219
 
-    (110) cparParams -> CPAR .
+    (111) cparParams -> CPAR .
 
-    DIV             reduce using rule 110 (cparParams -> CPAR .)
-    POR             reduce using rule 110 (cparParams -> CPAR .)
-    MENOS           reduce using rule 110 (cparParams -> CPAR .)
-    MAS             reduce using rule 110 (cparParams -> CPAR .)
-    MAYQ            reduce using rule 110 (cparParams -> CPAR .)
-    MENQ            reduce using rule 110 (cparParams -> CPAR .)
-    MAYI            reduce using rule 110 (cparParams -> CPAR .)
-    MENI            reduce using rule 110 (cparParams -> CPAR .)
-    IGUAL           reduce using rule 110 (cparParams -> CPAR .)
-    DIF             reduce using rule 110 (cparParams -> CPAR .)
-    AND             reduce using rule 110 (cparParams -> CPAR .)
-    OR              reduce using rule 110 (cparParams -> CPAR .)
-    RETURN          reduce using rule 110 (cparParams -> CPAR .)
-    READ            reduce using rule 110 (cparParams -> CPAR .)
-    WRITE           reduce using rule 110 (cparParams -> CPAR .)
-    IF              reduce using rule 110 (cparParams -> CPAR .)
-    FOR             reduce using rule 110 (cparParams -> CPAR .)
-    ID              reduce using rule 110 (cparParams -> CPAR .)
-    WHILE           reduce using rule 110 (cparParams -> CPAR .)
-    APAR            reduce using rule 110 (cparParams -> CPAR .)
-    CTEC            reduce using rule 110 (cparParams -> CPAR .)
-    CTEI            reduce using rule 110 (cparParams -> CPAR .)
-    CTEF            reduce using rule 110 (cparParams -> CPAR .)
-    CLLA            reduce using rule 110 (cparParams -> CPAR .)
-    CPAR            reduce using rule 110 (cparParams -> CPAR .)
-    CCOR            reduce using rule 110 (cparParams -> CPAR .)
-    COMA            reduce using rule 110 (cparParams -> CPAR .)
-    PTCOMA          reduce using rule 110 (cparParams -> CPAR .)
-    TO              reduce using rule 110 (cparParams -> CPAR .)
-    DO              reduce using rule 110 (cparParams -> CPAR .)
+    DIV             reduce using rule 111 (cparParams -> CPAR .)
+    POR             reduce using rule 111 (cparParams -> CPAR .)
+    MENOS           reduce using rule 111 (cparParams -> CPAR .)
+    MAS             reduce using rule 111 (cparParams -> CPAR .)
+    MAYQ            reduce using rule 111 (cparParams -> CPAR .)
+    MENQ            reduce using rule 111 (cparParams -> CPAR .)
+    MAYI            reduce using rule 111 (cparParams -> CPAR .)
+    MENI            reduce using rule 111 (cparParams -> CPAR .)
+    IGUALIGUAL      reduce using rule 111 (cparParams -> CPAR .)
+    DIF             reduce using rule 111 (cparParams -> CPAR .)
+    NOT             reduce using rule 111 (cparParams -> CPAR .)
+    AND             reduce using rule 111 (cparParams -> CPAR .)
+    OR              reduce using rule 111 (cparParams -> CPAR .)
+    RETURN          reduce using rule 111 (cparParams -> CPAR .)
+    READ            reduce using rule 111 (cparParams -> CPAR .)
+    WRITE           reduce using rule 111 (cparParams -> CPAR .)
+    IF              reduce using rule 111 (cparParams -> CPAR .)
+    FOR             reduce using rule 111 (cparParams -> CPAR .)
+    ID              reduce using rule 111 (cparParams -> CPAR .)
+    WHILE           reduce using rule 111 (cparParams -> CPAR .)
+    APAR            reduce using rule 111 (cparParams -> CPAR .)
+    CTEC            reduce using rule 111 (cparParams -> CPAR .)
+    CTEI            reduce using rule 111 (cparParams -> CPAR .)
+    CTEF            reduce using rule 111 (cparParams -> CPAR .)
+    CLLA            reduce using rule 111 (cparParams -> CPAR .)
+    CPAR            reduce using rule 111 (cparParams -> CPAR .)
+    CCOR            reduce using rule 111 (cparParams -> CPAR .)
+    COMA            reduce using rule 111 (cparParams -> CPAR .)
+    PTCOMA          reduce using rule 111 (cparParams -> CPAR .)
+    TO              reduce using rule 111 (cparParams -> CPAR .)
+    DO              reduce using rule 111 (cparParams -> CPAR .)
 
 
 state 220
 
-    (113) factorpp -> COMA exp . valParams factorpp
-    (112) valParams -> .
+    (114) factorpp -> COMA exp . valParams factorpp
+    (113) valParams -> .
 
-    COMA            reduce using rule 112 (valParams -> .)
-    CPAR            reduce using rule 112 (valParams -> .)
+    COMA            reduce using rule 113 (valParams -> .)
+    CPAR            reduce using rule 113 (valParams -> .)
 
     valParams                      shift and go to state 227
 
@@ -4332,10 +4362,10 @@ state 221
     (18) funcspp -> APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos CLLA endfunction . funcs
     (15) funcs -> . FUNCTION funcsp insertFunc funcspp
     (16) funcs -> . empty
-    (120) empty -> .
+    (121) empty -> .
 
     FUNCTION        shift and go to state 10
-    MAIN            reduce using rule 120 (empty -> .)
+    MAIN            reduce using rule 121 (empty -> .)
 
     funcs                          shift and go to state 228
     empty                          shift and go to state 11
@@ -4413,15 +4443,15 @@ state 226
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     RETURN          shift and go to state 61
     READ            shift and go to state 62
@@ -4456,13 +4486,13 @@ state 226
 
 state 227
 
-    (113) factorpp -> COMA exp valParams . factorpp
-    (113) factorpp -> . COMA exp valParams factorpp
-    (114) factorpp -> . empty
-    (120) empty -> .
+    (114) factorpp -> COMA exp valParams . factorpp
+    (114) factorpp -> . COMA exp valParams factorpp
+    (115) factorpp -> . empty
+    (121) empty -> .
 
     COMA            shift and go to state 210
-    CPAR            reduce using rule 120 (empty -> .)
+    CPAR            reduce using rule 121 (empty -> .)
 
     factorpp                       shift and go to state 231
     empty                          shift and go to state 211
@@ -4497,15 +4527,15 @@ state 229
     (72) saveWhile -> . WHILE
     (81) texp -> . gexp texpp
     (85) gexp -> . mexp gexpp
-    (94) mexp -> . termino mexpp
-    (99) termino -> . factor terminop
-    (106) factor -> . meteFondo exp sacaFondo
-    (107) factor -> . ctes
-    (104) meteFondo -> . APAR
-    (115) ctes -> . CTEC
-    (116) ctes -> . CTEI
-    (117) ctes -> . CTEF
-    (118) ctes -> . ID validateExistance factorp
+    (95) mexp -> . termino mexpp
+    (100) termino -> . factor terminop
+    (107) factor -> . meteFondo exp sacaFondo
+    (108) factor -> . ctes
+    (105) meteFondo -> . APAR
+    (116) ctes -> . CTEC
+    (117) ctes -> . CTEI
+    (118) ctes -> . CTEF
+    (119) ctes -> . ID validateExistance factorp
 
     RETURN          shift and go to state 61
     READ            shift and go to state 62
@@ -4547,9 +4577,9 @@ state 230
 
 state 231
 
-    (113) factorpp -> COMA exp valParams factorpp .
+    (114) factorpp -> COMA exp valParams factorpp .
 
-    CPAR            reduce using rule 113 (factorpp -> COMA exp valParams factorpp .)
+    CPAR            reduce using rule 114 (factorpp -> COMA exp valParams factorpp .)
 
 
 state 232
@@ -4600,5 +4630,5 @@ WARNING:
 WARNING: shift/reduce conflict for APAR in state 108 resolved as shift
 WARNING: reduce/reduce conflict in state 68 resolved using rule (varAs -> ID)
 WARNING: rejected rule (validateExistance -> <empty>) in state 68
-WARNING: reduce/reduce conflict in state 147 resolved using rule (pushEsc -> CTEC)
-WARNING: rejected rule (ctes -> CTEC) in state 147
+WARNING: reduce/reduce conflict in state 148 resolved using rule (pushEsc -> CTEC)
+WARNING: rejected rule (ctes -> CTEC) in state 148

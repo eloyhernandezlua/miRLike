@@ -18,9 +18,11 @@ main(){
     i = 40;
     m = 234;
     c = 'r';
+    k = 12;
     if (m > k and m > k) then {
         i = 20;
     }
+    fact(i)
     
 
 }

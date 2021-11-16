@@ -70,7 +70,7 @@ Ops = {
     '<' : 6,
     '>' : 7,
     '<=' : 8,
-    ' >=' : 9,
+    '>=' : 9,
     '!=' : 10,
     '=' : 11,
     'print' : 12,
@@ -1426,8 +1426,9 @@ def p_addPO(t):
              | MENQ
              | MAYI
              | MENI
-             | IGUAL IGUAL
+             | IGUALIGUAL
              | DIF
+             | NOT
     '''
     global POoper
     POoper.append(t[1])
@@ -1687,5 +1688,5 @@ parser.parse(input, debug=0)
 output = open("cuads.o", "w")
 for c in Cuadruplos:
     #print(str(c.count) + " " + "Cuad --> " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep))
-    output.write(str(c.count) + " " + str(c.op) + " " + str(c.dir1) + " " + str(c.dir2) + " " + str(c.recep) + "\n")
+    output.write(str(c.count) + "~" + str(c.op) + "~" + str(c.dir1) + "~" + str(c.dir2) + "~" + str(c.recep) + "\n")
 output.close()

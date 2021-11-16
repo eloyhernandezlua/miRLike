@@ -45,3 +45,9 @@ En general está rezagado el avance a lo que debería de ser pero me pondré al 
 * cuadruplos como el goto inicial al mai
 * correcció de bugs 
 * avances en papel de mapa de memoria y manejo de arreglos
+
+### Avance 6
+* Correcciones para llamados de funciones
+* Manejo de arreglos al 90%
+* LA MAQUINA VIRTUAL ya hace varias cosas, casi todos los cuadrupolos cuando no se requiere más que memoria global, se está implementado lo de memorias locales/temporales
+* Ahí va, siento que si acabo

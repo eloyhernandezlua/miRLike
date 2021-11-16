@@ -1,9 +1,21 @@
 Program MyRlike;
 VARS
-    int: i, m, j, e;   
+    int: i, m, j, e; 
+    float: v;
+    char: c;  
 main(){
     i = 12;
     m = 10;
     j = i + m;
     e = j * m;
+    c = 'c';
+    i = m / 3;
+
+    if(m >= 10 and i == 3) then {
+        write("hola mundo");
+    }
+    read(e);
+    write(i);
+    write(e); 
+    write(c);
 }
