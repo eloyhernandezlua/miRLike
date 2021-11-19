@@ -657,7 +657,7 @@ t_DIF = r'\!\='
 t_NOT = r'\!'
 
 def t_CTEF(t):
-    r'\d+\.\d+'
+    r'-?\d+\.\d+'
     try:
         t.value = float(t.value)
     except ValueError:
@@ -666,7 +666,7 @@ def t_CTEF(t):
     return t
 
 def t_CTEI(t):
-    r'\d+'
+    r'-?\d+'
     try:
         t.value = int(t.value)
     except ValueError:

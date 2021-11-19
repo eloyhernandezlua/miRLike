@@ -14,6 +14,7 @@ cuads = cuads[:-1]
 
 isGlobal = True
 PC = 0
+savedPC = 0
 
 def ERROR(tipo, at=""):
     print("ERROR: ", tipo, " @ -->", at)
