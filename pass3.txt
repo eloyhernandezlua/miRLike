@@ -3,11 +3,21 @@ VARS
     int: i, k, m;
     char: c;
     float: valor;
-function int fact();
+function int fact(int: i, int: j);
+VARS
+    int: k;
+    float: f;
 { 
-    write(234);
+    k = 12;
+    f = 342.1;
+    write(f + 423);   
+    i = j * j;
+    write(i);
+    return(i);
 }
 
 main(){
-    fact()
+    valor = 7.0/2;
+    write(valor);
+    m = fact(5, 5);
 }

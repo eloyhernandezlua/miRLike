@@ -25,6 +25,9 @@ VControl = 0
 VFinal = 0
 contTemps = 0
 contParams = 0
+contParamsInt = 12000
+contParamsFloat = 20000
+contParamsChar = 28000
 isArray = False
 PDim = []
 funcName = ''
@@ -246,7 +249,6 @@ def getVDirTemp(type):
 def isValidOp(tipo1, tipo2, op):
     #tener los tipos y operación que se quiere hacer para ver si el válida
     validate = str(str(tipo1)+str(tipo2)+str(op))
-
     #combinaciones válidas
     valids = [
         'intint=',
@@ -363,7 +365,6 @@ def validateTypes(tipo1, tipo2):
         ERROR("tipos distintos", str(tipo1 + " --- " + tipo2))
 
 def getValType(val):
-
     if val in localVariables:
         return localVariables[val]['tipo']
 
@@ -373,26 +374,33 @@ def getValType(val):
     if val in mainFuncTable:
         return mainFuncTable[val]['tipo']
 
-    try: 
-        int(val)
+    if type(val) == int:
         return 'int'
-    except:
-        try:
-            float(val)
-            return 'float'
-        except:
-            try:
-                str(val)
-                if len(val) == 3:
-                    return 'char'
-                else:
-                    return 'string'
-            except:
-                try:
-                    bool(val)
-                    return 'bool'
-                except:
-                    ERROR("mal tipo", val)
+    if type(val) == float:
+        return 'float'
+    if type(val) == str:
+        return 'char'
+    # try: 
+    #     int(val)
+    #     print("mal")
+    #     return 'int'
+    # except:
+    #     try:
+    #         float(val)
+    #         return 'float'
+    #     except:
+    #         try:
+    #             str(val)
+    #             if len(val) == 3:
+    #                 return 'char'
+    #             else:
+    #                 return 'string'
+    #         except:
+    #             try:
+    #                 bool(val)
+    #                 return 'bool'
+    #             except:
+    #                 ERROR("mal tipo", val)
     
 
 def fetchVDir(val):
@@ -415,7 +423,6 @@ def fetchVDir(val):
                 try:
                     return tablaConstantes[str(val)]
                 except:
-                    print(globalVariables)
                     ERROR("no existe", val)
 
 def asignar(val1, val2):
@@ -1033,8 +1040,8 @@ def p_asigppp(t):
 
 def p_asigpp(t):
     '''asigpp : exp'''
-    if len(t) < 3:
-        t[0] = t[1]
+    
+    t[0] = t[1]
 # asignaciones para todo tipo de dato y arreglos
 
 #------------------------------------
@@ -1133,10 +1140,10 @@ def p_return(t):
     global PilaO
     global Cuadruplos
     global Ops
-
+    global globalVariables
     retVal = PilaO.pop()
-
-    Cuadruplos.append(Cuad(Ops['return'], -1, -1, retVal))
+    funcDir = globalVariables[funcName]['vDir']
+    Cuadruplos.append(Cuad(Ops['return'], retVal, -1, funcDir))
     #Quizá la dirección destino de este cuadrupo sea lo que esté en el tope de la fila de saltos
 
 
@@ -1547,6 +1554,8 @@ def p_factor(t):
         vDir = fetchVDir(t[1])
         PilaO.append(vDir)
         Ptipos.append(getValType(t[1]))
+
+
         t[0] = t[1]
     if len(t) == 3:
         vDir = fetchVDir(t[1])
@@ -1601,7 +1610,7 @@ def p_cparParams(t):
     temp = getVDirTemp(funcType)
 
     Cuadruplos.append(Cuad(Ops['gosub'], id, -1, initDir))
-    Cuadruplos.append(Cuad(Ops['='], funcDVir, -1, temp))
+    #Cuadruplos.append(Cuad(Ops['='], funcDVir, -1, temp))
 
 def p_createEra(t):
     '''createEra : '''
@@ -1621,12 +1630,15 @@ def p_createEra(t):
 def p_valParams(t):
     '''valParams : '''
 
-    global contParams
+    global contParamsInt
+    global contParamsFloat
+    global contParamsChar
     global ParameterTableList
     global PilaO
     global Ptipos
     global Cuadruplos
     global Ops
+    global contParams
 
     if PilaO and Ptipos and ParameterTableList:
         argument = PilaO.pop()
@@ -1634,8 +1646,17 @@ def p_valParams(t):
 
         if argType != ParameterTableList[contParams]:
             ERROR("tipos distintos", t[-1])
-        contParams += 1
-        Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, contParams))
+        if argType == 'int':
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, contParamsInt))
+            contParamsInt += 1
+        elif argType == 'float':
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, contParamsFloat))
+            contParamsFloat += 1
+        elif argType == 'char':
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, contParamsChar))
+            contParamsChar += 1
+        contParams +=1
+        
     else:
         ERROR("function had no parameters", t[-1])
 
@@ -1682,6 +1703,7 @@ def p_empty(t):
 def p_error(t):
     print("Error sintáctico en '%s'" % t.value)
     print(t)
+    sys.exit()
 # decir en dónde hubo error de sintaxis
 
 #****************************
