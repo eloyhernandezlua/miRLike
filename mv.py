@@ -86,8 +86,8 @@ for elememnto in tablaConstantes:
 # print("\n", mainFuncTable)
 # print("\n", tablaConstantes)
 
-# for cuad in cuads:
-#     print(cuad.split('~'))
+for cuad in cuads:
+    print(cuad.split('~'))
 
 # print(memoriaGlobal.mem)
 
@@ -101,26 +101,53 @@ while PC <= len(cuads):
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
+        else:
+            try:
+                checkForNone(currentMemory.mem[int(dir1)])
+                currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)]
+            except:
+                checkForNone(memoriaGlobal.mem[int(dir1)])
+                currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
     elif int(op) == 1:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] + memoriaGlobal.mem[int(dir2)]
+        else:
+            try:
+                checkForNone(currentMemory.mem[int(dir1)])
+                checkForNone(currentMemory.mem[int(dir2)])
+                currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] + currentMemory.mem[int(dir2)]
+            except:
+                r #checar para las combinaciones de locales y globales
     elif int(op) == 3:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] * memoriaGlobal.mem[int(dir2)]
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] * currentMemory.mem[int(dir2)]
     elif int(op) == 12:
         if res[0] == '"':
             print(res[1:-1])
         elif isGlobal:
             print(memoriaGlobal.mem[int(res)])
+        else: 
+            try:
+                print(currentMemory.mem[int(res)])
+            except:
+                print(memoriaGlobal.mem[int(res)])
     elif int(op) == 2:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] - currentMemory.mem[int(dir2)]
     elif int(op) == 4:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
@@ -129,74 +156,108 @@ while PC <= len(cuads):
                 memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] // memoriaGlobal.mem[int(dir2)]
             else:
                  memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] / memoriaGlobal.mem[int(dir2)]
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            if type(currentMemory.mem[int(dir1)]) and type(currentMemory.mem[int(dir2)]) == int:
+                currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] // currentMemory.mem[int(dir2)]
+            else:
+                    currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] / currentMemory.mem[int(dir2)] 
     elif int(op) == 7:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] > memoriaGlobal.mem[int(dir2)]   
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] > currentMemory.mem[int(dir2)]   
     elif int(op) == 15:
-        if isGlobal:
-            checkForNone(memoriaGlobal.mem[int(dir1)])
-            if not memoriaGlobal.mem[int(dir1)]:
-                PC = int(res) - 2
+        checkForNone(memoriaGlobal.mem[int(dir1)])
+        if not memoriaGlobal.mem[int(dir1)]:
+            PC = int(res) - 2
     elif int(op) == 5:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] == memoriaGlobal.mem[int(dir2)]  
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] == currentMemory.mem[int(dir2)]  
     elif int(op) == 6:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] < memoriaGlobal.mem[int(dir2)]  
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] < currentMemory.mem[int(dir2)]  
     elif int(op) == 8:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] <= memoriaGlobal.mem[int(dir2)]  
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] <= currentMemory.mem[int(dir2)]  
     elif int(op) == 9:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] >= memoriaGlobal.mem[int(dir2)]  
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] >= currentMemory.mem[int(dir2)]  
     elif int(op) == 10:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] != memoriaGlobal.mem[int(dir2)]  
-    elif int(op) == 25:
-        if isGlobal:
-            checkForNone(memoriaGlobal.mem[int(dir1)])
-            checkForNone(memoriaGlobal.mem[int(dir2)])
-            memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] != memoriaGlobal.mem[int(dir2)]  
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] != currentMemory.mem[int(dir2)]  
     elif int(op) == 16:
-        if isGlobal:
-            checkForNone(memoriaGlobal.mem[int(dir1)])
-            if memoriaGlobal.mem[int(dir1)]:
-                PC = int(res) - 2
+        checkForNone(memoriaGlobal.mem[int(dir1)])
+        if memoriaGlobal.mem[int(dir1)]:
+            PC = int(res) - 2
     elif int(op) == 13:
         if isGlobal:
             val = input()
             isReadable(int(res), val)
             memoriaGlobal.mem[int(res)] = val
+        else:
+            val = input()
+            isReadable(int(res), val)
+            currentMemory.mem[int(res)] = val
     elif int(op) == 18:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] and memoriaGlobal.mem[int(dir2)] 
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] and currentMemory.mem[int(dir2)] 
     elif int(op) == 19:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)])
             checkForNone(memoriaGlobal.mem[int(dir2)])
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] or memoriaGlobal.mem[int(dir2)] 
+        else:
+            checkForNone(currentMemory.mem[int(dir1)])
+            checkForNone(currentMemory.mem[int(dir2)])
+            currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] or currentMemory.mem[int(dir2)] 
     elif int(op) == 20:
         if execStack:
             currentMemory = execStack.pop()
         else:
             isGlobal = True
-        
     elif int(op) == 21:
-        isGlobal = False
         if currentMemory is not None:
             execStack.append(currentMemory)
             currentMemory = Memoria()
@@ -205,8 +266,11 @@ while PC <= len(cuads):
         else:
             currentMemory = Memoria()
             loadMemoria(res)
-            print(currentMemory.mem)
-
+            # print(memoriaGlobal.mem)
+            # print(currentMemory.mem)
+    elif int(op) == 23:
+        isGlobal = False
+        PC = int(res) - 2
     
 
 

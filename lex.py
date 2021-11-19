@@ -27,6 +27,7 @@ contTemps = 0
 contParams = 0
 isArray = False
 PDim = []
+funcName = ''
 
 
 ariops = ['+', '-', '*', '/']
@@ -829,12 +830,15 @@ def p_insertFunc(t):
     global currentType
     global localVariables
     global globalVariables
+    global funcName
+
+    funcName = t[1]
 
     t[0] = t[1]
     currentScope = 'l'
     vDir = getFuncVDir()
-    globalVariables[t[1]] = {'vDir': vDir, 'tipo': currentType}
-    insertToFuncTable(t[1], currentType, currentScope, localVariables)
+    globalVariables[funcName] = {'vDir': vDir, 'tipo': currentType}
+    insertToFuncTable(funcName, currentType, currentScope, localVariables)
 
 def p_funcspp(t):
     'funcspp : APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos CLLA endfunction funcs'
@@ -856,8 +860,9 @@ def p_endfunciton(t):
     global contTemps
     global Cuadruplos
     global Ops
+    global funcName
     
-    idfunc = t[-11]
+    idfunc = funcName
     mainFuncTable[idfunc]['numTemps'] = contTemps
     Cuadruplos.append(Cuad(Ops['endFunc'], -1, -1, -1))
     endFuncReset()
@@ -876,8 +881,9 @@ def p_addsize(t):
     global contTempC
     global contTempB
     global contPointers
+    global funcName
 
-    nombreFunc = t[-8]
+    nombreFunc = funcName
     mainFuncTable[nombreFunc]['numParamsVars'] = len(localVariables)
     mainFuncTable[nombreFunc]['numInts'] = (contLocI - (12000-1)) + (contTempI - (30000 -1))
     mainFuncTable[nombreFunc]['numFloats'] = (contLocF - (20000-1)) + (contTempF - (32000 -1))
@@ -1566,8 +1572,13 @@ def p_factor(t):
 # constantes directas
 
 def p_factorp(t):
-    '''factorp : APAR createEra exp valParams factorpp cparParams
+    '''factorp : APAR createEra factorParams cparParams
                | ididx
+    '''
+
+def p_factorParams(t):
+    '''factorParams : exp valParams factorpp
+                    | empty
     '''
 
 def p_cparParams(t):
@@ -1578,11 +1589,12 @@ def p_cparParams(t):
     global Ops
     global mainFuncTable
     global globalVariables
+    global funcName
 
     if len(ParameterTableList) != contParams:
         ERROR("Missing or too much parameters")
 
-    id = t[-7]
+    id = funcName
     initDir = mainFuncTable[id]['initFunc']
     funcDVir = globalVariables[id]['vDir']
     funcType = globalVariables[id]['tipo']
