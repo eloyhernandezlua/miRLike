@@ -1,14 +1,12 @@
-Program MyRlike;
+Program mientras;
 VARS
-    int: i, k, m;
-    char: c;
-    float: valor;
-
-
+    int: i;
 main(){
     i = 0;
     while(i < 10) do{
         write("pasada ", i);
         i = i + 1;
     }
+
+    write("Terminó el ciclo");
 }

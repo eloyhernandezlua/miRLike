@@ -1,0 +1,25 @@
+Program condicionales;
+VARS
+    int: i, j, k;
+
+main(){
+    i = 10;
+    j = 5;
+    k = 0;
+
+    if(i > j) then {
+        k = k + 5;
+        write("nueva k: ", k);
+    }
+
+    if(k != 0) then {
+        k = 0;
+        write("k volvió a 0");
+    }
+
+    if(k == 0 and j >= i) then {
+        write("esto nunca apareció en pantalla");
+    }else{
+        write("si funciona el else");
+    }
+}

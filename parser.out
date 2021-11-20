@@ -73,7 +73,7 @@ Rule 60    escriturap -> pushEsc
 Rule 61    escriturap -> exp
 Rule 62    pushEsc -> STRING
 Rule 63    pushEsc -> CTEC
-Rule 64    escriturapp -> COMA escriturap
+Rule 64    escriturapp -> COMA escriturap escriturapp
 Rule 65    escriturapp -> empty
 Rule 66    cond -> IF APAR exp checkCond THEN ALLA estatutos CLLA condpp
 Rule 67    condpp -> checkElse ALLA estatutos CLLA
@@ -212,7 +212,7 @@ empty                : 5 7 10 16 33 38 41 46 48 51 58 65 68 80 83 87 97 102 112 
 endfunction          : 18
 escritura            : 27
 escriturap           : 59 64
-escriturapp          : 59
+escriturapp          : 59 64
 estatutop            : 24 25 26 27 28 29 30 31
 estatutos            : 1 18 32 66 67 71 74
 exp                  : 31 45 49 50 54 61 66 71 74 74 79 107 111 116
@@ -3022,7 +3022,7 @@ state 143
 state 144
 
     (59) escritura -> WRITE APAR escriturap . escriturapp CPAR PTCOMA
-    (64) escriturapp -> . COMA escriturap
+    (64) escriturapp -> . COMA escriturap escriturapp
     (65) escriturapp -> . empty
     (123) empty -> .
 
@@ -3503,7 +3503,7 @@ state 171
 
 state 172
 
-    (64) escriturapp -> COMA . escriturap
+    (64) escriturapp -> COMA . escriturap escriturapp
     (60) escriturap -> . pushEsc
     (61) escriturap -> . exp
     (62) pushEsc -> . STRING
@@ -3774,23 +3774,29 @@ state 188
 
 state 189
 
-    (64) escriturapp -> COMA escriturap .
+    (64) escriturapp -> COMA escriturap . escriturapp
+    (64) escriturapp -> . COMA escriturap escriturapp
+    (65) escriturapp -> . empty
+    (123) empty -> .
 
-    CPAR            reduce using rule 64 (escriturapp -> COMA escriturap .)
+    COMA            shift and go to state 172
+    CPAR            reduce using rule 123 (empty -> .)
 
+    escriturapp                    shift and go to state 200
+    empty                          shift and go to state 173
 
 state 190
 
     (66) cond -> IF APAR exp checkCond THEN . ALLA estatutos CLLA condpp
 
-    ALLA            shift and go to state 200
+    ALLA            shift and go to state 201
 
 
 state 191
 
     (71) while -> saveWhile APAR exp checkWhileCond DO . ALLA estatutos CLLA
 
-    ALLA            shift and go to state 201
+    ALLA            shift and go to state 202
 
 
 state 192
@@ -3798,18 +3804,18 @@ state 192
     (74) for -> FOR varFor ididx IGUAL exp . initFor exp beforeDo ALLA estatutos CLLA
     (76) initFor -> . TO
 
-    TO              shift and go to state 203
+    TO              shift and go to state 204
 
-    initFor                        shift and go to state 202
+    initFor                        shift and go to state 203
 
 state 193
 
     (109) factorp -> APAR createEra factorParams . cparParams
     (113) cparParams -> . CPAR
 
-    CPAR            shift and go to state 205
+    CPAR            shift and go to state 206
 
-    cparParams                     shift and go to state 204
+    cparParams                     shift and go to state 205
 
 state 194
 
@@ -3819,7 +3825,7 @@ state 194
     COMA            reduce using rule 115 (valParams -> .)
     CPAR            reduce using rule 115 (valParams -> .)
 
-    valParams                      shift and go to state 206
+    valParams                      shift and go to state 207
 
 state 195
 
@@ -3873,7 +3879,7 @@ state 196
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
 
-    estatutos                      shift and go to state 207
+    estatutos                      shift and go to state 208
     asig                           shift and go to state 52
     return                         shift and go to state 53
     lectura                        shift and go to state 54
@@ -3896,7 +3902,7 @@ state 197
 
     (55) lectura -> READ APAR readId ididx lecturapp CPAR . PTCOMA
 
-    PTCOMA          shift and go to state 208
+    PTCOMA          shift and go to state 209
 
 
 state 198
@@ -3911,7 +3917,7 @@ state 198
     COMA            reduce using rule 123 (empty -> .)
     CPAR            reduce using rule 123 (empty -> .)
 
-    ididx                          shift and go to state 209
+    ididx                          shift and go to state 210
     corArr                         shift and go to state 95
     empty                          shift and go to state 96
 
@@ -3934,6 +3940,13 @@ state 199
 
 
 state 200
+
+    (64) escriturapp -> COMA escriturap escriturapp .
+
+    CPAR            reduce using rule 64 (escriturapp -> COMA escriturap escriturapp .)
+
+
+state 201
 
     (66) cond -> IF APAR exp checkCond THEN ALLA . estatutos CLLA condpp
     (24) estatutos -> . asig estatutop
@@ -3979,7 +3992,7 @@ state 200
     CTEF            shift and go to state 78
 
     exp                            shift and go to state 59
-    estatutos                      shift and go to state 210
+    estatutos                      shift and go to state 211
     asig                           shift and go to state 52
     return                         shift and go to state 53
     lectura                        shift and go to state 54
@@ -3997,7 +4010,7 @@ state 200
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 201
+state 202
 
     (71) while -> saveWhile APAR exp checkWhileCond DO ALLA . estatutos CLLA
     (24) estatutos -> . asig estatutop
@@ -4044,7 +4057,7 @@ state 201
 
     saveWhile                      shift and go to state 65
     exp                            shift and go to state 59
-    estatutos                      shift and go to state 211
+    estatutos                      shift and go to state 212
     asig                           shift and go to state 52
     return                         shift and go to state 53
     lectura                        shift and go to state 54
@@ -4061,7 +4074,7 @@ state 201
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 202
+state 203
 
     (74) for -> FOR varFor ididx IGUAL exp initFor . exp beforeDo ALLA estatutos CLLA
     (78) exp -> . texp expp
@@ -4083,7 +4096,7 @@ state 202
     CTEF            shift and go to state 78
     ID              shift and go to state 134
 
-    exp                            shift and go to state 212
+    exp                            shift and go to state 213
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -4092,7 +4105,7 @@ state 202
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 203
+state 204
 
     (76) initFor -> TO .
 
@@ -4103,7 +4116,7 @@ state 203
     ID              reduce using rule 76 (initFor -> TO .)
 
 
-state 204
+state 205
 
     (109) factorp -> APAR createEra factorParams cparParams .
 
@@ -4140,7 +4153,7 @@ state 204
     DO              reduce using rule 109 (factorp -> APAR createEra factorParams cparParams .)
 
 
-state 205
+state 206
 
     (113) cparParams -> CPAR .
 
@@ -4177,27 +4190,27 @@ state 205
     DO              reduce using rule 113 (cparParams -> CPAR .)
 
 
-state 206
+state 207
 
     (111) factorParams -> exp valParams . factorpp
     (116) factorpp -> . COMA exp valParams factorpp
     (117) factorpp -> . empty
     (123) empty -> .
 
-    COMA            shift and go to state 214
+    COMA            shift and go to state 215
     CPAR            reduce using rule 123 (empty -> .)
 
-    factorpp                       shift and go to state 213
-    empty                          shift and go to state 215
+    factorpp                       shift and go to state 214
+    empty                          shift and go to state 216
 
-state 207
+state 208
 
     (18) funcspp -> APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos . CLLA endfunction funcs
 
-    CLLA            shift and go to state 216
+    CLLA            shift and go to state 217
 
 
-state 208
+state 209
 
     (55) lectura -> READ APAR readId ididx lecturapp CPAR PTCOMA .
 
@@ -4215,7 +4228,7 @@ state 208
     CLLA            reduce using rule 55 (lectura -> READ APAR readId ididx lecturapp CPAR PTCOMA .)
 
 
-state 209
+state 210
 
     (57) lecturapp -> COMA readId ididx . lecturapp
     (57) lecturapp -> . COMA readId ididx lecturapp
@@ -4225,40 +4238,40 @@ state 209
     COMA            shift and go to state 186
     CPAR            reduce using rule 123 (empty -> .)
 
-    lecturapp                      shift and go to state 217
+    lecturapp                      shift and go to state 218
     empty                          shift and go to state 187
-
-state 210
-
-    (66) cond -> IF APAR exp checkCond THEN ALLA estatutos . CLLA condpp
-
-    CLLA            shift and go to state 218
-
 
 state 211
 
-    (71) while -> saveWhile APAR exp checkWhileCond DO ALLA estatutos . CLLA
+    (66) cond -> IF APAR exp checkCond THEN ALLA estatutos . CLLA condpp
 
     CLLA            shift and go to state 219
 
 
 state 212
 
+    (71) while -> saveWhile APAR exp checkWhileCond DO ALLA estatutos . CLLA
+
+    CLLA            shift and go to state 220
+
+
+state 213
+
     (74) for -> FOR varFor ididx IGUAL exp initFor exp . beforeDo ALLA estatutos CLLA
     (77) beforeDo -> . DO
 
-    DO              shift and go to state 221
+    DO              shift and go to state 222
 
-    beforeDo                       shift and go to state 220
+    beforeDo                       shift and go to state 221
 
-state 213
+state 214
 
     (111) factorParams -> exp valParams factorpp .
 
     CPAR            reduce using rule 111 (factorParams -> exp valParams factorpp .)
 
 
-state 214
+state 215
 
     (116) factorpp -> COMA . exp valParams factorpp
     (78) exp -> . texp expp
@@ -4280,7 +4293,7 @@ state 214
     CTEF            shift and go to state 78
     ID              shift and go to state 134
 
-    exp                            shift and go to state 222
+    exp                            shift and go to state 223
     texp                           shift and go to state 67
     gexp                           shift and go to state 70
     mexp                           shift and go to state 71
@@ -4289,14 +4302,14 @@ state 214
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 215
+state 216
 
     (117) factorpp -> empty .
 
     CPAR            reduce using rule 117 (factorpp -> empty .)
 
 
-state 216
+state 217
 
     (18) funcspp -> APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos CLLA . endfunction funcs
     (20) endfunction -> .
@@ -4304,16 +4317,16 @@ state 216
     FUNCTION        reduce using rule 20 (endfunction -> .)
     MAIN            reduce using rule 20 (endfunction -> .)
 
-    endfunction                    shift and go to state 223
+    endfunction                    shift and go to state 224
 
-state 217
+state 218
 
     (57) lecturapp -> COMA readId ididx lecturapp .
 
     CPAR            reduce using rule 57 (lecturapp -> COMA readId ididx lecturapp .)
 
 
-state 218
+state 219
 
     (66) cond -> IF APAR exp checkCond THEN ALLA estatutos CLLA . condpp
     (67) condpp -> . checkElse ALLA estatutos CLLA
@@ -4321,7 +4334,7 @@ state 218
     (69) checkElse -> . ELSE
     (123) empty -> .
 
-    ELSE            shift and go to state 227
+    ELSE            shift and go to state 228
     RETURN          reduce using rule 123 (empty -> .)
     READ            reduce using rule 123 (empty -> .)
     WRITE           reduce using rule 123 (empty -> .)
@@ -4335,11 +4348,11 @@ state 218
     CTEF            reduce using rule 123 (empty -> .)
     CLLA            reduce using rule 123 (empty -> .)
 
-    condpp                         shift and go to state 224
-    checkElse                      shift and go to state 225
-    empty                          shift and go to state 226
+    condpp                         shift and go to state 225
+    checkElse                      shift and go to state 226
+    empty                          shift and go to state 227
 
-state 219
+state 220
 
     (71) while -> saveWhile APAR exp checkWhileCond DO ALLA estatutos CLLA .
 
@@ -4357,21 +4370,21 @@ state 219
     CLLA            reduce using rule 71 (while -> saveWhile APAR exp checkWhileCond DO ALLA estatutos CLLA .)
 
 
-state 220
+state 221
 
     (74) for -> FOR varFor ididx IGUAL exp initFor exp beforeDo . ALLA estatutos CLLA
 
-    ALLA            shift and go to state 228
+    ALLA            shift and go to state 229
 
 
-state 221
+state 222
 
     (77) beforeDo -> DO .
 
     ALLA            reduce using rule 77 (beforeDo -> DO .)
 
 
-state 222
+state 223
 
     (116) factorpp -> COMA exp . valParams factorpp
     (115) valParams -> .
@@ -4379,9 +4392,9 @@ state 222
     COMA            reduce using rule 115 (valParams -> .)
     CPAR            reduce using rule 115 (valParams -> .)
 
-    valParams                      shift and go to state 229
+    valParams                      shift and go to state 230
 
-state 223
+state 224
 
     (18) funcspp -> APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos CLLA endfunction . funcs
     (15) funcs -> . FUNCTION funcsp insertFunc funcspp
@@ -4391,10 +4404,10 @@ state 223
     FUNCTION        shift and go to state 10
     MAIN            reduce using rule 123 (empty -> .)
 
-    funcs                          shift and go to state 230
+    funcs                          shift and go to state 231
     empty                          shift and go to state 11
 
-state 224
+state 225
 
     (66) cond -> IF APAR exp checkCond THEN ALLA estatutos CLLA condpp .
 
@@ -4412,14 +4425,14 @@ state 224
     CLLA            reduce using rule 66 (cond -> IF APAR exp checkCond THEN ALLA estatutos CLLA condpp .)
 
 
-state 225
+state 226
 
     (67) condpp -> checkElse . ALLA estatutos CLLA
 
-    ALLA            shift and go to state 231
+    ALLA            shift and go to state 232
 
 
-state 226
+state 227
 
     (68) condpp -> empty .
 
@@ -4437,14 +4450,14 @@ state 226
     CLLA            reduce using rule 68 (condpp -> empty .)
 
 
-state 227
+state 228
 
     (69) checkElse -> ELSE .
 
     ALLA            reduce using rule 69 (checkElse -> ELSE .)
 
 
-state 228
+state 229
 
     (74) for -> FOR varFor ididx IGUAL exp initFor exp beforeDo ALLA . estatutos CLLA
     (24) estatutos -> . asig estatutop
@@ -4490,7 +4503,7 @@ state 228
     CTEF            shift and go to state 78
 
     exp                            shift and go to state 59
-    estatutos                      shift and go to state 232
+    estatutos                      shift and go to state 233
     asig                           shift and go to state 52
     return                         shift and go to state 53
     lectura                        shift and go to state 54
@@ -4508,27 +4521,27 @@ state 228
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 229
+state 230
 
     (116) factorpp -> COMA exp valParams . factorpp
     (116) factorpp -> . COMA exp valParams factorpp
     (117) factorpp -> . empty
     (123) empty -> .
 
-    COMA            shift and go to state 214
+    COMA            shift and go to state 215
     CPAR            reduce using rule 123 (empty -> .)
 
-    factorpp                       shift and go to state 233
-    empty                          shift and go to state 215
+    factorpp                       shift and go to state 234
+    empty                          shift and go to state 216
 
-state 230
+state 231
 
     (18) funcspp -> APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos CLLA endfunction funcs .
 
     MAIN            reduce using rule 18 (funcspp -> APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos CLLA endfunction funcs .)
 
 
-state 231
+state 232
 
     (67) condpp -> checkElse ALLA . estatutos CLLA
     (24) estatutos -> . asig estatutop
@@ -4573,7 +4586,7 @@ state 231
     CTEI            shift and go to state 77
     CTEF            shift and go to state 78
 
-    estatutos                      shift and go to state 234
+    estatutos                      shift and go to state 235
     asig                           shift and go to state 52
     return                         shift and go to state 53
     lectura                        shift and go to state 54
@@ -4592,28 +4605,28 @@ state 231
     meteFondo                      shift and go to state 74
     ctes                           shift and go to state 75
 
-state 232
+state 233
 
     (74) for -> FOR varFor ididx IGUAL exp initFor exp beforeDo ALLA estatutos . CLLA
 
-    CLLA            shift and go to state 235
+    CLLA            shift and go to state 236
 
 
-state 233
+state 234
 
     (116) factorpp -> COMA exp valParams factorpp .
 
     CPAR            reduce using rule 116 (factorpp -> COMA exp valParams factorpp .)
 
 
-state 234
+state 235
 
     (67) condpp -> checkElse ALLA estatutos . CLLA
 
-    CLLA            shift and go to state 236
+    CLLA            shift and go to state 237
 
 
-state 235
+state 236
 
     (74) for -> FOR varFor ididx IGUAL exp initFor exp beforeDo ALLA estatutos CLLA .
 
@@ -4631,7 +4644,7 @@ state 235
     CLLA            reduce using rule 74 (for -> FOR varFor ididx IGUAL exp initFor exp beforeDo ALLA estatutos CLLA .)
 
 
-state 236
+state 237
 
     (67) condpp -> checkElse ALLA estatutos CLLA .
 

@@ -1,0 +1,9 @@
+Program playground;
+VARS
+    float: i;
+
+main(){
+    i = 3.1416;
+    i = i + (20*12);
+    write(i);
+}

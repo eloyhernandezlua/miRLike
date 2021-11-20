@@ -2,6 +2,8 @@ from os import pipe, popen
 import re
 import sys 
 
+arch = input("Ingresa el nombre del archivo a compilar: ")
+
 #********************************
 #Global variables
 mainFuncTable = {}
@@ -265,6 +267,16 @@ def isValidOp(tipo1, tipo2, op):
         'intint<=',
         'intint==',
         'intint!=',
+        'floatint+',
+        'floatint-',
+        'floatint*',
+        'floatint/',
+        'floatint>',
+        'floatint<',
+        'floatint>=',
+        'floatint<=',
+        'floatint==',
+        'floatint!=',
         'intfloat+',
         'intfloat-',
         'intfloat*',
@@ -293,6 +305,10 @@ def isValidOp(tipo1, tipo2, op):
         'boolbool!=',
         'boolbooland',
         'boolboolor',
+        'boolbool>',
+        'boolbool<',
+        'boolbool>=',
+        'boolbool<=',
     ]
     if validate not in valids:
         ERROR("invalid op", validate)
@@ -1197,7 +1213,7 @@ def p_pushEsc(t):
 # todos los tipos de datos
 
 def p_escriturapp(t):
-    '''escriturapp : COMA escriturap
+    '''escriturapp : COMA escriturap escriturapp
                    | empty
     '''
 # escribir varias cosas a la vez
@@ -1267,7 +1283,7 @@ def p_while(t):
     if PJumps:
         end = PJumps.pop()
         ret = PJumps.pop()
-        Cuadruplos.append(Cuad(Ops['goto'], -1, -1, ret))
+        Cuadruplos.append(Cuad(Ops['goto'], -1, -1, ret+1))
         cuadToChange = Cuadruplos[end - 1]
         cuadToChange.recep = len(Cuadruplos) + 1
 
@@ -1710,7 +1726,7 @@ def p_error(t):
 # procesar archivo de input
 import ply.yacc as yacc
 parser = yacc.yacc()
-f = open("./pass3.txt", "r")
+f = open("./"+arch , "r")
 input = f.read()
 #print(input)
 parser.parse(input, debug=0)

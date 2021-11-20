@@ -45,6 +45,8 @@ def isReadable(var, val):
             except: 
                 ERROR("TYPE MISMATCH", val)
         elif var < 12000 and var >= 9000:
+            if len(val) > 1:
+                ERROR("NOT A SINGLE CHAR", val)
             val = str(val)
         else:
             ERROR("TYPE MISMATCH", val)
@@ -144,7 +146,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] + memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
 
     elif int(op) == 3:
         if isGlobal:
@@ -161,7 +163,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] * memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 12:
         if res[0] == '"':
             print(res[1:-1])
@@ -187,7 +189,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 4:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 4)
@@ -219,7 +221,7 @@ while PC <= len(cuads):
                 else:
                     currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] / memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 7:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 7)
@@ -235,7 +237,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] > memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)   
+                ERROR("Trying to use none values")   
     elif int(op) == 15:
         checkForNone(memoriaGlobal.mem[int(dir1)], 15)
         if not memoriaGlobal.mem[int(dir1)]:
@@ -255,7 +257,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] == memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 6:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 6)
@@ -271,7 +273,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] < memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)  
+                ERROR("Trying to use none values")  
     elif int(op) == 8:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 8)
@@ -287,7 +289,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] <= memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 9:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 9)
@@ -303,7 +305,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] >= memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 10:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 10)
@@ -319,7 +321,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] != memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 16:
         checkForNone(memoriaGlobal.mem[int(dir1)], 16)
         if memoriaGlobal.mem[int(dir1)]:
@@ -351,7 +353,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] and memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 19:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 19)
@@ -367,7 +369,7 @@ while PC <= len(cuads):
             elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] or memoriaGlobal.mem[int(dir2)]
             else:
-                ERROR("Trying to use none values", cuad)
+                ERROR("Trying to use none values")
     elif int(op) == 20:
         if execStack:
             currentMemory = execStack.pop()

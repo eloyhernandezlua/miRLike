@@ -1,0 +1,31 @@
+Program Estatutos;
+VARS
+    int: a, b, c;
+    float: d, e, f;
+    char: g, h, i, j;
+
+main(){
+    a = 12;
+    b = -21;
+    c = 43;
+    write("enteros iniciados ", a , b , c);
+    a = b * b;
+    b = b - a;
+    c = b / a;
+    write("operaciones enteros ", a, b, c);
+
+    d = 3.14;
+    e = 12.453;
+    f = -67.324232341;
+    write("floats iniciados: ", d, e, f);
+    d = d*d*d*d;
+    e = 10.0/3;
+    f = f - (f*2);
+    write("floats con operaciones: ", d, e, f);
+
+    g = 'e';
+    h = 'l';
+    i = 'o';
+    j = 'y';
+    write("chars iniciados", g, h, i, j);
+}
