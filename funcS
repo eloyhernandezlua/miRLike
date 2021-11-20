@@ -1,0 +1,23 @@
+Program funcS;
+VARS
+    int: i, j, k;
+    float: l, m;
+
+function void calcula (float: y);
+VARS int: x;
+{
+    x = 1;
+    while(x < 11) do {
+        y = y * l;
+        x = x + 1;
+    }
+    write("acumulado", y);
+}
+
+
+main(){
+    i = 3;
+    l = 1.1;
+    write(i, l);
+    calcula(10.0)
+}

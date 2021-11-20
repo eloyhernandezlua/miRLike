@@ -27,13 +27,11 @@ VControl = 0
 VFinal = 0
 contTemps = 0
 contParams = 0
-contParamsInt = 12000
-contParamsFloat = 20000
-contParamsChar = 28000
+
 isArray = False
 PDim = []
 funcName = ''
-
+filaParams = []
 
 ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
@@ -55,6 +53,9 @@ contConstF = 40000 - 1
 contConstC = 43000 - 1
 contFuncV = 46000 - 1
 contPointers = 50000 - 1
+contParamsInt = 60000 - 1
+contParamsFloat = 63000 - 1
+contParamsChar = 66000 - 1
 
 #Definir objeto cuadruplo 
 class Cuad:
@@ -133,6 +134,11 @@ def endFuncReset():
     global localVariables
     global usedNamesLocal
     global contTemps
+    global contParamsInt
+    global contParamsFloat
+    global contParamsChar
+    global ParameterTable
+    global ParameterTableList
 
     contLocI = 12000 - 1
     contLocF = 20000 - 1
@@ -142,10 +148,15 @@ def endFuncReset():
     contTempC = 34000 -1
     contTempB = 36000 - 1
     contPointers = 50000 - 1
+    contParamsInt = 60000 - 1
+    contParamsFloat = 63000 - 1
+    contParamsChar = 66000 - 1
 
     currentScope= 'g'
     localVariables = {}
     usedNamesLocal = []
+    ParameterTableList = []
+    ParameterTable = []
     contTemps = 0
 
 def getVdirCTE(v):
@@ -202,7 +213,7 @@ def ERROR(tipo, at = ""):
     elif tipo == "no dims":
         extra = "VAR HAS NO DIMESIONS"
 
-    print("ERROR: " + extra + "\n @ --> " + at)
+    print("ERROR: " + extra + "\n @ --> " + str(at))
     sys.exit()
 
 
@@ -430,16 +441,22 @@ def fetchVDir(val):
     elif val in globalVariables:
         return globalVariables[val]['vDir']
     else:
-        try:
+        if type(val) == int:
             return tablaConstantes[int(val)]
-        except:
-            try :
-                return tablaConstantes[float(val)]
-            except : 
-                try:
-                    return tablaConstantes[str(val)]
-                except:
-                    ERROR("no existe", val)
+        if type(val) == float:
+            return tablaConstantes[float(val)]
+        if type(val) == str:
+            return tablaConstantes[str(val)]
+        # try:
+        #     return tablaConstantes[int(val)]
+        # except:
+        #     try :
+        #         return tablaConstantes[float(val)]
+        #     except : 
+        #         try:
+        #             return tablaConstantes[str(val)]
+        #         except:
+        #             ERROR("no existe", val)
 
 def asignar(val1, val2):
     if val1 not in localVariables and val1 not in globalVariables:
@@ -864,7 +881,7 @@ def p_insertFunc(t):
     insertToFuncTable(funcName, currentType, currentScope, localVariables)
 
 def p_funcspp(t):
-    'funcspp : APAR params CPAR updateParamTable PTCOMA varss ALLA addsize estatutos CLLA endfunction funcs'
+    'funcspp : APAR params CPAR updateParamTable PTCOMA varss ALLA addinit estatutos CLLA addsize endfunction funcs'
     global currentScope
     currentScope = 'l'
 
@@ -913,10 +930,15 @@ def p_addsize(t):
     mainFuncTable[nombreFunc]['numChars'] = (contLocC - (28000-1)) + (contTempC - (34000 -1))
     mainFuncTable[nombreFunc]['numBools'] = (contTempB - (36000-1))
     mainFuncTable[nombreFunc]['numPointers'] = (contPointers - (50000-1))
+    
+def p_addinit(t):
+    '''addinit : '''
+    global funcName
+    global Cuadruplos
+
+    nombreFunc = funcName
     mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos) + 1
     
-
-
 # formato --> function void/tipo nombre función(int: id, float: id[]) 
 # / espacio de declaracion de variables /
 #{ Estatutos }
@@ -982,8 +1004,11 @@ def p_insertParams(t):
     global currentScope
     global currentType
     global ParameterTableList
+    global filaParams
+
     currentScope = 'l'
     vDir = getvDirVars(currentType, currentScope)
+    filaParams.append(vDir)
     insertToVarTable(t[1], vDir, currentType)
     ParameterTableList.append(currentType)
 
@@ -1615,15 +1640,18 @@ def p_cparParams(t):
     global mainFuncTable
     global globalVariables
     global funcName
+    global POoper
+    POoper.pop()
+    id = t[-4]
 
     if len(ParameterTableList) != contParams:
         ERROR("Missing or too much parameters")
-
-    id = funcName
+    
     initDir = mainFuncTable[id]['initFunc']
     funcDVir = globalVariables[id]['vDir']
     funcType = globalVariables[id]['tipo']
     temp = getVDirTemp(funcType)
+    
 
     Cuadruplos.append(Cuad(Ops['gosub'], id, -1, initDir))
     #Cuadruplos.append(Cuad(Ops['='], funcDVir, -1, temp))
@@ -1634,10 +1662,13 @@ def p_createEra(t):
     global Ops
     global mainFuncTable
     global contParams
-    
+    global POoper
+
+    POoper.append("~")
     id = (t[-3])
     Cuadruplos.append(Cuad(Ops['era'], -1, -1, id))
     contParams = 0
+
     
 # parametros de funcion
 # indice de vector
@@ -1655,6 +1686,7 @@ def p_valParams(t):
     global Cuadruplos
     global Ops
     global contParams
+    global filaParams
 
     if PilaO and Ptipos and ParameterTableList:
         argument = PilaO.pop()
@@ -1663,18 +1695,19 @@ def p_valParams(t):
         if argType != ParameterTableList[contParams]:
             ERROR("tipos distintos", t[-1])
         if argType == 'int':
-            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, contParamsInt))
             contParamsInt += 1
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[contParams]))    
         elif argType == 'float':
-            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, contParamsFloat))
             contParamsFloat += 1
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[contParams]))
         elif argType == 'char':
-            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, contParamsChar))
             contParamsChar += 1
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[contParams]))
         contParams +=1
         
     else:
-        ERROR("function had no parameters", t[-1])
+        if len(ParameterTableList) != contParams:
+            ERROR("function had no parameters", t[-1])
 
 def p_factorpp(t):
     '''factorpp : COMA exp valParams factorpp

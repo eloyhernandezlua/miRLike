@@ -75,7 +75,17 @@ def isInGlobal(val):
         memoriaGlobal.mem[val]
         return True
     except:
-        ERROR("Unexisting value")
+        print(currentMemory.mem)
+        print(memoriaGlobal.mem)
+        ERROR("Unexisting value", str(val))
+
+def isInPastLocal(val):
+    global execStack
+    try:
+        execStack[-1].mem[val]
+        return True
+    except:
+        return False
 
 
 class Memoria:
@@ -105,8 +115,8 @@ for elememnto in tablaConstantes:
 # print("\n", mainFuncTable)
 # print("\n", tablaConstantes)
 
-# for cuad in cuads:
-#     print(cuad.split('~'))
+for cuad in cuads:
+    print(cuad.split('~'))
 
 # print(memoriaGlobal.mem)
 
@@ -114,9 +124,14 @@ while PC <= len(cuads):
     (idx, op, dir1, dir2, res) = cuads[PC].split("~")
     # print(PC+1, "<---- Cuad a ejecutar" )
     # if isGlobal:
+    #     print("Global")
     #     print(memoriaGlobal.mem)
     #     if currentMemory is not None:
+    #         print("Local")
     #         print(currentMemory.mem)
+    # else:
+    #     print("Local")
+    #     print(currentMemory.mem)
 
     if int(op) == 14:
         PC = int(res) - 2
@@ -180,16 +195,28 @@ while PC <= len(cuads):
             checkForNone(memoriaGlobal.mem[int(dir2)], 2)
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
         else:
-            if isInLocal(int(dir1)) and isInLocal(int(dir2)):
-                currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] - currentMemory.mem[int(dir2)]
-            elif isInLocal(int(dir1)) and isInGlobal(int(dir2)):
-                currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
-            elif isInGlobal(int(dir1)) and isInLocal(int(dir2)):
-                currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - currentMemory.mem[int(dir2)]
-            elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
-                currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
-            else:
-                ERROR("Trying to use none values")
+            if len(execStack) > 0:
+                if isInPastLocal(int(dir1)) and isInPastLocal(int(dir2)):
+                    execStack[-1].mem[int(res)] = execStack[-1].mem[int(dir1)] - execStack[-1].mem[int(dir2)]
+                elif isInPastLocal(int(dir1)) and isInGlobal(int(dir2)):
+                    execStack[-1].mem[int(res)] = execStack[-1].mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
+                elif isInGlobal(int(dir1)) and isInPastLocal(int(dir2)):
+                    execStack[-1].mem[int(res)] = memoriaGlobal.mem[int(dir1)] - execStack[-1].mem[int(dir2)]
+                elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
+                    execStack[-1].mem[int(res)] = memoriaGlobal.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
+                else:
+                    ERROR("Trying to use none values")
+            else:     
+                if isInLocal(int(dir1)) and isInLocal(int(dir2)):
+                    currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] - currentMemory.mem[int(dir2)]
+                elif isInLocal(int(dir1)) and isInGlobal(int(dir2)):
+                    currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
+                elif isInGlobal(int(dir1)) and isInLocal(int(dir2)):
+                    currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - currentMemory.mem[int(dir2)]
+                elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
+                    currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
+                else:
+                    ERROR("Trying to use none values")
     elif int(op) == 4:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 4)
@@ -239,9 +266,19 @@ while PC <= len(cuads):
             else:
                 ERROR("Trying to use none values")   
     elif int(op) == 15:
-        checkForNone(memoriaGlobal.mem[int(dir1)], 15)
-        if not memoriaGlobal.mem[int(dir1)]:
-            PC = int(res) - 2
+        if isGlobal:
+            checkForNone(memoriaGlobal.mem[int(dir1)], 15)
+            if not memoriaGlobal.mem[int(dir1)]:
+                PC = int(res) - 2
+        else:
+            if isInLocal(int(dir1)):
+                checkForNone(currentMemory.mem[int(dir1)], 15)
+                if not currentMemory.mem[int(dir1)]:
+                    PC = int(res) - 2
+            elif isInGlobal(int(dir1)):
+                checkForNone(memoriaGlobal.mem[int(dir1)], 15)
+                if not memoriaGlobal.mem[int(dir1)]:
+                    PC = int(res) - 2
     elif int(op) == 5:
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 5)
@@ -323,9 +360,19 @@ while PC <= len(cuads):
             else:
                 ERROR("Trying to use none values")
     elif int(op) == 16:
-        checkForNone(memoriaGlobal.mem[int(dir1)], 16)
-        if memoriaGlobal.mem[int(dir1)]:
-            PC = int(res) - 2
+        if isGlobal:
+            checkForNone(memoriaGlobal.mem[int(dir1)], 15)
+            if memoriaGlobal.mem[int(dir1)]:
+                PC = int(res) - 2
+        else:
+            if isInLocal(int(dir1)):
+                checkForNone(currentMemory.mem[int(dir1)], 15)
+                if currentMemory.mem[int(dir1)]:
+                    PC = int(res) - 2
+            elif isInGlobal(int(dir1)):
+                checkForNone(memoriaGlobal.mem[int(dir1)], 15)
+                if memoriaGlobal.mem[int(dir1)]:
+                    PC = int(res) - 2
     elif int(op) == 13:
         if isGlobal:
             val = input()
@@ -388,16 +435,26 @@ while PC <= len(cuads):
             # print(currentMemory.mem)
     elif int(op) == 23:
         isGlobal = False
-        savedPC.append(PC)
+        savedPC.append(PC + 1)
         PC = int(res) - 2
     elif int(op) == 17:
+        print(memoriaGlobal.mem, " <---- Aqui")
+
         if isInLocal(int(dir1)):
             memoriaGlobal.mem[int(res)] = currentMemory.mem[int(dir1)]
         elif isInGlobal(int(dir1)):
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
         PC = savedPC.pop()
     elif int(op) == 22:
-        currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
+
+        if isGlobal:
+            currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
+        else:
+            if isInPastLocal(int(dir1)):
+                currentMemory.mem[int(res)] = execStack[-1].mem[int(dir1)]
+            elif isInGlobal(int(dir1)):
+                currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
+            
     elif int(op) == 24:
         if isGlobal:
             if memoriaGlobal.mem[int(dir1)] >= memoriaGlobal.mem[int(res)] or memoriaGlobal.mem[int(dir1)] < 0:
