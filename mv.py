@@ -68,9 +68,15 @@ def checkforArray(val):
     return val >= 50000
 
 def fromArray(idx):
+    
     global isGlobal
     if isGlobal:
-        return memoriaGlobal.mem[idx]
+        try:
+            return memoriaGlobal.mem[idx]
+        except:
+            print("el idx --> ", idx)
+            print(memoriaGlobal.mem)
+            return idx
         
 
 
@@ -148,15 +154,11 @@ while PC <= len(cuads):
     if int(op) == 14:
         PC = int(res) - 2
     elif int(op) == 11:
-
+        if checkforArray(int(res)):
+                res = fromArray(int(res))
         if isGlobal:
-            if checkforArray(int(res)):
-                nres = fromArray(int(res))
-                checkForNone(memoriaGlobal.mem[int(dir1)], 11)
-                memoriaGlobal.mem[int(nres)] = memoriaGlobal.mem[int(dir1)]
-            else:
-                checkForNone(memoriaGlobal.mem[int(dir1)], 11)
-                memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
+            checkForNone(memoriaGlobal.mem[int(dir1)], 11)
+            memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
         else:
             try:
                 checkForNone(currentMemory.mem[int(dir1)], 11)
@@ -165,6 +167,12 @@ while PC <= len(cuads):
                 checkForNone(memoriaGlobal.mem[int(dir1)], 11)
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
     elif int(op) == 1:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 1)
             checkForNone(memoriaGlobal.mem[int(dir2)], 1)
@@ -182,8 +190,12 @@ while PC <= len(cuads):
                 ERROR("Trying to use none values")
 
     elif int(op) == 3:
-        # print(dir1, " ----- ", dir2)
-        # print(memoriaGlobal.mem, " --- \n", currentMemory.mem, "\n\n\n")
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 3)
             checkForNone(memoriaGlobal.mem[int(dir2)], 3)
@@ -204,13 +216,23 @@ while PC <= len(cuads):
         if res[0] == '"':
             print(res[1:-1])
         elif isGlobal:
+            if checkforArray(int(res)):
+                res = fromArray(int(res))
             print(memoriaGlobal.mem[int(res)])
         else: 
+            if checkforArray(int(res)):
+                res = fromArray(int(res))
             try:
                 print(currentMemory.mem[int(res)])
             except:
                 print(memoriaGlobal.mem[int(res)])
     elif int(op) == 2:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 2)
             checkForNone(memoriaGlobal.mem[int(dir2)], 2)
@@ -234,11 +256,17 @@ while PC <= len(cuads):
                     currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
                 elif isInGlobal(int(dir1)) and isInLocal(int(dir2)):
                     currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - currentMemory.mem[int(dir2)]
-                elif isGlobal(int(dir1)) and isInGlobal(int(dir2)):
+                elif isInGlobal(int(dir1)) and isInGlobal(int(dir2)):
                     currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] - memoriaGlobal.mem[int(dir2)]
                 else:
                     ERROR("Trying to use none values")
     elif int(op) == 4:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 4)
             checkForNone(memoriaGlobal.mem[int(dir2)], 4)
@@ -271,6 +299,12 @@ while PC <= len(cuads):
             else:
                 ERROR("Trying to use none values")
     elif int(op) == 7:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 7)
             checkForNone(memoriaGlobal.mem[int(dir2)], 7)
@@ -301,6 +335,12 @@ while PC <= len(cuads):
                 if not memoriaGlobal.mem[int(dir1)]:
                     PC = int(res) - 2
     elif int(op) == 5:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 5)
             checkForNone(memoriaGlobal.mem[int(dir2)], 5)
@@ -317,6 +357,12 @@ while PC <= len(cuads):
             else:
                 ERROR("Trying to use none values")
     elif int(op) == 6:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 6)
             checkForNone(memoriaGlobal.mem[int(dir2)], 6)
@@ -333,6 +379,12 @@ while PC <= len(cuads):
             else:
                 ERROR("Trying to use none values")  
     elif int(op) == 8:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 8)
             checkForNone(memoriaGlobal.mem[int(dir2)], 8)
@@ -349,6 +401,12 @@ while PC <= len(cuads):
             else:
                 ERROR("Trying to use none values")
     elif int(op) == 9:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 9)
             checkForNone(memoriaGlobal.mem[int(dir2)], 9)
@@ -365,6 +423,12 @@ while PC <= len(cuads):
             else:
                 ERROR("Trying to use none values")
     elif int(op) == 10:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 10)
             checkForNone(memoriaGlobal.mem[int(dir2)], 10)
@@ -395,6 +459,8 @@ while PC <= len(cuads):
                 if memoriaGlobal.mem[int(dir1)]:
                     PC = int(res) - 2
     elif int(op) == 13:
+        if checkforArray(int(res)):
+            res = fromArray(int(res))
         if isGlobal:
             val = input()
             isReadable(int(res), val)
@@ -407,6 +473,12 @@ while PC <= len(cuads):
             elif isInGlobal(int(res)):
                 memoriaGlobal.mem[int(res)] = val
     elif int(op) == 18:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 18)
             checkForNone(memoriaGlobal.mem[int(dir2)], 18)
@@ -423,6 +495,12 @@ while PC <= len(cuads):
             else:
                 ERROR("Trying to use none values")
     elif int(op) == 19:
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             checkForNone(memoriaGlobal.mem[int(dir1)], 19)
             checkForNone(memoriaGlobal.mem[int(dir2)], 19)
@@ -459,6 +537,8 @@ while PC <= len(cuads):
         savedPC.append(PC + 1)
         PC = int(res) - 2
     elif int(op) == 17:
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
         if isInLocal(int(dir1)):
             memoriaGlobal.mem[int(res)] = currentMemory.mem[int(dir1)]
         elif isInGlobal(int(dir1)):
@@ -470,7 +550,12 @@ while PC <= len(cuads):
         
         PC = savedPC.pop() - 1
     elif int(op) == 22:
-
+        # if checkforArray(int(res)):
+        #     res = fromArray(int(res))
+        if checkforArray(int(dir1)):
+            dir1 = fromArray(int(dir1))
+        if checkforArray(int(dir2)):
+            dir2 = fromArray(int(dir2))
         if isGlobal:
             currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
         else:

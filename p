@@ -1,14 +1,14 @@
 Program playground;
 VARS
-    int: i;
-    float: e;
-function float calcula (float: y);
-{
-    write(y);
-    return(y*y);
-}
-
+    int: i[3];
+    int: j;
 main(){
-    e = calcula(calcula(3.0));
-    write(e);
+    for j = 0 to 3 do {
+        i[j] = j; 
+    }
+
+    write(i[0]);
+    write(i[1]);
+    write(i[2]);
+
 }

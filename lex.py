@@ -1097,7 +1097,7 @@ def p_ididx(t):
     global Ptipos
 
     if len(t) > 2:
-        if PilaO:
+        if PilaO and POoper:
             aux1 = PilaO.pop()
             initDir = fetchInitDir(t[-1])
 
@@ -1123,13 +1123,16 @@ def p_corArr(t):
     global PilaO
     global Ptipos
 
-    id = PilaO.pop()
-    tipo = Ptipos.pop()
-    idName = t[-1]
-    checkForDims(idName)
-    DIM = 1
-    PDim.append((id, DIM))
-    POoper.append("~") #fake bottom
+    # print(PilaO, " <--- pilao")
+    # print(t[-1], " <---- id")
+    if PilaO:
+        id = PilaO.pop()
+        tipo = Ptipos.pop()
+        idName = t[-1]
+        checkForDims(idName)
+        DIM = 1
+        PDim.append((id, DIM))
+        POoper.append("~") #fake bottom
 
 def p_ver(t):
     '''ver : '''
@@ -1139,6 +1142,7 @@ def p_ver(t):
     global Ops
     global tablaConstantes
 
+    
     val = PilaO[-1]
     id = t[-3]
     lim = fetchLimit(id)
@@ -1146,6 +1150,7 @@ def p_ver(t):
     limInf = fetchVDir(0)
 
     Cuadruplos.append(Cuad(Ops['ver'], val, limInf, limSup))
+
 
 
 
@@ -1587,11 +1592,20 @@ def p_factor(t):
     global Ops
     global tablaConstantes
 
+    
     if len(t) == 2:
+        
+        # print(PilaO, " <---- aqui 4")
         vDir = fetchVDir(t[1])
+        # print(t[1], " <--- id?")
+        # print(vDir, " <-- vdir")
         if not vDir >= 46000 and vDir <50000:
             PilaO.append(vDir)
             Ptipos.append(getValType(t[1]))
+        # print(PilaO, " <---- aqui 5")
+        if isarray(t[1]):
+            PilaO.pop()
+
 
         t[0] = t[1]
     if len(t) == 3:
@@ -1735,6 +1749,8 @@ def p_ctes(t):
             | ID validateExistance factorp
     '''
     global tablaConstantes
+    global PilaO
+
     if len(t) == 2:
         if not t[1] in tablaConstantes:
             tablaConstantes[t[1]] = getVdirCTE(t[1])
