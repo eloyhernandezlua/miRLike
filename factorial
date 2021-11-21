@@ -1,0 +1,17 @@
+Program playground;
+VARS
+    int: i;
+    float: e;
+function int fact (int: j);
+VARS int: i;
+{ 
+    if (j == 1) then {
+        return(j);
+    } else {
+        return(j * (fact(j - 1)) );
+    }
+}
+main(){
+    i = fact(4);
+    write(i);
+}

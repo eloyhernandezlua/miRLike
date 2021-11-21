@@ -1,4 +1,4 @@
-from os import pipe, popen
+from os import pipe, popen, truncate
 import re
 import sys 
 
@@ -26,12 +26,14 @@ tablaConstantes = {}
 VControl = 0
 VFinal = 0
 contTemps = 0
-contParams = 0
+contParams = []
 
 isArray = False
 PDim = []
 funcName = ''
 filaParams = []
+
+media = []
 
 ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
@@ -155,8 +157,6 @@ def endFuncReset():
     currentScope= 'g'
     localVariables = {}
     usedNamesLocal = []
-    ParameterTableList = []
-    ParameterTable = []
     contTemps = 0
 
 def getVdirCTE(v):
@@ -212,6 +212,8 @@ def ERROR(tipo, at = ""):
         extra = "MISSING OR TOO MUCH PARAMETERS"
     elif tipo == "no dims":
         extra = "VAR HAS NO DIMESIONS"
+    elif tipo == "only ints and floats allowed":
+        extra = "ONLY NUMBERS ARE ALLOWED"
 
     print("ERROR: " + extra + "\n @ --> " + str(at))
     sys.exit()
@@ -407,27 +409,6 @@ def getValType(val):
         return 'float'
     if type(val) == str:
         return 'char'
-    # try: 
-    #     int(val)
-    #     print("mal")
-    #     return 'int'
-    # except:
-    #     try:
-    #         float(val)
-    #         return 'float'
-    #     except:
-    #         try:
-    #             str(val)
-    #             if len(val) == 3:
-    #                 return 'char'
-    #             else:
-    #                 return 'string'
-    #         except:
-    #             try:
-    #                 bool(val)
-    #                 return 'bool'
-    #             except:
-    #                 ERROR("mal tipo", val)
     
 
 def fetchVDir(val):
@@ -447,16 +428,6 @@ def fetchVDir(val):
             return tablaConstantes[float(val)]
         if type(val) == str:
             return tablaConstantes[str(val)]
-        # try:
-        #     return tablaConstantes[int(val)]
-        # except:
-        #     try :
-        #         return tablaConstantes[float(val)]
-        #     except : 
-        #         try:
-        #             return tablaConstantes[str(val)]
-        #         except:
-        #             ERROR("no existe", val)
 
 def asignar(val1, val2):
     if val1 not in localVariables and val1 not in globalVariables:
@@ -579,6 +550,13 @@ def isarray(id):
         except:
             return False
 
+def isNum(val):
+    tipo = getValType(val)
+    if tipo == 'int' or tipo == 'float':
+        return True
+    else:
+        return False
+
 def setSizeArr(id, scope, size):
     global localVariables
     global globalVariables
@@ -634,7 +612,8 @@ reserved = {
     'for' : 'FOR',
     'to' : 'TO',
     'and' : 'AND',
-    'or' : 'OR'
+    'or' : 'OR',
+    'media' : 'MEDIA'
 }
 
 #***********************************
@@ -967,10 +946,29 @@ def p_estatutos(t):
                  | while estatutop
                  | for estatutop
                  | exp estatutop
+                 | media estatutop
     '''
     # ^ Aquí falta agregar lo que vayan a ser los estatutos especiales: media, moda, stddev, etc ...
 # todos los posibles estatutos
 
+def p_media(t):
+    '''media : MEDIA APAR exp checkForNum mediap CPAR DOSPNTS'''
+
+
+
+def p_mediap(t):
+    '''mediap : COMA exp checkForNum mediap
+              | empty
+    '''
+
+def p_checkForNum(t):
+    '''checkForNum : '''
+    global media
+
+    if not isNum(t[-1]):
+        ERROR("only ints and floats allowed", t[-1])
+    else:
+        media.append(t[-1])
 
 def p_estatutop(t):
     '''estatutop : estatutos
@@ -1096,6 +1094,7 @@ def p_ididx(t):
     global globalVariables
     global POoper
     global tablaConstantes
+    global Ptipos
 
     if len(t) > 2:
         if PilaO:
@@ -1110,10 +1109,8 @@ def p_ididx(t):
             pointer = getVDirTemp('pointer')
 
             Cuadruplos.append(Cuad(Ops['+'], aux1, initDirVal, pointer))
-
             PilaO.append(pointer)
             POoper.pop()
-            #print(PilaO, "<----")
 
 
 
@@ -1183,6 +1180,7 @@ def p_return(t):
     global Ops
     global globalVariables
     retVal = PilaO.pop()
+    Ptipos.pop()
     funcDir = globalVariables[funcName]['vDir']
     Cuadruplos.append(Cuad(Ops['return'], retVal, -1, funcDir))
     #Quizá la dirección destino de este cuadrupo sea lo que esté en el tope de la fila de saltos
@@ -1376,7 +1374,6 @@ def p_varFor(t):
 
     dVir = fetchVDir(t[1])
     type = getType(t[1])
-
     PilaO.append(dVir)
     Ptipos.append(type)
 
@@ -1539,7 +1536,6 @@ def p_termino(t):
 
     if len(POoper) > 0:
         if POoper[-1] == '+' or POoper[-1] == '-':
-            #print(PilaO)
             rOp = PilaO.pop()
             rType = Ptipos.pop()
             lOp = PilaO.pop()
@@ -1593,9 +1589,9 @@ def p_factor(t):
 
     if len(t) == 2:
         vDir = fetchVDir(t[1])
-        PilaO.append(vDir)
-        Ptipos.append(getValType(t[1]))
-
+        if not vDir >= 46000 and vDir <50000:
+            PilaO.append(vDir)
+            Ptipos.append(getValType(t[1]))
 
         t[0] = t[1]
     if len(t) == 3:
@@ -1605,6 +1601,7 @@ def p_factor(t):
         t[0] = t[1]
     
     if len(POoper) > 0:
+
         if  POoper[-1] == '*' or POoper[-1] == '/':
             rOp = PilaO.pop()
             rType = Ptipos.pop()
@@ -1630,7 +1627,6 @@ def p_factorParams(t):
     '''factorParams : exp valParams factorpp
                     | empty
     '''
-
 def p_cparParams(t):
     '''cparParams : CPAR'''
     global ParameterTableList
@@ -1641,20 +1637,25 @@ def p_cparParams(t):
     global globalVariables
     global funcName
     global POoper
+    global Ptipos
+    global PilaO
+
     POoper.pop()
     id = t[-4]
 
-    if len(ParameterTableList) != contParams:
+    cparam = contParams.pop()
+
+    if len(ParameterTableList) != cparam:
         ERROR("Missing or too much parameters")
     
     initDir = mainFuncTable[id]['initFunc']
     funcDVir = globalVariables[id]['vDir']
     funcType = globalVariables[id]['tipo']
     temp = getVDirTemp(funcType)
-    
-
     Cuadruplos.append(Cuad(Ops['gosub'], id, -1, initDir))
-    #Cuadruplos.append(Cuad(Ops['='], funcDVir, -1, temp))
+    Cuadruplos.append(Cuad(Ops['='], funcDVir, -1, temp))
+    PilaO.append(temp)
+    Ptipos.append(funcType)
 
 def p_createEra(t):
     '''createEra : '''
@@ -1663,11 +1664,16 @@ def p_createEra(t):
     global mainFuncTable
     global contParams
     global POoper
+    global ParameterTable
+    global ParameterTableList
+    global PilaO
+    global Ptipos
+   
 
     POoper.append("~")
     id = (t[-3])
     Cuadruplos.append(Cuad(Ops['era'], -1, -1, id))
-    contParams = 0
+    contParams.append(0)
 
     
 # parametros de funcion
@@ -1688,23 +1694,26 @@ def p_valParams(t):
     global contParams
     global filaParams
 
+
     if PilaO and Ptipos and ParameterTableList:
         argument = PilaO.pop()
         argType = Ptipos.pop()
 
-        if argType != ParameterTableList[contParams]:
+        cParam = contParams.pop()
+
+        if argType != ParameterTableList[cParam]:
             ERROR("tipos distintos", t[-1])
         if argType == 'int':
             contParamsInt += 1
-            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[contParams]))    
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[cParam]))    
         elif argType == 'float':
             contParamsFloat += 1
-            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[contParams]))
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[cParam]))
         elif argType == 'char':
             contParamsChar += 1
-            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[contParams]))
-        contParams +=1
-        
+            Cuadruplos.append(Cuad(Ops['parameter'], argument, -1, filaParams[cParam]))
+        contParams.append(cParam+1)
+
     else:
         if len(ParameterTableList) != contParams:
             ERROR("function had no parameters", t[-1])
