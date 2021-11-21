@@ -1,6 +1,6 @@
 Program playground;
 VARS
-    int: i;
+    int: i, j, num;
     float: e;
 function int fact (int: j);
 VARS int: i;
@@ -14,4 +14,14 @@ VARS int: i;
 main(){
     i = fact(4);
     write(i);
+
+    j = 1;
+    num = 4;
+    while(num > 1) do {
+        j = j * num;
+        num = num - 1;
+    }
+    write(" ^ recursivo ---- iterativo v ");
+    write(j);
+
 }

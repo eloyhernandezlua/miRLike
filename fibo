@@ -1,6 +1,6 @@
 Program playground;
 VARS
-    int: i;
+    int: i, j, siguiente, actual, temporal;
     float: e;
 function int fibo (int: j);
 { 
@@ -13,4 +13,16 @@ function int fibo (int: j);
 main(){
     i = fibo(10);
     write(i);
+
+    siguiente = 1;
+    actual = 0;
+    temporal = 0;
+    for j = 1 to 11 do {
+        temporal = actual;
+        actual = siguiente;
+        siguiente = siguiente + temporal;
+    } 
+
+    write(" ^ recursivo ---- iterativo v ");
+    write(actual);
 }
