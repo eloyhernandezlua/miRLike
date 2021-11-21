@@ -1,0 +1,16 @@
+Program playground;
+VARS
+    int: i;
+    float: e;
+function int fibo (int: j);
+{ 
+    if (j < 2) then {
+        return(j);
+    } else {
+        return(fibo(j - 1) + fibo(j - 2));
+    }
+}
+main(){
+    i = fibo(10);
+    write(i);
+}
