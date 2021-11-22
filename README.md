@@ -51,3 +51,10 @@ En general está rezagado el avance a lo que debería de ser pero me pondré al 
 * Manejo de arreglos al 90%
 * LA MAQUINA VIRTUAL ya hace varias cosas, casi todos los cuadrupolos cuando no se requiere más que memoria global, se está implementado lo de memorias locales/temporales
 * Ahí va, siento que si acabo
+
+### Avance 7
+* Gran avance en máquina virtual 
+* Ya jala todo bien con los parametros, recursividad
+* jala fibonacci y factorial iterativo y recursivo
+* 90% de documentación ya hecha
+* Arreglos jalando al 90% en ejecución
