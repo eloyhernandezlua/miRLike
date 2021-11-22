@@ -1059,7 +1059,7 @@ def p_igualAs(t):
 # id = var1[2] ;
 # id = func(1, 2) ;
 # id = 'c' ;
-# id = [1,2,3] ;
+
 
 def p_asigp(t):
     '''asigp : exp asigppp
@@ -1152,31 +1152,6 @@ def p_ver(t):
     Cuadruplos.append(Cuad(Ops['ver'], val, limInf, limSup))
 
 
-
-
-
-# vertiente para ver si es id simple o si tiene indice
-
-#------------------------------------
-#def p_llamada(t):
-#    'llamada : ID APAR args CPAR PTCOMA'
-
-# llamada --> func(12, var, var[3]);
-
-#------------------------------------
-#def p_args(t):
-#    '''args : ctes argsp
-#            | exp argsp
-#            | CTEC argsp
-#    '''
-# aceptar todo tipo de dato para llamar a funciones en argumentos
-
-#def p_argsp(t):
-#    '''argsp : COMA args
-#             | empty
-#    '''
-# multiples argumentos en llamada
-
 #------------------------------------
 def p_return(t):
     'return : RETURN APAR exp CPAR PTCOMA'
@@ -1188,7 +1163,6 @@ def p_return(t):
     Ptipos.pop()
     funcDir = globalVariables[funcName]['vDir']
     Cuadruplos.append(Cuad(Ops['return'], retVal, -1, funcDir))
-    #Quizá la dirección destino de este cuadrupo sea lo que esté en el tope de la fila de saltos
 
 
 # return --> return(lo que sea);
