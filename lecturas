@@ -4,6 +4,7 @@ VARS
     int: b;
     char: c;
 main(){
+    write("Esperando 3 lectuas, un float, un int y un char");
     read(a);
     read(b);
     read(c);

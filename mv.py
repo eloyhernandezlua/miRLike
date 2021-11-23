@@ -614,6 +614,9 @@ while PC <= len(cuads):
     elif int(op) == 33:
         print(statistics.variance(especiales[int(res)]))
     elif int(op) == 34:
+        # pip uninstall matplotlib
+        # python3 -m pip install matplotlib
+        # si no jala por alguna razón matplot lib correr esto en terminal
         plt.plot(especiales[int(res)])    
         plt.show()
     PC += 1

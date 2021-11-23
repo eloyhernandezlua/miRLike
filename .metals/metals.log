@@ -88,3 +88,4 @@ INFORMACIÓN: Unsupported notification method: $/setTrace
 [0m2021.11.22 11:37:21 INFO  time: initialize in 4.26s[0m
 [0m2021.11.22 11:37:25 WARN  Build server is not auto-connectable.[0m
 [0m2021.11.22 11:37:25 WARN  no build tool detected in workspace '/Users/innovationexso/Proyecto_Compiladores'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.11.23 01:26:27 INFO  shutting down Metals[0m
