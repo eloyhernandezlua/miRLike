@@ -1,9 +1,11 @@
 import sys
 from typing import List
 from lex import mainFuncTable
-from lex import media
+from lex import especiales
 from lex import tablaConstantes
 import sys
+import statistics
+import matplotlib.pyplot as plt
 
 f = open("cuads.o", "r")
 
@@ -72,15 +74,25 @@ def fromArray(idx):
     global isGlobal
     if isGlobal:
         try:
-            return memoriaGlobal.mem[idx]
+            return int(memoriaGlobal.mem[idx])
         except:
             print("el idx --> ", idx)
             print(memoriaGlobal.mem)
+            return idx
+    else:
+        try:
+            # print("hi\n\n\n", currentMemory.mem[idx])
+            # print(memoriaGlobal.mem[currentMemory.mem[idx]])
+            return currentMemory.mem[idx]
+        except:
+            print("el idx --> ", idx)
+            print(currentMemory.mem)
             return idx
         
 
 
 def isInLocal(val):
+
     try:
         currentMemory.mem[val]
         return True
@@ -131,8 +143,8 @@ for elememnto in tablaConstantes:
 # print("\n", mainFuncTable)
 # print("\n", tablaConstantes)
 
-for cuad in cuads:
-    print(cuad.split('~'))
+# for cuad in cuads:
+#     print(cuad.split('~'))
 
 # print(memoriaGlobal.mem)
 
@@ -157,14 +169,14 @@ while PC <= len(cuads):
         if checkforArray(int(res)):
                 res = fromArray(int(res))
         if isGlobal:
-            checkForNone(memoriaGlobal.mem[int(dir1)], 11)
+            checkForNone(memoriaGlobal.mem[int(dir1)], int(dir1))
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
         else:
             try:
-                checkForNone(currentMemory.mem[int(dir1)], 11)
+                checkForNone(currentMemory.mem[int(dir1)], int(dir1))
                 currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)]
             except:
-                checkForNone(memoriaGlobal.mem[int(dir1)], 11)
+                checkForNone(memoriaGlobal.mem[int(dir1)], int(dir1))
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
     elif int(op) == 1:
         # if checkforArray(int(res)):
@@ -346,11 +358,17 @@ while PC <= len(cuads):
             checkForNone(memoriaGlobal.mem[int(dir2)], 5)
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)] == memoriaGlobal.mem[int(dir2)]  
         else:
+            if checkforArray(int(dir1)):
+                dir1 = fromArray(int(dir1))
+            if checkforArray(int(dir2)):
+                dir2 = fromArray(int(dir2))
             if isInLocal(int(dir1)) and isInLocal(int(dir2)):
+                # print("aqui\n\n", dir1 , "\n\n\n")
                 currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] == currentMemory.mem[int(dir2)]
             elif isInLocal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = currentMemory.mem[int(dir1)] == memoriaGlobal.mem[int(dir2)]
             elif isInGlobal(int(dir1)) and isInLocal(int(dir2)):
+                
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] == currentMemory.mem[int(dir2)]
             elif isInGlobal(int(dir1)) and isInGlobal(int(dir2)):
                 currentMemory.mem[int(res)] = memoriaGlobal.mem[int(dir1)] == memoriaGlobal.mem[int(dir2)]
@@ -540,6 +558,7 @@ while PC <= len(cuads):
         if checkforArray(int(dir1)):
             dir1 = fromArray(int(dir1))
         if isInLocal(int(dir1)):
+            
             memoriaGlobal.mem[int(res)] = currentMemory.mem[int(dir1)]
         elif isInGlobal(int(dir1)):
             memoriaGlobal.mem[int(res)] = memoriaGlobal.mem[int(dir1)]
@@ -569,15 +588,34 @@ while PC <= len(cuads):
             if memoriaGlobal.mem[int(dir1)] >= memoriaGlobal.mem[int(res)] or memoriaGlobal.mem[int(dir1)] < 0:
                 ERROR("INDEX OUT OF BOUNDS", dir1)
         else:
-            if isInLocal(currentMemory.mem[int(dir1)]):
-                if currentMemory.mem[int(dir1)] >= memoriaGlobal.mem[int(res)] or memoriaGlobal.mem[int(dir1)] < 0:
-                    ERROR("INDEX OUT OF BOUNDS", dir1)
-            elif isInGlobal(memoriaGlobal.mem[int(dir1)]):
-                if memoriaGlobal.mem[int(dir1)] >= memoriaGlobal.mem[int(res)] or memoriaGlobal.mem[int(dir1)] < 0:
-                    ERROR("INDEX OUT OF BOUNDS", dir1)
+            if isInLocal(int(dir1)):
 
-    
-
+                if currentMemory.mem[int(dir1)] >= memoriaGlobal.mem[int(res)] or memoriaGlobal.mem[int(dir2)] < 0:
+                    ERROR("INDEX OUT OF BOUNDS", dir1)
+            elif isInGlobal(int(dir1)):
+                if memoriaGlobal.mem[int(dir1)] >= memoriaGlobal.mem[int(res)] or memoriaGlobal.mem[int(dir2)] < 0:
+                    ERROR("INDEX OUT OF BOUNDS", dir1)
+    elif int(op) == 25:
+        print(statistics.mean(especiales[int(res)]))
+    elif int(op) == 26:
+        print(statistics.harmonic_mean(especiales[int(res)]))
+    elif int(op) == 27:
+        print(statistics.median(especiales[int(res)]))
+    elif int(op) == 28:
+        print(statistics.median_grouped(especiales[int(res)]))
+    elif int(op) == 29:
+        print(statistics.mode(especiales[int(res)]))
+    elif int(op) == 30:
+        print(statistics.pstdev(especiales[int(res)]))
+    elif int(op) == 31:
+        print(statistics.stdev(especiales[int(res)]))
+    elif int(op) == 32:
+        print(statistics.pvariance(especiales[int(res)]))
+    elif int(op) == 33:
+        print(statistics.variance(especiales[int(res)]))
+    elif int(op) == 34:
+        plt.plot(especiales[int(res)])    
+        plt.show()
     PC += 1
 
     if PC == len(cuads):

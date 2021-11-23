@@ -33,7 +33,9 @@ PDim = []
 funcName = ''
 filaParams = []
 
-media = []
+especiales = []
+especialesAux = []
+contEspeciales = -1
 
 ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
@@ -94,7 +96,17 @@ Ops = {
     'era' : 21,
     'parameter' : 22,
     'gosub' : 23,
-    'ver' : 24
+    'ver' : 24,
+    'media' : 25,
+    'mediahar' : 26,
+    'mediana' : 27,
+    'medianagroup' : 28,
+    'moda' : 29,
+    'pstdev' : 30,
+    'stdev' : 31,
+    'pvariance' : 32,
+    'variance' : 33,
+    'plotx' : 34
 }
 
 #**********
@@ -613,7 +625,16 @@ reserved = {
     'to' : 'TO',
     'and' : 'AND',
     'or' : 'OR',
-    'media' : 'MEDIA'
+    'media' : 'MEDIA',
+    'mediahar' : 'MEDIAHAR',
+    'mediana' : 'MEDIANA',
+    'medianagroup' : 'MEDIANAG',
+    'moda' : 'MODA',
+    'pstdev' : 'PSTDEV',
+    'stdev' : 'STDEV',
+    'pvariance' : 'PVARIANCE',
+    'variance' : 'VARIANCE',
+    'plotx' : 'PLOTX'
 }
 
 #***********************************
@@ -947,28 +968,20 @@ def p_estatutos(t):
                  | for estatutop
                  | exp estatutop
                  | media estatutop
+                 | plotx estatutop
+                 | variance estatutop
+                 | pvariance estatutop
+                 | stdev estatutop
+                 | pstdev estatutop
+                 | moda estatutop
+                 | medianag estatutop
+                 | mediana estatutop
+                 | mediahar estatutop
+
+
     '''
     # ^ Aquí falta agregar lo que vayan a ser los estatutos especiales: media, moda, stddev, etc ...
 # todos los posibles estatutos
-
-def p_media(t):
-    '''media : MEDIA APAR exp checkForNum mediap CPAR DOSPNTS'''
-
-
-
-def p_mediap(t):
-    '''mediap : COMA exp checkForNum mediap
-              | empty
-    '''
-
-def p_checkForNum(t):
-    '''checkForNum : '''
-    global media
-
-    if not isNum(t[-1]):
-        ERROR("only ints and floats allowed", t[-1])
-    else:
-        media.append(t[-1])
 
 def p_estatutop(t):
     '''estatutop : estatutos
@@ -976,6 +989,168 @@ def p_estatutop(t):
     '''
 # múltiples estatutos
 # fin de los estatutos
+
+
+#-----------------------------------
+#FUNCIONES ESPECIALES
+
+def p_media(t):
+    '''media : MEDIA APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['media'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_mediahar(t):
+    '''mediahar : MEDIAHAR APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['mediahar'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_mediana(t):
+    '''mediana : MEDIANA APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['mediana'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_medianag(t):
+    '''medianag : MEDIANAG APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['medianagroup'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_moda(t):
+    '''moda : MODA APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['moda'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_pstdev(t):
+    '''pstdev : PSTDEV APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['pstdev'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_stdev(t):
+    '''stdev : STDEV APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['stdev'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_pvariance(t):
+    '''pvariance : PVARIANCE APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['pvariance'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_variance(t):
+    '''variance : VARIANCE APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['variance'], -1, -1, contEspeciales))
+    especialesAux = []
+
+def p_plotx(t):
+    '''plotx : PLOTX APAR numeros CPAR appendlist PTCOMA'''
+    global Cuadruplos
+    global Ops
+    global especialesAux
+    global especiales
+    global contEspeciales
+
+    contEspeciales += 1
+
+    Cuadruplos.append(Cuad(Ops['plotx'], -1, -1, contEspeciales))
+    especialesAux = []
+
+
+def p_appendlist(t):
+    '''appendlist : '''
+
+    global especiales
+    global especialesAux
+
+    especiales.append(especialesAux)
+
+
+def p_numeros(t):
+    '''numeros : CTEI addnum numerosp
+               | CTEF addnum numerosp
+    '''
+
+def p_addnum(t):
+    '''addnum : '''
+
+    global especialesAux
+
+    especialesAux.append(t[-1])
+
+
+def p_numerosp(t):
+    '''numerosp : COMA numeros
+                | empty
+    '''
 
 #------------------------------------
 def p_tipo(t):
@@ -1110,6 +1285,7 @@ def p_ididx(t):
 
             Cuadruplos.append(Cuad(Ops['+'], aux1, initDirVal, pointer))
             PilaO.append(pointer)
+            # print(PilaO, " <-----")
             POoper.pop()
 
 
@@ -1328,6 +1504,7 @@ def p_for(t):
     global PilaO
     global Ptipos
 
+
     ty = getVDirTemp('int')
     vdirUno = fetchVDir(1)
     Cuadruplos.append(Cuad(Ops['+'], VControl, vdirUno, ty))
@@ -1474,6 +1651,9 @@ def p_mexp(t):
     opers = ['>', '<', '>=', '<=', '==', '!=']
 
     if POoper:
+        # print(Cuadruplos[-1].op, Cuadruplos[-1].dir1, Cuadruplos[-1].dir2, Cuadruplos[-1].recep )
+        # print(tablaConstantes)
+        # print(globalVariables)
         if POoper[-1] in opers:
             rOp = PilaO.pop()
             rType = Ptipos.pop()
@@ -1578,7 +1758,8 @@ def p_factor(t):
             Ptipos.append(getValType(t[1]))
         # print(PilaO, " <---- aqui 5")
         if isarray(t[1]):
-            PilaO.pop()
+           PilaO.pop()
+
 
 
         t[0] = t[1]

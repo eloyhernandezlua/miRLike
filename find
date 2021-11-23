@@ -1,0 +1,39 @@
+Program playground;
+VARS
+    int: i[5];
+    int: j, k, l, aux;
+
+function int find (int: val);
+VARS 
+    int: iter;
+{
+    iter = 0;
+    while(iter < 5) do {
+        if(i[iter] == val) then {
+            return(iter);
+        }
+
+        iter = iter + 1;
+    }
+    return(-1);
+}
+
+main(){
+
+    i[0] = 123;
+    i[1] = 12;
+    i[2] = 0;
+    i[3] = 4332;
+    i[4] = 3;
+
+    k = 5;
+   
+    k = find(4332);
+
+    write("El resultado está en el índice: ", k);
+
+
+
+
+
+}
