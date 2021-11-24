@@ -12,11 +12,11 @@ VARS int: i;
     }
 }
 main(){
-    i = fact(4);
+    i = fact(14);
     write(i);
 
     j = 1;
-    num = 4;
+    num = 14;
     while(num > 1) do {
         j = j * num;
         num = num - 1;

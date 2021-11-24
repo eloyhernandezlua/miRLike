@@ -41,6 +41,7 @@ ariops = ['+', '-', '*', '/']
 relops = ['>', '<', '>=', '<=', '==', '!=']
 logicops = ['and', 'or']
 
+#Inicialización de los contadores para direcciones virtuales
 
 contGlobI = 2000 - 1
 contGlobF = 5000 - 1
@@ -70,6 +71,8 @@ class Cuad:
         self.dir1 = dir1 
         self.dir2 = dir2
         self.recep = recep
+
+# Operadores para usar en los cuádruplos
 
 Ops = {
     '' : -1,
@@ -129,11 +132,14 @@ Ops = {
 # | pointers       | 50000 |
 # -------------------------- 
 
+# Para obtener direcciones virutales para las variables globales que se llamen igual a funciones (el parche guadalupano)
 
 def getFuncVDir():
     global contFuncV
     contFuncV += 1
     return contFuncV
+
+# Resetear todo lo necesario cuando se termina de compilar una función
 
 def endFuncReset():
     global contLocI
@@ -170,6 +176,8 @@ def endFuncReset():
     localVariables = {}
     usedNamesLocal = []
     contTemps = 0
+
+#obtener direcciones virtuales para cuando son constantes, int, float y char
 
 def getVdirCTE(v):
     global contConstF
@@ -228,14 +236,17 @@ def ERROR(tipo, at = ""):
         extra = "ONLY NUMBERS ARE ALLOWED"
 
     print("ERROR: " + extra + "\n @ --> " + str(at))
-    sys.exit()
+    sys.exit() # se imprime el error en pantalla y se detiene la ejecución del código
 
+
+#Insertar en la tabla de funciones, se necesita el nombre de la función, su tipo, scope y que mapa de variables le corresponde
 
 def insertToFuncTable(id, tipo, scope, vars):
     global mainFuncTable
     global usedNamesGlobal
     global usedNamesLocal
 
+    #validar que la funcion no haya sido declarada o que no sea ya el nombre de otra variable
     if id in mainFuncTable:
         ERROR("funcion repetida")
     elif id in usedNamesGlobal:
@@ -244,6 +255,8 @@ def insertToFuncTable(id, tipo, scope, vars):
         mainFuncTable[id] = {'tipo' : tipo, 'scope': scope, 'vars': vars}
         usedNamesGlobal.append(id)
 
+
+#Obtener direcciones virtuales para los contadores de temporales
 def getVDirTemp(type):
     global contTempB
     global contTempC
@@ -351,7 +364,7 @@ def isValidOp(tipo1, tipo2, op):
     else :
         ERROR("invalid op")
 
-
+#Obtener direccion virutal para las variables, dependiendo su tipo y su scope
 def getvDirVars(tipo, scope):
     global contGlobI
     global contGlobF
@@ -381,7 +394,7 @@ def getvDirVars(tipo, scope):
             contLocC += 1
             return contLocC 
 
-
+#Insertar varible a su tabla de variables correspondiente, global o local. Checando que no exista 
 def insertToVarTable(id, vDir, tipo):
 
     if vDir < 12000:
@@ -399,12 +412,14 @@ def insertToVarTable(id, vDir, tipo):
             ERROR("variable repetida", id)
         localVariables[id] = {'vDir':vDir, 'tipo': tipo}
         usedNamesLocal.append(id)
-    
 
+
+#Validar que 2 tipos de datos sean del mismo
 def validateTypes(tipo1, tipo2):
     if tipo1 != tipo2:
         ERROR("tipos distintos", str(tipo1 + " --- " + tipo2))
 
+# Obtener el tipo de un valor, buscándolo en las tablas de variables o constantes dependiendo su identificador en las mismas
 def getValType(val):
     if val in localVariables:
         return localVariables[val]['tipo']
@@ -422,7 +437,7 @@ def getValType(val):
     if type(val) == str:
         return 'char'
     
-
+#Buscar la dirección virtual de algún id ya declarado en cualquier lado con la prioridad Local -> global -> constantes
 def fetchVDir(val):
     global tablaConstantes
     global localVariables
@@ -441,55 +456,14 @@ def fetchVDir(val):
         if type(val) == str:
             return tablaConstantes[str(val)]
 
-def asignar(val1, val2):
-    if val1 not in localVariables and val1 not in globalVariables:
-        ERROR("no existe", val1)
-    tipoVal2 = getValType(val2)
-    if currentScope == 'l':
-        
-        if val1 in localVariables:
-            validateTypes(localVariables[val1]['tipo'], tipoVal2)
-            localVariables[val1]['value'] = val2
-        else: 
-            validateTypes(globalVariables[val1]['tipo'], tipoVal2)
-            globalVariables[val1]['value'] = val2
-
-    elif currentScope == 'g':
-        validateTypes(globalVariables[val1]['tipo'], tipoVal2)
-        globalVariables[val1]['value'] = val2
-    
-    recep = fetchVDir(val1)
-    dir1 = fetchVDir(val2)
-    
-    Cuadruplos.append(
-        Cuad(
-            Ops['='],
-            dir1,
-            -1,
-            recep
-        )
-    )
-
+#Verifica si el id dado existe dentro de las variables conocidas
 def isVar(val):
     if val in globalVariables or val in localVariables:
         return True
     else:
         return False
 
-def getVal(var):
-    if var in localVariables:
-        try: 
-            return localVariables[var]['value']
-        except:
-            ERROR("no value", var)
-    elif var in globalVariables:
-        try: 
-            return globalVariables[var]['value']
-        except:
-            ERROR("no value", var)
-    else:
-        ERROR("no existe", var)
-
+#obtener el tipo de variable
 def getType(var):
     if var in localVariables:
         try: 
@@ -504,7 +478,7 @@ def getType(var):
     else:
         ERROR("no existe", var)
 
-
+#Valida que el id se haya declarado en algún lado, donde sea
 def validateExistance(id):
     global localVariables
     global globalVariables
@@ -514,6 +488,7 @@ def validateExistance(id):
     if id not in tablaConstantes and id not in globalVariables and id not in localVariables and id not in mainFuncTable:
         ERROR("no existe", id)
 
+#Para manejar arreglos, dependiendo el scope, y su tipo, se desplazará el contador a la siguiente + el tamaño del arreglo declarado
 def setNextVDir(cScope, cType, size):
     global contLocI
     global contLocF
@@ -538,6 +513,7 @@ def setNextVDir(cScope, cType, size):
         elif cType == 'char':
             contGlobC += size
 
+#Checar si una variable es un arreglo
 def checkForDims(id):
     global localVariables
     global globalVariables
@@ -548,6 +524,7 @@ def checkForDims(id):
             globalVariables[id]['isArray']
         except:
             ERROR("no dims")
+
 
 def isarray(id):
     global localVariables
@@ -562,6 +539,8 @@ def isarray(id):
         except:
             return False
 
+
+#Validar si los valores ingresados son exclusivamente numericos
 def isNum(val):
     tipo = getValType(val)
     if tipo == 'int' or tipo == 'float':
@@ -569,6 +548,7 @@ def isNum(val):
     else:
         return False
 
+#Actualizar la propiedad de tamaño de una variable dimensionada 
 def setSizeArr(id, scope, size):
     global localVariables
     global globalVariables
@@ -578,6 +558,7 @@ def setSizeArr(id, scope, size):
     elif scope == 'l':
         localVariables[id]['size'] = size
 
+#Encontrar el límite superior de un arreglo
 def fetchLimit(id):
     global globalVariables
     global localVariables
@@ -587,6 +568,7 @@ def fetchLimit(id):
     except:
         return globalVariables[id]['size']
 
+#Encontrar la direccion inicial de un arrelo que se esté utilizando
 def fetchInitDir(id):
     global localVariables
     global globalVariables
@@ -736,6 +718,10 @@ lexer = lex.lex()
 #*********************************************
 #Gramatic rules
 
+#----------------------------------------------
+#PROGRAMA PRINCIPAL
+
+# estructura mínima de cualquier programa, imprime mensaje si es válida la sintaxis
 def p_program(t):
     'program : PROGRAM agregarTablaFunciones varss funcs MAIN APAR CPAR ALLA poptomain estatutos CLLA'
     print('Código aceptado \n\n')
@@ -754,7 +740,7 @@ def p_program(t):
     global contFuncV    
 
     nombreFunc = t[2]
-
+    # Calcular y guardar el tamaño del programa principal
     mainFuncTable[nombreFunc]['numInts'] = (contGlobI - (2000-1)) + (contTempI - (30000 -1))
     mainFuncTable[nombreFunc]['numFloats'] = (contGlobF - (5000-1)) + (contTempF - (32000 -1))
     mainFuncTable[nombreFunc]['numChars'] = (contGlobC - (9000-1)) + (contTempC - (34000 -1))
@@ -771,14 +757,14 @@ def p_agregarTablaFunciones(t):
     global tablaConstantes
 
     t[0] = t[1]
-
+    #Agregar el nombre del programa a la tabla de funciones y generar el goto a main
     insertToFuncTable(t[1], 'void', currentScope, globalVariables)
     Cuadruplos.append(Cuad(Ops['goto'], -1, -1, -99))
     PJumps.append(len(Cuadruplos))
     tablaConstantes[0] = getVdirCTE(0)
     tablaConstantes[1] = getVdirCTE(1)
 
-
+#llenar el cuadruplo pendiente de donde empieza el main
 def p_poptomain(t):
     '''poptomain : '''
     global Cuadruplos
@@ -789,10 +775,8 @@ def p_poptomain(t):
         cuadToChange = Cuadruplos[end - 1]
         cuadToChange.recep = len(Cuadruplos) + 1
 
-
-# estructura mínima de cualquier programa, imprime mensaje si es válida la sintaxis
-
 #------------------------------------
+#VARIABLES
 def p_varss(t):
     '''varss : VARS vars
              | empty
@@ -804,6 +788,7 @@ def p_vars(t):
             | empty
     '''
 
+#Meter conforme son leidas las variable a la tabla de variables y consiguiendo sus direcciones virtuales
 def p_insertVar(t):
     'insertVar : ID'
     global currentScope
@@ -814,11 +799,14 @@ def p_insertVar(t):
 
 # formato tipo : id, id[n] ;
 
+# Para variables dimensionadas
 def p_varsppp(t):
     '''varsppp : initDim CTEI setDim
                | empty
     '''
 
+#En el corchete que cierra guardar cual fue el número del tamaño, guardarlo en tabla de constantes si no existía
+# guardar la propiedad de tamaño y setear el proximo numero de direccion virutal acorde al arreglo 
 def p_setDim(t):
     '''setDim : CCOR'''
     global currentScope
@@ -834,7 +822,7 @@ def p_setDim(t):
     setSizeArr(id, currentScope, size) #checar
     setNextVDir(currentScope, currentType, size)    
 
-
+# En el corchete que abre, definir que esa variable ahora es tratada como un arreglo
 def p_initDim(t):
     '''initDim : ACOR'''
     global localVariables
@@ -859,11 +847,19 @@ def p_varspp(t):
 # múltiples variables del mismo tipo
 
 #------------------------------------
+#FUNCIONES
+
+# formato --> function void/tipo nombre función(int: id, float: id[]) 
+# / espacio de declaracion de variables /
+#{ Estatutos }
+# mas funciones con el mismo formato
+
 def p_funcs(t):
     '''funcs : FUNCTION funcsp insertFunc funcspp
              | empty
     '''
 
+#guardar nombre de la función en la tabla de funciones
 def p_insertFunc(t):
     'insertFunc : ID'
     global currentScope
@@ -880,6 +876,7 @@ def p_insertFunc(t):
     globalVariables[funcName] = {'vDir': vDir, 'tipo': currentType}
     insertToFuncTable(funcName, currentType, currentScope, localVariables)
 
+#Cambiar a un scope local
 def p_funcspp(t):
     'funcspp : APAR params CPAR updateParamTable PTCOMA varss ALLA addinit estatutos CLLA addsize endfunction funcs'
     global currentScope
@@ -893,6 +890,7 @@ def p_updateParamTable(t):
     id = t[-4]
     
 
+#llevar a cabo las labores del endfunc
 def p_endfunciton(t):
     '''endfunction : '''
 
@@ -907,6 +905,8 @@ def p_endfunciton(t):
     Cuadruplos.append(Cuad(Ops['endFunc'], -1, -1, -1))
     endFuncReset()
 
+
+#guardar el tamaño de la nueva funcion
 def p_addsize(t):
     '''addsize : '''
     global ParameterTable
@@ -930,7 +930,8 @@ def p_addsize(t):
     mainFuncTable[nombreFunc]['numChars'] = (contLocC - (28000-1)) + (contTempC - (34000 -1))
     mainFuncTable[nombreFunc]['numBools'] = (contTempB - (36000-1))
     mainFuncTable[nombreFunc]['numPointers'] = (contPointers - (50000-1))
-    
+
+#guardar el cuadruplo de inicio para la función    
 def p_addinit(t):
     '''addinit : '''
     global funcName
@@ -938,12 +939,8 @@ def p_addinit(t):
 
     nombreFunc = funcName
     mainFuncTable[nombreFunc]['initFunc'] = len(Cuadruplos) + 1
-    
-# formato --> function void/tipo nombre función(int: id, float: id[]) 
-# / espacio de declaracion de variables /
-#{ Estatutos }
-# mas funciones con el mismo formato
 
+#definir el tipo de la función
 def p_funcsp(t):
     '''funcsp : VOID
               | tipo
@@ -958,6 +955,8 @@ def p_funcsp(t):
 # funciones no void
 
 #------------------------------------
+#ESTATUTOS
+
 def p_estatutos(t):
     '''estatutos : asig estatutop
                  | return estatutop
@@ -980,7 +979,6 @@ def p_estatutos(t):
 
 
     '''
-    # ^ Aquí falta agregar lo que vayan a ser los estatutos especiales: media, moda, stddev, etc ...
 # todos los posibles estatutos
 
 def p_estatutop(t):
@@ -994,6 +992,7 @@ def p_estatutop(t):
 #-----------------------------------
 #FUNCIONES ESPECIALES
 
+#meida
 def p_media(t):
     '''media : MEDIA APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1007,6 +1006,7 @@ def p_media(t):
     Cuadruplos.append(Cuad(Ops['media'], -1, -1, contEspeciales))
     especialesAux = []
 
+#media harmonizada 
 def p_mediahar(t):
     '''mediahar : MEDIAHAR APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1020,6 +1020,7 @@ def p_mediahar(t):
     Cuadruplos.append(Cuad(Ops['mediahar'], -1, -1, contEspeciales))
     especialesAux = []
 
+#mediana
 def p_mediana(t):
     '''mediana : MEDIANA APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1033,6 +1034,7 @@ def p_mediana(t):
     Cuadruplos.append(Cuad(Ops['mediana'], -1, -1, contEspeciales))
     especialesAux = []
 
+#mediana grupal
 def p_medianag(t):
     '''medianag : MEDIANAG APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1046,6 +1048,7 @@ def p_medianag(t):
     Cuadruplos.append(Cuad(Ops['medianagroup'], -1, -1, contEspeciales))
     especialesAux = []
 
+#moda
 def p_moda(t):
     '''moda : MODA APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1059,6 +1062,7 @@ def p_moda(t):
     Cuadruplos.append(Cuad(Ops['moda'], -1, -1, contEspeciales))
     especialesAux = []
 
+#desviación estandar poblacional
 def p_pstdev(t):
     '''pstdev : PSTDEV APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1072,6 +1076,7 @@ def p_pstdev(t):
     Cuadruplos.append(Cuad(Ops['pstdev'], -1, -1, contEspeciales))
     especialesAux = []
 
+#desviación estandar
 def p_stdev(t):
     '''stdev : STDEV APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1085,6 +1090,7 @@ def p_stdev(t):
     Cuadruplos.append(Cuad(Ops['stdev'], -1, -1, contEspeciales))
     especialesAux = []
 
+#varianza poblacional
 def p_pvariance(t):
     '''pvariance : PVARIANCE APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1098,6 +1104,7 @@ def p_pvariance(t):
     Cuadruplos.append(Cuad(Ops['pvariance'], -1, -1, contEspeciales))
     especialesAux = []
 
+#varianza
 def p_variance(t):
     '''variance : VARIANCE APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1111,6 +1118,7 @@ def p_variance(t):
     Cuadruplos.append(Cuad(Ops['variance'], -1, -1, contEspeciales))
     especialesAux = []
 
+#plot
 def p_plotx(t):
     '''plotx : PLOTX APAR numeros CPAR appendlist PTCOMA'''
     global Cuadruplos
@@ -1153,6 +1161,8 @@ def p_numerosp(t):
     '''
 
 #------------------------------------
+#TIPOS
+
 def p_tipo(t):
     '''tipo : INT
             | FLOAT
@@ -1166,11 +1176,14 @@ def p_tipo(t):
 # tipos soportados por el lenguaje
 
 #------------------------------------
+#PARAMETROS
+
 def p_params(t):
     '''params : tipo DOSPNTS insertParams ididx paramsp
               | empty
     '''
 
+# añadir los parametros sus nuevas direcciones virtuales y agregarlos a la fila de parametros, guardar sus tipos para la firma
 def p_insertParams(t):
     '''insertParams : ID
     '''
@@ -1185,9 +1198,6 @@ def p_insertParams(t):
     insertToVarTable(t[1], vDir, currentType)
     ParameterTableList.append(currentType)
 
-
-# parametros para las funciones  --> int: var1, float: var2[]
-
 def p_paramsp(t):
     '''paramsp : COMA params
                | empty
@@ -1196,12 +1206,15 @@ def p_paramsp(t):
 # fin de parámetros
 
 #------------------------------------
+#ASIGNACIONES
+
 def p_asig(t):
     'asig : varAs ididx igualAs asigpp PTCOMA'
     global PilaO
     global Ptipos
     global Ops
 
+    # sacar los ultimos 2 operandos con sus tipos, validar que sean asignables y generar su cuádruplo
     if PilaO and Ptipos:
         res = PilaO.pop()
         tipoR = Ptipos.pop()
@@ -1209,8 +1222,8 @@ def p_asig(t):
         tipoI = Ptipos.pop()
         validateTypes(tipoR, tipoI)
         Cuadruplos.append(Cuad(Ops['='], res, -1, ladoIzq))
-    #asignar(t[1], t[4])
 
+# llevar tracking de la variable a la que se le quiere asignar algo
 def p_varAs(t):
     'varAs : ID'
     global PilaO
@@ -1219,7 +1232,8 @@ def p_varAs(t):
     vDir = fetchVDir(t[1])
     PilaO.append(vDir)
     Ptipos.append(getValType(t[1]))
-    
+
+#añadir el operador = a la pila    
 def p_igualAs(t):
     'igualAs : IGUAL'
     global POoper
@@ -1259,6 +1273,8 @@ def p_asigpp(t):
 # asignaciones para todo tipo de dato y arreglos
 
 #------------------------------------
+#MANEJO DE DIMENSIONES
+
 def p_ididx(t):
     '''ididx : corArr exp ver CCOR
              | empty
@@ -1271,6 +1287,7 @@ def p_ididx(t):
     global tablaConstantes
     global Ptipos
 
+    #Si SÍ HAY dimeiones hay que hacer las operaciones de una nueva direccion virtual de pointer y sumar el offset (en cuadruplo)
     if len(t) > 2:
         if PilaO and POoper:
             aux1 = PilaO.pop()
@@ -1285,13 +1302,12 @@ def p_ididx(t):
 
             Cuadruplos.append(Cuad(Ops['+'], aux1, initDirVal, pointer))
             PilaO.append(pointer)
-            # print(PilaO, " <-----")
             POoper.pop()
 
 
 
 
-
+# Comenzar manejo de arreglos, metiendo fondo falso para que no se pase
 def p_corArr(t):
     '''corArr : ACOR'''
     global PDim
@@ -1299,8 +1315,6 @@ def p_corArr(t):
     global PilaO
     global Ptipos
 
-    # print(PilaO, " <--- pilao")
-    # print(t[-1], " <---- id")
     if PilaO:
         id = PilaO.pop()
         tipo = Ptipos.pop()
@@ -1309,6 +1323,9 @@ def p_corArr(t):
         DIM = 1
         PDim.append((id, DIM))
         POoper.append("~") #fake bottom
+
+
+#Gernerar cuadruplo para verificar el rango dentro de los arrelgos
 
 def p_ver(t):
     '''ver : '''
@@ -1329,6 +1346,9 @@ def p_ver(t):
 
 
 #------------------------------------
+#RETURN
+
+#Crea el cuadruplo con lo que esté al final de la pila y como parche guadalupano, lleva la dirección virutal de la función que lo ejecutó
 def p_return(t):
     'return : RETURN APAR exp CPAR PTCOMA'
     global PilaO
@@ -1340,10 +1360,9 @@ def p_return(t):
     funcDir = globalVariables[funcName]['vDir']
     Cuadruplos.append(Cuad(Ops['return'], retVal, -1, funcDir))
 
-
-# return --> return(lo que sea);
-
 #------------------------------------
+#LECTURA
+
 def p_lectura(t):
     'lectura : READ APAR readId ididx lecturapp CPAR PTCOMA'
 # leer de usuario y guardar sobre una variable o indice de un vector
@@ -1364,11 +1383,14 @@ def p_lecturapp(t):
 # fin de elementos a leer
 
 #------------------------------------
+#ESCRITURA
+
 def p_escritura(t):
     'escritura : WRITE APAR escriturap escriturapp CPAR PTCOMA'
 
 # escribir todo tipo de dato menos arreglo (suponiendo que si se quiere imprimir, ya debería de estar en una variable)
 
+#Generar directamente el cuadruplo, con la última expresion o el letrero
 def p_escriturap(t):
     '''escriturap : pushEsc
                   | exp
@@ -1380,7 +1402,7 @@ def p_escriturap(t):
     res = PilaO.pop()
     Cuadruplos.append(Cuad(Ops['print'], -1, -1, res))  
 
-
+# Meter a la escritura un char o un letrero string
 def p_pushEsc(t):
     '''pushEsc : STRING
                | CTEC
@@ -1388,15 +1410,16 @@ def p_pushEsc(t):
     global PilaO
     PilaO.append(t[1])
 
-# todos los tipos de datos
-
+# escribir varias cosas a la vez
 def p_escriturapp(t):
     '''escriturapp : COMA escriturap escriturapp
                    | empty
     '''
-# escribir varias cosas a la vez
 
 #------------------------------------
+#CONDICIONALES
+
+# estructura sencilla de if con opcional de un else
 def p_cond(t):
     'cond : IF APAR exp checkCond THEN ALLA estatutos CLLA condpp'
     
@@ -1408,15 +1431,14 @@ def p_cond(t):
         cuadToChange = Cuadruplos[end - 1]
         cuadToChange.recep = len(Cuadruplos) + 1
 
-# estructura sencilla de if con opcional de un else
 
+#chechar si la expresion trae un else o si es un if sencillo 
 def p_condpp(t):
     '''condpp : checkElse ALLA estatutos CLLA
               | empty
     '''
 
-# hay un else dentro de la condición
-
+#hacer los cuadruplos para llenar el salto del if y generar el nuevo salto solo si hay else
 def p_checkElse(t):
     '''checkElse : ELSE
     '''
@@ -1432,7 +1454,7 @@ def p_checkElse(t):
         cuadToChange = Cuadruplos[false - 1]
         cuadToChange.recep = len(Cuadruplos) + 1
 
-
+#verificar la condicion, que sea bool y hacer el cuadruplo del goto en falso
 def p_checkCond(t):
     '''checkCond : CPAR
     '''
@@ -1451,6 +1473,9 @@ def p_checkCond(t):
 
 
 #------------------------------------
+#WHILE
+
+# llenar el cuadruplo goto automatico y llenar el goto en falso pendiente de la condicion
 def p_while(t):
     'while : saveWhile APAR exp checkWhileCond DO ALLA estatutos CLLA'
 
@@ -1465,7 +1490,7 @@ def p_while(t):
         cuadToChange = Cuadruplos[end - 1]
         cuadToChange.recep = len(Cuadruplos) + 1
 
-
+#Dejar migaja de pan para el while
 def p_saveWhile(t):
     '''saveWhile : WHILE
     '''
@@ -1473,6 +1498,7 @@ def p_saveWhile(t):
     global Cuadruplos
     PJumps.append(len(Cuadruplos))
 
+# revisar la condición y hacer el cuadruplo de goto en falso
 def p_checkWhileCond(t):
     '''checkWhileCond : CPAR
     '''
@@ -1490,10 +1516,11 @@ def p_checkWhileCond(t):
         PJumps.append(len(Cuadruplos))
 
 
-# igual que la condición, para que inicie o no solo valora booleanos
-# usamos condp porque tiene lo mismo de manera neutral
-
 #------------------------------------
+#FOR
+
+# estructura básica de un for --> for i ([0]) = 0 to 10 do { estatutos } 
+
 def p_for(t):
     'for : FOR varFor ididx IGUAL exp initFor exp beforeDo ALLA estatutos CLLA'
 
@@ -1506,22 +1533,18 @@ def p_for(t):
 
 
     ty = getVDirTemp('int')
-    vdirUno = fetchVDir(1)
-    Cuadruplos.append(Cuad(Ops['+'], VControl, vdirUno, ty))
-    Cuadruplos.append(Cuad(Ops['='], ty, -1, VControl))
-    Cuadruplos.append(Cuad(Ops['='], ty, -1, PilaO[-1]))
-    fin = PJumps.pop()
-    ret = PJumps.pop()
-    Cuadruplos.append(Cuad(Ops['goto'], -1, -1, ret))
-    Cuadruplos[fin - 1].recep = len(Cuadruplos) + 1
+    vdirUno = fetchVDir(1) #tener dvir de la constante del num 1
+    Cuadruplos.append(Cuad(Ops['+'], VControl, vdirUno, ty)) # sumarle uno a la variable de control
+    Cuadruplos.append(Cuad(Ops['='], ty, -1, VControl)) #igual ese valor a una variable temporal
+    Cuadruplos.append(Cuad(Ops['='], ty, -1, PilaO[-1])) #y también a la varaible original
+    fin = PJumps.pop() #saber a donde termina
+    ret = PJumps.pop() #saber a donde volver para el ciclo
+    Cuadruplos.append(Cuad(Ops['goto'], -1, -1, ret)) #goto automatico a donde se tiene que retornar para validar la condicion
+    Cuadruplos[fin - 1].recep = len(Cuadruplos) + 1 # llenar los saltos
     elimina = PilaO.pop()
     tipoelimina = Ptipos.pop()
 
-
-
-
-# estructura básica de un for --> for i ([0]) = 0 to 10 do { estatutos } 
-
+#inicio y manejo de la variable de control
 def p_varFor(t):
     '''varFor : ID
     '''
@@ -1535,7 +1558,7 @@ def p_varFor(t):
 
     validateTypes(type, 'int')
 
-
+#actualizar variable de control validando que si sea un int tambien
 def p_initFor(t):
     '''initFor : TO
     '''
@@ -1552,6 +1575,8 @@ def p_initFor(t):
         VControl = PilaO[-1]
         Cuadruplos.append(Cuad(Ops['='], exp, -1, VControl))
 
+
+# validar que la condición sea valida, actualizar la varaible que dicta el final y hacer el go to en falso
 def p_beforeDo(t):
     '''beforeDo : DO
     '''
@@ -1577,16 +1602,20 @@ def p_beforeDo(t):
 
 
 #------------------------------------
+#EXPRESIONES
 
+#expresion
 def p_exp(t):
     'exp : texp expp'
     t[0] = t[1]
 
+#menor pioridad al or
 def p_expp(t):
     '''expp : OR exp
             | empty
     '''
 
+#tera expresion para prioridad del and
 def p_texp(t):
     'texp : gexp texpp'
     t[0] = t[1]
@@ -1601,6 +1630,8 @@ def p_andCheck(t):
     global POoper
     POoper.append(t[1])
 
+
+#Gerneral expresion para operadores lógicos y ejecucion de ands
 def p_gexp(t):
     'gexp : mexp gexpp'
 
@@ -1640,6 +1671,8 @@ def p_addPO(t):
     global POoper
     POoper.append(t[1])
 
+#Mega expresion, precedencia de los operadores + | - y ejecución de logicos
+
 def p_mexp(t):
     'mexp : termino mexpp'
 
@@ -1651,9 +1684,6 @@ def p_mexp(t):
     opers = ['>', '<', '>=', '<=', '==', '!=']
 
     if POoper:
-        # print(Cuadruplos[-1].op, Cuadruplos[-1].dir1, Cuadruplos[-1].dir2, Cuadruplos[-1].recep )
-        # print(tablaConstantes)
-        # print(globalVariables)
         if POoper[-1] in opers:
             rOp = PilaO.pop()
             rType = Ptipos.pop()
@@ -1684,6 +1714,9 @@ def p_operSR(t):
 
 
 #------------------------------------
+#Termino
+#precedencia de operadores * | / y ejecución de suma y resta
+
 def p_termino(t):
     'termino : factor terminop'
 
@@ -1722,6 +1755,8 @@ def p_oper(t):
     POoper.append(t[1])
 
 #--------------------------
+#manejo de operaciones con parentesis
+#uso de fondos falsos e implementacion de multiplicaciones y divisiones
 
 def p_meteFondo(t):
     '''meteFondo : APAR'''
@@ -1748,15 +1783,11 @@ def p_factor(t):
 
     
     if len(t) == 2:
-        
-        # print(PilaO, " <---- aqui 4")
+
         vDir = fetchVDir(t[1])
-        # print(t[1], " <--- id?")
-        # print(vDir, " <-- vdir")
         if not vDir >= 46000 and vDir <50000:
             PilaO.append(vDir)
             Ptipos.append(getValType(t[1]))
-        # print(PilaO, " <---- aqui 5")
         if isarray(t[1]):
            PilaO.pop()
 
@@ -1787,15 +1818,23 @@ def p_factor(t):
 # para id's , elemento de vector y llamadas de función
 # constantes directas
 
+#--------------------
+# manejo de expresiones con llamadas a funcion, indexamiento o sencillas
 def p_factorp(t):
     '''factorp : APAR createEra factorParams cparParams
                | ididx
     '''
 
+#cargar parametros para llamada a funcion
 def p_factorParams(t):
     '''factorParams : exp valParams factorpp
                     | empty
     '''
+
+
+#validar que la firma esté completa, obtener datos de donde inicia la funcion, 
+# su direccion virtual, su tipo, hacer el parche guadalupano y cuadruplo de gosub
+
 def p_cparParams(t):
     '''cparParams : CPAR'''
     global ParameterTableList
@@ -1826,6 +1865,8 @@ def p_cparParams(t):
     PilaO.append(temp)
     Ptipos.append(funcType)
 
+#crear era para la creacion de memoria en la llamada
+
 def p_createEra(t):
     '''createEra : '''
     global Cuadruplos
@@ -1844,10 +1885,7 @@ def p_createEra(t):
     Cuadruplos.append(Cuad(Ops['era'], -1, -1, id))
     contParams.append(0)
 
-    
-# parametros de funcion
-# indice de vector
-# fue id sencillo
+#valdiar el parametro que coincida con el tipo de la firma y llevar la cuenta de cuantos van de cuantos
 
 def p_valParams(t):
     '''valParams : '''
@@ -1887,16 +1925,18 @@ def p_valParams(t):
         if len(ParameterTableList) != contParams:
             ERROR("function had no parameters", t[-1])
 
+#llamadas con multiples parametros
+
 def p_factorpp(t):
     '''factorpp : COMA exp valParams factorpp
                 | empty
     '''
-    
 
-# múltiples parámetros
-# salir de bucle
 
 #----------------------------------
+#CONSTANTES 
+
+#agregar a tabla de constantes, validar exitencia si fue un id 
 def p_ctes(t):
     '''ctes : CTEC
             | CTEI
@@ -1915,11 +1955,6 @@ def p_validateExistance(t):
     '''validateExistance : '''
     validateExistance(t[-1])
     t[0] = t[-1]
-
-# id, indice vector o llamada de función
-    # se usa factorp porque tiene exactamente la misma función, no altera en nada
-# constante int
-# constante float
 
 
 #--------------------------
