@@ -11,13 +11,13 @@ function int fibo (int: j);
     }
 }
 main(){
-    i = fibo(22);
+    i = fibo(5);
     write(i);
 
     siguiente = 1;
     actual = 0;
     temporal = 0;
-    for j = 1 to 23 do {
+    for j = 1 to 6 do {
         temporal = actual;
         actual = siguiente;
         siguiente = siguiente + temporal;
